@@ -34,6 +34,7 @@ dependencies:
   path:
   moor_flutter: ^3.1.0
   font_awesome_flutter: ^8.11.0
+  percent_indicator: ^2.1.9
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +56,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/json/mock_mcq.json
     - assets/img/login_logo.png
     - assets/img/profile.jpg
     - assets/img/icons/fav.png
