@@ -27,7 +27,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   void initState() {
     super.initState();
-    _dbProvider = Provider.of<TokensDao>(context);
+    _dbProvider = Provider.of<TokensDao>(context, listen: false);
   }
 
   @override
@@ -53,7 +53,7 @@ class _LoginFormState extends State<LoginForm> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(
-                            top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+                            top: 20.0, bottom: 10.0, left: 25.0, right: 25.0),
                         child: TextField(
                           focusNode: myFocusNodeEmailLogin,
                           controller: loginEmailController,
@@ -81,7 +81,7 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                            top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+                            top: 10.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextField(
                           focusNode: myFocusNodePasswordLogin,
                           controller: loginPasswordController,
@@ -161,6 +161,7 @@ class _LoginFormState extends State<LoginForm> {
                   onPressed: () {
                     showInSnackBar("Login complete"); //
                     _login();
+                    Navigator.of(context).pushReplacementNamed('/mcq');
                     //No need to show this now
                     //TODO: Need progressbar for API calls
                     // Navigator.push(
