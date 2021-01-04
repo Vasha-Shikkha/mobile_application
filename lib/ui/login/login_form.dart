@@ -15,19 +15,21 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final FocusNode myFocusNodeEmailLogin = FocusNode();
+  final FocusNode myFocusNodePhoneLogin = FocusNode();
   final FocusNode myFocusNodePasswordLogin = FocusNode();
 
-  TextEditingController loginEmailController = new TextEditingController();
+  TextEditingController loginPhoneController = new TextEditingController();
   TextEditingController loginPasswordController = new TextEditingController();
 
   bool _obscureTextLogin = true;
   TokensDao _dbProvider;
+  final String _dummyPhone = "01712345678";
+  final String _dummyPassword = "test1234";
 
   @override
   void initState() {
     super.initState();
-    _dbProvider = Provider.of<TokensDao>(context);
+    _dbProvider = Provider.of<TokensDao>(context, listen: false);
   }
 
   @override
@@ -55,9 +57,9 @@ class _LoginFormState extends State<LoginForm> {
                         padding: EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextField(
-                          focusNode: myFocusNodeEmailLogin,
-                          controller: loginEmailController,
-                          keyboardType: TextInputType.emailAddress,
+                          focusNode: myFocusNodePhoneLogin,
+                          controller: loginPhoneController,
+                          keyboardType: TextInputType.phone,
                           style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.black,
@@ -65,11 +67,11 @@ class _LoginFormState extends State<LoginForm> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             icon: Icon(
-                              FontAwesomeIcons.envelope,
+                              FontAwesomeIcons.phone,
                               color: Colors.black,
                               size: 22.0,
                             ),
-                            hintText: "Email Address",
+                            hintText: "Phone Number",
                             hintStyle: TextStyle(fontSize: 17.0),
                           ),
                         ),
@@ -159,8 +161,14 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                   onPressed: () {
-                    showInSnackBar("Login complete"); //
-                    _login();
+                    if (loginPhoneController.text == _dummyPhone &&
+                        loginPasswordController.text == _dummyPassword) {
+                      showInSnackBar("Login complete"); //
+                      _login();
+                    } else {
+                      showInSnackBar("Incorrect phone number or password");
+                    }
+
                     //No need to show this now
                     //TODO: Need progressbar for API calls
                     // Navigator.push(
@@ -303,12 +311,11 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _login() async {
-    String _email = loginEmailController.text;
+    String _phone = loginPhoneController.text;
     String _password = loginPasswordController.text;
-    print(_email + " pass :" + _password + "\n-----");
+    print(_phone + " pass :" + _password + "\n-----");
 
-    // setState(() => _isLoading = true);
-    final tokenEntry = await RestApi().login(_email, _password);
+    final tokenEntry = await RestApi().login(_phone, _password);
     _dbProvider.addToken(token: tokenEntry['token']);
   }
 }
