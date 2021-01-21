@@ -55,7 +55,7 @@ class _LoginFormState extends State<LoginForm> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(
-                            top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+                            top: 20.0, bottom: 10.0, left: 25.0, right: 25.0),
                         child: TextField(
                           focusNode: myFocusNodePhoneLogin,
                           controller: loginPhoneController,
@@ -83,7 +83,7 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                            top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+                            top: 10.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextField(
                           focusNode: myFocusNodePasswordLogin,
                           controller: loginPasswordController,
@@ -163,8 +163,9 @@ class _LoginFormState extends State<LoginForm> {
                   onPressed: () {
                     if (loginPhoneController.text == _dummyPhone &&
                         loginPasswordController.text == _dummyPassword) {
-                      showInSnackBar("Login complete"); //
+                      showInSnackBar("Login complete");
                       _login();
+                      Navigator.of(context).pushReplacementNamed('/mcq');
                     } else {
                       showInSnackBar("Incorrect phone number or password");
                     }
