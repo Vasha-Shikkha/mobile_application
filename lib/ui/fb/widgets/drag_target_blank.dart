@@ -7,57 +7,100 @@ class DragTargetBlank extends StatefulWidget {
 
 class _DragTargetBlankState extends State<DragTargetBlank> {
   bool empty = true;
-  String placedText = "";
+  Map<String, dynamic> placedData;
+  double width = 80;
 
   @override
   Widget build(BuildContext context) {
-    return DragTarget<String>(
-      builder: (BuildContext context, List<String> candidateData,
+    return DragTarget<Map<String, dynamic>>(
+      builder: (BuildContext context, List<Map<String, dynamic>> candidateData,
           List rejectedData) {
         return Container(
-          // color: Colors.purple.shade100,
-          width: 100,
-          height: 100,
+          width: width,
+          height: 50,
           child: Align(
             alignment: Alignment.bottomCenter,
-            child: (placedText == null || placedText.isEmpty)
+            child: empty
                 ? Divider(
                     color: Colors.black,
-                    thickness: 2,
+                    thickness: 1,
+                    height: 1,
+                    indent: 2,
+                    endIndent: 2,
                   )
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Material(
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Chip(
-                            label: Text(placedText),
-                            labelPadding:
-                                EdgeInsets.symmetric(horizontal: 10.0),
-                            elevation: 10.0,
-                            backgroundColor: Colors.white,
-                          ),
-                        ),
-                      ),
+                      _buildPlacedOption(),
                       Divider(
                         color: Colors.black,
-                        thickness: 2,
+                        thickness: 1,
+                        height: 1,
+                        indent: 2,
+                        endIndent: 2,
                       ),
                     ],
                   ),
           ),
         );
       },
-      onWillAccept: (String data) {
+      onWillAccept: (Map<String, dynamic> data) {
         print(data);
-        return true;
+        return empty;
       },
-      onAccept: (String data) {
+      onAccept: (Map<String, dynamic> data) {
         setState(() {
-          placedText = data;
+          placedData = data;
           empty = false;
+          final RenderBox renderBox =
+              data['renderKey'].currentContext.findRenderObject();
+          width = renderBox.size.width;
+        });
+      },
+    );
+  }
+
+  Draggable<Map<String, dynamic>> _buildPlacedOption() {
+    return Draggable<Map<String, dynamic>>(
+      data: {
+        'text': placedData['text'],
+        'renderKey': placedData['renderKey'],
+      },
+      child: Material(
+        color: Colors.transparent,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          child: GestureDetector(
+            onLongPress: () {
+              print('long press ${placedData['text']}');
+            },
+            child: Chip(
+              label: Text(placedData['text']),
+              labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
+              elevation: 10.0,
+              backgroundColor: Colors.white,
+            ),
+          ),
+        ),
+      ),
+      childWhenDragging: Container(),
+      feedback: Material(
+        color: Colors.transparent,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          child: Chip(
+            label: Text(placedData['text']),
+            labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
+            elevation: 10.0,
+            backgroundColor: Colors.white,
+          ),
+        ),
+      ),
+      onDragCompleted: () {
+        setState(() {
+          empty = true;
+          width = 80;
+          placedData = null;
         });
       },
     );
