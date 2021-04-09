@@ -1,6 +1,6 @@
-import 'package:Vasha_Shikkha/data/moor_database.dart';
-import 'package:Vasha_Shikkha/style/colors.dart';
-import 'package:Vasha_Shikkha/utils/rest_api.dart';
+import 'package:vasha_shikkha/data/moor_database.dart';
+import 'package:vasha_shikkha/style/colors.dart';
+import 'package:vasha_shikkha/utils/rest_api.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
         children: <Widget>[
           Stack(
             alignment: Alignment.topCenter,
-            overflow: Overflow.visible,
+            clipBehavior: Clip.antiAlias,
             children: <Widget>[
               Card(
                 elevation: 2.0,
@@ -185,16 +185,17 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 10.0),
-            child: FlatButton(
-                onPressed: () {},
-                child: Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Colors.white,
-                    fontSize: 15.0,
-                  ),
-                )),
+            child: TextButton(
+              onPressed: () {},
+              child: Text(
+                "Forgot Password?",
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  color: Colors.white,
+                  fontSize: 15.0,
+                ),
+              ),
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(top: 10.0),

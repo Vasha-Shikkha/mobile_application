@@ -1,6 +1,6 @@
-import 'package:Vasha_Shikkha/data/moor_database.dart';
-import 'package:Vasha_Shikkha/routes.dart';
-import 'package:Vasha_Shikkha/style/custom_theme.dart';
+import 'package:vasha_shikkha/data/moor_database.dart';
+import 'package:vasha_shikkha/routes.dart';
+import 'package:vasha_shikkha/style/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

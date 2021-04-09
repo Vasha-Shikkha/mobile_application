@@ -1,4 +1,4 @@
-package com.example.Vasha_Shikkha
+package com.example.vasha_shikkha
 
 import io.flutter.embedding.android.FlutterActivity
 

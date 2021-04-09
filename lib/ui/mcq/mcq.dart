@@ -7,7 +7,7 @@ class MCQ {
   MCQ({this.id, this.question, this.options, this.correctOption});
 
   factory MCQ.fromJson(Map<String, dynamic> json) {
-    List<String> options = List();
+    List<String> options = [];
     options.add(json['option1']);
     options.add(json['option2']);
     options.add(json['option3']);

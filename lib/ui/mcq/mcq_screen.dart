@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:Vasha_Shikkha/style/colors.dart';
-import 'package:Vasha_Shikkha/ui/mcq/mcq.dart';
+import 'package:vasha_shikkha/style/colors.dart';
+import 'package:vasha_shikkha/ui/mcq/mcq.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -18,8 +18,8 @@ class _McqScreenState extends State<McqScreen> with TickerProviderStateMixin {
   int _taskno;
   Stopwatch _stopwatch;
 
-  List<MCQ> _mcqList = List();
-  List<String> _options = List();
+  List<MCQ> _mcqList = [];
+  List<String> _options = [];
   String _question;
   int _selectedOption = -1;
 
@@ -128,26 +128,34 @@ class _McqScreenState extends State<McqScreen> with TickerProviderStateMixin {
                     flex: 1,
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child: FlatButton(
-                        child: const Text(
-                          'Check',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _checkAnswer();
-                            _generateNextTask();
-                          });
-                        },
+                      child: Padding(
                         padding: EdgeInsets.only(
                             top: 10, left: 60.0, right: 60.0, bottom: 10),
-                        color: Colors.redAccent,
-                        textColor: Colors.white,
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0),
+                        child: TextButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.redAccent),
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white),
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                              new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0),
+                              ),
+                            ),
+                          ),
+                          child: const Text(
+                            'Check',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _checkAnswer();
+                              _generateNextTask();
+                            });
+                          },
                         ),
                       ),
                     ),
@@ -281,7 +289,7 @@ class _McqScreenState extends State<McqScreen> with TickerProviderStateMixin {
           content: new Text(msg),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            new FlatButton(
+            new TextButton(
               child: new Text("Next"),
               onPressed: () {
                 Navigator.of(context).pop();

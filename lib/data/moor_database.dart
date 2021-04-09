@@ -1,4 +1,4 @@
-import 'package:Vasha_Shikkha/data/tables/token.dart';
+import 'package:vasha_shikkha/data/tables/token.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 part 'moor_database.g.dart';

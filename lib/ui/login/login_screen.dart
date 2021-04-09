@@ -1,6 +1,6 @@
-import 'package:Vasha_Shikkha/style/colors.dart';
-import 'package:Vasha_Shikkha/style/tab_indication_painter.dart';
-import 'package:Vasha_Shikkha/ui/login/login_form.dart';
+import 'package:vasha_shikkha/style/colors.dart';
+import 'package:vasha_shikkha/style/tab_indication_painter.dart';
+import 'package:vasha_shikkha/ui/login/login_form.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -102,9 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Expanded(
-              child: FlatButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
+              child: TextButton(
                 onPressed: _onSignInButtonPress,
                 child: Text(
                   "Existing",
@@ -116,9 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Expanded(
-              child: FlatButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
+              child: TextButton(
                 onPressed: _onSignUpButtonPress,
                 child: Text(
                   "New",
