@@ -3,6 +3,7 @@ import 'package:vasha_shikkha/routes.dart';
 import 'package:vasha_shikkha/style/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vasha_shikkha/ui/home/home_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         title: 'Vasha Shikkha',
         theme: customThemeData,
         routes: routes,
-        initialRoute: '/fb',
+        initialRoute: HomeScreen.id,
       ),
     );
   }
