@@ -35,6 +35,7 @@ dependencies:
   moor_flutter: ^3.1.0
   font_awesome_flutter: ^8.11.0
   percent_indicator: ^2.1.9
+  flutter_svg: ^0.21.0+1
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +65,9 @@ flutter:
     - assets/img/icons/tasks.png
     - assets/img/icons/home.png
     - assets/img/bangladesh.jpg
+    - assets/img/welcome.svg
+    - assets/img/vocabulary.png
+    - assets/img/grammar.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
