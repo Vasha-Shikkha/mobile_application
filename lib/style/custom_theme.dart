@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData customThemeData = ThemeData(
+  scaffoldBackgroundColor: Colors.white,
   brightness: Brightness.light,
   fontFamily: 'Montserrat',
   visualDensity: VisualDensity.adaptivePlatformDensity,

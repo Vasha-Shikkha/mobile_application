@@ -68,6 +68,10 @@ flutter:
     - assets/img/welcome.svg
     - assets/img/vocabulary.png
     - assets/img/grammar.png
+    - assets/img/reading.png
+    - assets/img/places.png
+    - assets/img/birds.png
+    - assets/img/food.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
