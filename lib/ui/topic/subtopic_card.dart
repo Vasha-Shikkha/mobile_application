@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vasha_shikkha/ui/base/progress_slider.dart';
+import 'package:vasha_shikkha/ui/topic/tutorial_screen.dart';
 
 class SubtopicCard extends StatelessWidget {
   final String topicName;
@@ -16,7 +18,11 @@ class SubtopicCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // TODO: navigate to exercises of this subtopic
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => TutorialScreen(subtopicName: topicName),
+          ),
+        );
       },
       child: Card(
         color: Colors.grey.shade200,
@@ -46,33 +52,14 @@ class SubtopicCard extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: 10,
-              child: _buildSlider(context, progress),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: ProgressSlider(
+                value: progress,
+              ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  SliderTheme _buildSlider(BuildContext context, double value) {
-    return SliderTheme(
-      data: SliderThemeData(
-        trackShape: RectangularSliderTrackShape(),
-        thumbShape: SliderComponentShape.noThumb,
-        trackHeight: 5,
-      ),
-      child: Slider.adaptive(
-        value: value,
-        min: 0,
-        max: 100,
-        activeColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
-        inactiveColor: Theme.of(context).primaryColorLight.withOpacity(0.5),
-        onChanged: (val) {
-          // TODO: handle slider update
-        },
       ),
     );
   }

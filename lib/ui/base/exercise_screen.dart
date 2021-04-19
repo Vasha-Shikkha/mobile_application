@@ -21,7 +21,7 @@ class ExerciseScreen extends StatelessWidget {
             color: Theme.of(context).accentColor,
           ),
           onPressed: () {
-            // TODO: handle navigation
+            Navigator.of(context).pop();
           },
         ),
         title: Center(
