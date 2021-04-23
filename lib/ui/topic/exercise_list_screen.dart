@@ -14,19 +14,28 @@ class ExerciseListScreen extends StatefulWidget {
 class _ExerciseListScreenState extends State<ExerciseListScreen> {
   List<Exercise> exercises = [
     Exercise(
-        name: 'Fill In The Blanks',
-        imageAsset: 'assets/img/places.png',
-        route: '/fb',
-        progress: 44),
+      name: 'Fill In The Blanks',
+      imageAsset: 'assets/img/places.png',
+      route: '/fill-in-the-blanks',
+      progress: 44,
+    ),
     Exercise(
-        name: 'Multiple Choice Question',
-        imageAsset: 'assets/img/birds.png',
-        route: '/mcq',
-        progress: 12),
+      name: 'Multiple Choice Question',
+      imageAsset: 'assets/img/birds.png',
+      route: '/multiple-choice',
+      progress: 12,
+    ),
     Exercise(
-        name: 'Jumbled Sentence',
-        imageAsset: 'assets/img/food.png',
-        route: '/fb'),
+      name: 'Error Correction',
+      imageAsset: 'assets/img/places.png',
+      route: '/error-correction',
+      progress: 81,
+    ),
+    Exercise(
+      name: 'Jumbled Sentence',
+      imageAsset: 'assets/img/food.png',
+      route: '/fb',
+    ),
   ];
 
   @override
