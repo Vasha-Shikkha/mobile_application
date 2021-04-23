@@ -64,32 +64,35 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView> {
         // TODO: handle check
       },
       exercise: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.end,
-                children: _buildSentenceWidgets(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.end,
+                  children: _buildSentenceWidgets(),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 100,
-            ),
-            Wrap(
-              alignment: WrapAlignment.center,
-              children: options
-                  .map<DraggableOption>(
-                    (option) => DraggableOption(
-                      text: option,
-                      renderKey: GlobalKey(),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ],
+              SizedBox(
+                height: 100,
+              ),
+              Wrap(
+                alignment: WrapAlignment.center,
+                children: options
+                    .map<DraggableOption>(
+                      (option) => DraggableOption(
+                        text: option,
+                        renderKey: GlobalKey(),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );
