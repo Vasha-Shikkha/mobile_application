@@ -26,6 +26,13 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Text(
+                  "Choose the correct option",
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+              ),
               Text(question),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 20,

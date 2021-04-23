@@ -26,15 +26,15 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
       progress: 12,
     ),
     Exercise(
-      name: 'Error Correction',
+      name: 'Finding Error',
       imageAsset: 'assets/img/places.png',
-      route: '/error-correction',
+      route: '/find-error',
       progress: 81,
     ),
     Exercise(
       name: 'Jumbled Sentence',
       imageAsset: 'assets/img/food.png',
-      route: '/fb',
+      route: '/jumbled-sentence',
     ),
   ];
 

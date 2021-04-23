@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vasha_shikkha/ui/base/exercise_screen.dart';
 
-class ErrorCorrectionView extends StatefulWidget {
+class FindErrorView extends StatefulWidget {
   @override
-  _ErrorCorrectionViewState createState() => _ErrorCorrectionViewState();
+  _FindErrorViewState createState() => _FindErrorViewState();
 }
 
-class _ErrorCorrectionViewState extends State<ErrorCorrectionView> {
+class _FindErrorViewState extends State<FindErrorView> {
   final String _question =
       "Fahim <b>lives</b> in a village, so he <b>is</b> very curious about the daily lives of city people.";
 
@@ -18,7 +18,7 @@ class _ErrorCorrectionViewState extends State<ErrorCorrectionView> {
   @override
   Widget build(BuildContext context) {
     return ExerciseScreen(
-      exerciseName: "Error Correction",
+      exerciseName: "Finding Error",
       exercise: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -26,6 +26,13 @@ class _ErrorCorrectionViewState extends State<ErrorCorrectionView> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Text(
+                  "Find error in the given sentence",
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+              ),
               _buildQuestion(),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 20,

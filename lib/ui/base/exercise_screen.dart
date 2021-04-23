@@ -46,6 +46,19 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
         ),
         actions: [
           IconButton(
+            padding: EdgeInsets.zero,
+            splashRadius: 18,
+            icon: Icon(
+              Icons.search_rounded,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            onPressed: () {
+              // TODO: show dictionary search
+            },
+          ),
+          IconButton(
+            padding: EdgeInsets.zero,
+            splashRadius: 18,
             icon: Icon(
               Icons.description_rounded,
               color: Theme.of(context).primaryColorDark,
