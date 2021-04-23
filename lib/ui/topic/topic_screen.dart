@@ -91,9 +91,9 @@ class _TopicScreenState extends State<TopicScreen>
                   color: Color(0xFFFFF0FF),
                 ),
                 child: TabBar(
+                  labelPadding: EdgeInsets.zero,
                   controller: _tabController,
                   indicatorColor: Colors.transparent,
-                  isScrollable: true,
                   onTap: (index) {
                     setState(() {
                       _selectedLevel = index + 1;
@@ -109,12 +109,12 @@ class _TopicScreenState extends State<TopicScreen>
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 label: Text(
-                                  'Level $level',
+                                  'L$level',
                                   style: TextStyle(fontSize: 16),
                                 ),
                               )
                             : Text(
-                                'Level $level',
+                                'L$level',
                                 style: TextStyle(
                                   color: Colors.purple,
                                   fontSize: 16,
