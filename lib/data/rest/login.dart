@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import '../../utils/network_util.dart';
 import '../../config.dart';
@@ -38,10 +39,10 @@ class LoginRest {
     Map<String, String> headers = new Map<String, String>();
     headers["Content-Type"] = t1;
     //headers["Accept"] = t2;
-
+    print("Kyuu");
     return _netUtil.post(LOGIN_URL,
         headers: headers,
-        body: {"phone": phoneNumber, "password": password}).then((dynamic res) {
+        body: jsonEncode({"phone": phoneNumber, "password": password})).then((dynamic res) {
       /*
       print("DEBUG :=====================\n"+
       res.toString()+"\n=====================\n");

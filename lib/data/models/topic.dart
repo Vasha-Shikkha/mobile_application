@@ -58,7 +58,7 @@ class Topic{
 
   factory Topic.fromJson (Map<String,dynamic> json)
   { 
-
+    print("Zekrom");
     return new Topic
     (
       id:json['id'],
@@ -90,6 +90,11 @@ class Topic{
     );
   }
 
+  void debugMessage()
+  {
+    String message="PK: "+id.toString()+" ,Name: "+topicName+", Type: "+topicType;
+    print(message);
+  }
 }
 
 
@@ -180,4 +185,12 @@ class TopicLevelCount{
       count: map['Count']
     );
   }
+
+  /*
+  void debugMessage()
+  {
+    String message="PK: "+id+" ,TopicId: "+topicId+", Level: "+level;
+    print(message);
+  }
+  */
 }

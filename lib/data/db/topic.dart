@@ -48,11 +48,12 @@ class TopicDatabaseHelper{
   Future<List<Topic>>getTopics(String topicType, int level) async{
     var database = await _databaseHelper.database;
     
+
     List<Map<String,dynamic>> result = await database.query('''
                                                             $_topicTable inner join $_countTable on 
                                                             $_topicTable.$_topicId = $_countTable.$_topicIdFK
                                                             ''',
-                                                            columns: [_topicId,_topicName],
+                                                            columns: ['$_topicTable.$_topicId',_topicName,_topicType,_topicImage],
                                                             where:'$_topicType = ? and $_level = ? and count>0',
                                                             whereArgs: [topicType,level]
                                                             );

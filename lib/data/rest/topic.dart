@@ -6,6 +6,8 @@ import '../../config.dart';
 import '../models/token.dart';
 import '../models/topic.dart';
 
+import 'package:http/http.dart' as http;
+
 class TopicRest{
   
   NetworkUtil _netUtil = new NetworkUtil();
@@ -13,12 +15,13 @@ class TopicRest{
   Future<TopicList> getAllTopics(String token){
     TopicList topicList;
     String t1="application/json";
-    Map<String,dynamic>headers = new Map<String,dynamic>();
+    Map<String,String>headers = new Map();
 
-    headers["Content-Type"]=t1;
+    headers["Accept"]=t1;
     headers["Authorization"]="Bearer "+token;
 
     return _netUtil.get(TOPIC_URL, headers: headers).then((dynamic res){
+      print("Reshiram");
       topicList=new TopicList.fromJson(res);
       return topicList;
     });
@@ -26,9 +29,9 @@ class TopicRest{
 
   Future<TopicLevelCountList> getTopicCounts(String token){
     String t1="application/json";
-    Map<String,dynamic>headers = new Map<String,dynamic>();
+    Map<String,String>headers = new Map();
   
-    headers["Content-Type"]=t1;
+    headers["Accept"]=t1;
     headers["Authorization"]="Bearer "+token;
 
     TopicLevelCountList topicLevelCountList;

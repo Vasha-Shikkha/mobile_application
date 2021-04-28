@@ -34,6 +34,8 @@ class TopicController{
       topicList = await topicRest.getAllTopics(token);
       topicLevelCountList = await topicRest.getTopicCounts(token);
 
+      _insertTopicList(topicList);
+      _insertCountList(topicLevelCountList);
     }
     List<Topic> result = await topicDatabaseHelper.getTopics(topicType,level);
     return result;

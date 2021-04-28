@@ -1,9 +1,17 @@
-import 'package:Vasha_Shikkha/data/moor_database.dart';
+//import 'package:Vasha_Shikkha/data/moor_database.dart';
+import 'package:Vasha_Shikkha/data/rest/login.dart';
 import 'package:Vasha_Shikkha/style/colors.dart';
 import 'package:Vasha_Shikkha/utils/rest_api.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+
+import '../../data/models/token.dart';
+import '../../data/controllers/login.dart';
+
+import '../../data/models/topic.dart';
+import '../../data/controllers/topic.dart';
+
 
 class LoginForm extends StatefulWidget {
   final scaffoldKey;
@@ -22,14 +30,14 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController loginPasswordController = new TextEditingController();
 
   bool _obscureTextLogin = true;
-  TokensDao _dbProvider;
-  final String _dummyPhone = "01712345678";
-  final String _dummyPassword = "test1234";
+  //TokensDao _dbProvider;
+  final String _dummyPhone = "01730029348";
+  final String _dummyPassword = "123";
 
   @override
   void initState() {
     super.initState();
-    _dbProvider = Provider.of<TokensDao>(context, listen: false);
+    //_dbProvider = Provider.of<TokensDao>(context, listen: false);
   }
 
   @override
@@ -316,7 +324,23 @@ class _LoginFormState extends State<LoginForm> {
     String _password = loginPasswordController.text;
     print(_phone + " pass :" + _password + "\n-----");
 
-    final tokenEntry = await RestApi().login(_phone, _password);
-    _dbProvider.addToken(token: tokenEntry['token']);
+    LoginController loginController=new LoginController();
+    TopicController topicController=new TopicController();
+
+
+    Token tokenEntry = await loginController.login(_phone, _password);
+    //print(tokenEntry.token);
+    print(tokenEntry.token);
+    print("Hello");
+
+    List<Topic> topicList=await topicController.getTopicList(tokenEntry.token, 'grammar', 4);
+    
+    for(Topic topic in topicList)
+    {
+      topic.debugMessage();
+    }
+
+    //final tokenEntry = await RestApi().login(_phone, _password);
+    //_dbProvider.addToken(token: tokenEntry['token']);
   }
 }

@@ -3,6 +3,12 @@ import 'dart:io' as io;
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+
+//These two imports are for web only
+
+//import 'package:sqflite_web/sqflite_web.dart';
+//import 'package:flutter/foundation.dart';
+
 import 'package:path_provider/path_provider.dart';
 
 //import 'package:notebuddy/models/note.dart';
@@ -25,14 +31,34 @@ class MainDatabaseHelper {
 
   Future<Database> initializeDatabase() async {
     //GET THE PATH TO THE DIRECTORY FOR IOS AND ANDROID TO STORE DB
-    io.Directory directory = await getApplicationDocumentsDirectory();
-    String path = join(directory.path,_dbName);
-
+    
+    var vsDatabase;
     //OPEN/CREATE THE DB AT A GIVEN PATH
-    var vsDatabase =
+    io.Directory directory = await getApplicationDocumentsDirectory();
+      String path = join(directory.path,_dbName);
+      vsDatabase =
         await openDatabase(path, version: _dbVersion, onCreate: _createDb, onConfigure: _configureDB);
+
+    // if(kIsWeb){
+    //   //Use the database from memory
+    //   var databaseFactory = databaseFactoryWeb;
+    //   OpenDatabaseOptions openDatabaseOptions=new OpenDatabaseOptions(version: _dbVersion, onCreate: _createDb, onConfigure: _configureDB);
+    //   vsDatabase = await databaseFactory.openDatabase(inMemoryDatabasePath,options:openDatabaseOptions);
+    // }else{
+      
+    // }
+    
+    
     return vsDatabase;
   }
+
+
+  //Token Table
+  String tokenTable='Tokens';
+  //String tokenId='TokenId';
+  String token='Token';
+  String expiryDate='ExpiryDate';
+  String tokenType='Type';
 
   //Topic Table
   String topicTable= 'Topic';
@@ -48,12 +74,57 @@ class MainDatabaseHelper {
   String level='Level';
   String exerciseCount='Count';
 
+  //Task Table
+  String topicTaskTable='TopicTask';
+  String taskTableId='TopicTaskId';
+  String taskType='TaskType';
+  //String topicIdFK='TopicId';
+  //String level='Level';
+  String topicTaskQuestion='TopicTaskQuestion';
+
+  //Subtask Table
+  String subtaskTable='TopicSubtasks';
+  String subtaskId='TopicSubtaskId';
+
+  //FB Table
+  String fbTable='FB';
+  String fbId='fbId';
+  String paragraph='Paragraph';
+
+  //FBOptions Table;
+  String fbOptionsTable='FBOptions';
+  String fbOptionId='FBOptionId';
+  String fbOption='Option';
+
+  //FBAnswers Table
+  String fbAnswersTable='FBAnswers';
+  String fbAnswerId='FBAnswerId';
+  String fbAnswer='Answer';
+
+  //FBExplanation Table
+  String fbExplanationTable='FBExplanations';
+  String fbExplanationId='FBExplanationId';
+  String fbExplanation='Explanation';
+  
+
+
   void _createDb(Database db, int version) async {
+
+    await db.execute(
+      
+      '''
+      CREATE TABLE $tokenTable(
+        $token TEXT PRIMARY KEY,
+        $tokenType TEXT,
+        $expiryDate STRING
+      )
+      '''
+    );
 
     await db.execute(
       '''
       CREATE TABLE $topicTable(
-        $topicId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $topicId INTEGER PRIMARY KEY,
         $topicName TEXT UNIQUE, 
         $topicType TEXT, 
         $topicImage TEXT
@@ -62,17 +133,84 @@ class MainDatabaseHelper {
     );
 
     await db.execute(
+      
       '''
       CREATE TABLE $countTable(
         $levelCountId INTEGER PRIMARY KEY AUTOINCREMENT,
         $level INTEGER,
         $exerciseCount INTEGER,
         $topicIdFK INTEGER,
-        FOREIGN KEY($topicIdFK) REFRENCES $topicTable($topicId)
+        FOREIGN KEY($topicIdFK) REFERENCES $topicTable($topicId)
       )
       '''
     );
-  
+
+    await db.execute(
+      '''
+      CREATE TABLE $topicTaskTable(
+        $taskTableId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $taskType TEXT,
+        $topicTaskQuestion TEXT,
+        $topicIdFK INTEGER,
+        FOREIGN KEY($topicIdFK) REFERENCES $topicTable($topicId)
+      )
+      '''
+    );
+
+    await db.execute(
+      '''
+      CREATE TABLE $subtaskTable(
+        $subtaskId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $taskTableId INTEGER,
+        FOREIGN KEY($taskTableId) REFERENCES $topicTaskTable($taskTableId)
+      )
+      '''
+    );
+
+    await db.execute(
+      '''
+      CREATE TABLE $fbTable(
+        $fbId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $paragraph TEXT,
+        $subtaskId INTEGER,
+        FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
+      )
+      '''
+    );
+
+    await db.execute(
+      '''
+      CREATE TABLE $fbOptionsTable(
+        $fbOptionId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $fbId INTEGER,
+        $fbOption TEXT,
+        FOREIGN KEY($fbId) REFERENCES $fbId($fbTable)
+      )
+      '''
+    );
+
+    await db.execute(
+      '''
+      CREATE TABLE $fbAnswersTable(
+        $fbAnswerId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $fbId INTEGER,
+        $fbAnswer TEXT,
+        FOREIGN KEY($fbId) REFERENCES $fbId($fbTable)
+      )
+      '''
+    );
+
+      await db.execute(
+      '''
+      CREATE TABLE $fbExplanationTable(
+        $fbExplanationId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $fbId INTEGER,
+        $fbExplanation TEXT,
+        FOREIGN KEY($fbId) REFERENCES $fbId($fbTable)
+      )
+      '''
+    );
+
   }
 
   void _configureDB(Database db) async {
