@@ -1,10 +1,42 @@
 //import 'dart:core';
+import 'task.dart';
+//import 'subtask.dart';
 
-import 'subtask.dart';
+class FBList{
+  List<FB> _fbs;
+  
+  List<FB> get fbs => this._fbs;
 
-class FB{
+  set fbs(List<FB> value) => this._fbs = value;
+
+  FBList({
+    List<FB>fbs
+  }):_fbs= fbs;
+
+  factory FBList.fromJson(List<dynamic> json){
+    
+    List<FB>fbs = [];
+
+    for(dynamic element in json)
+    {
+      Map<String,dynamic>taskDetail=element['taskDetail'];
+      List< Map<String,dynamic> >questions=element['questions'];
+
+      for(Map<String,dynamic>question in questions)
+      {
+        FB fb=new FB.fromJson(taskDetail,question);
+        fbs.add(fb);
+      }
+    }
+
+    //fbs = json.map((i)=>FB.fromJson((i))).toList();
+    return new FBList(fbs:fbs);
+  }
+
+}
+
+class FB extends SubTask{
   int _fbId;
-  int _subtaskId;
   String _paragraph;
   List<FBOptions>_options;
   List<FBAnswers>_answers;
@@ -13,10 +45,6 @@ class FB{
   int get fbId => this._fbId;
 
   set fbId(int value) => this._fbId = value;
-
-  int get subtaskId => this._subtaskId;
-
-  set subtaskId(int value) => this._subtaskId = value;
 
   get paragraph => this._paragraph;
 
@@ -37,33 +65,57 @@ class FB{
   FB({
     int id,
     int subtaskId,
+    int taskId,
+    int level,
+    int topicId,
+    String taskName,
+    String instruction,
+    String instructionImage,
     String paragraph,
     List<FBOptions> options,
     List<FBAnswers> answers,
     List<FBExplanations> explanation
   }): _fbId=id,
-      _subtaskId=subtaskId,
       _paragraph=paragraph,
       _answers=answers,
-      _explanation=explanation;
+      _explanation=explanation,
+      super(
+        taskId: taskId,
+        subtaskId: subtaskId,
+        level: level,
+        topicId: topicId,
+        taskName: taskName,
+        instruction: instruction,
+        instructionImage: instructionImage
+      );
 
-  factory FB.fromJson(Map<String,dynamic> json)
+  factory FB.fromJson(Map<String,dynamic> taskDetail,Map<String,dynamic>question)
   { 
+
+    //Map<String,dynamic>taskDetails= json['taskDetail'];
+    //List<Map<String,dynamic> >questions =
 
     List<FBOptions>fbOptions=[];
     List<FBAnswers>fbAnswers=[];
     List<FBExplanations>fbExplanations=[];
 
-    fbOptions = json['options'].map((i)=>FBOptions.fromJson((i))).toList();
-    fbAnswers = json['answers'].map((i)=>FBAnswers.fromJson((i))).toList();
-    fbExplanations = json['explanation'].map((i)=>FBExplanations.fromJson((i))).toList();
+    fbOptions = question['options'].map((i)=>FBOptions.fromJson((i))).toList();
+    fbAnswers = question['answers'].map((i)=>FBAnswers.fromJson((i))).toList();
+    fbExplanations = question['explanation'].map((i)=>FBExplanations.fromJson((i))).toList();
     
 
     return new FB(
-      paragraph : json['paragraph'],
+      paragraph : question['paragraph'],
       options : fbOptions,
       answers : fbAnswers,
-      explanation : fbExplanations
+      explanation : fbExplanations,
+      taskId : taskDetail['id'],
+      subtaskId: question['subTask_id'],
+      level: question['level'],
+      taskName: question['name'],
+      instruction: question['instruction'],
+      instructionImage: question['instructionImage']
+
     );
   }
 

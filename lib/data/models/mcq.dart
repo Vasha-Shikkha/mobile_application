@@ -1,4 +1,4 @@
-import 'subtask.dart';
+import 'task.dart';
 
 class MCQ extends SubTask{
   int _mcqId;

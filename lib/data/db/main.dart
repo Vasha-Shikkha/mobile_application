@@ -106,7 +106,12 @@ class MainDatabaseHelper {
   String fbExplanationId='FBExplanationId';
   String fbExplanation='Explanation';
   
-
+  //Jumbled Words Table
+  String jwTable='Jumbled_Words';
+  String jwId='jwId';
+  String jwSentence='Sentence';
+  String jwAnswer='Answer';
+  String jwExplanation='Explanation';
 
   void _createDb(Database db, int version) async {
 
@@ -200,7 +205,7 @@ class MainDatabaseHelper {
       '''
     );
 
-      await db.execute(
+    await db.execute(
       '''
       CREATE TABLE $fbExplanationTable(
         $fbExplanationId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -211,6 +216,18 @@ class MainDatabaseHelper {
       '''
     );
 
+    await db.execute(
+      '''
+      CREATE TABLE $jwTable(
+        $jwId INTEGER PRIMARY KEY,
+        $subtaskId INTEGER,
+        $jwSentence TEXT,
+        $jwAnswer TEXT,
+        $jwExplanation TEXT,
+        FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
+      )
+      '''
+    );
   }
 
   void _configureDB(Database db) async {
