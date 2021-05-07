@@ -20,7 +20,7 @@ class FBList{
     for(dynamic element in json)
     {
       Map<String,dynamic>taskDetail=element['taskDetail'];
-      List< Map<String,dynamic> >questions=element['questions'];
+      List<dynamic>questions=element['questions'];
 
       for(Map<String,dynamic>question in questions)
       {
@@ -38,9 +38,9 @@ class FBList{
 class FB extends SubTask{
   int _fbId;
   String _paragraph;
-  List<FBOptions>_options;
-  List<FBAnswers>_answers;
-  List<FBExplanations>_explanation;
+  List<String>_options;
+  List<String>_answers;
+  List<String>_explanation;
   
   int get fbId => this._fbId;
 
@@ -72,10 +72,11 @@ class FB extends SubTask{
     String instruction,
     String instructionImage,
     String paragraph,
-    List<FBOptions> options,
-    List<FBAnswers> answers,
-    List<FBExplanations> explanation
+    List<String> options,
+    List<String> answers,
+    List<String> explanation
   }): _fbId=id,
+      _options=options,
       _paragraph=paragraph,
       _answers=answers,
       _explanation=explanation,
@@ -95,32 +96,135 @@ class FB extends SubTask{
     //Map<String,dynamic>taskDetails= json['taskDetail'];
     //List<Map<String,dynamic> >questions =
 
-    List<FBOptions>fbOptions=[];
-    List<FBAnswers>fbAnswers=[];
-    List<FBExplanations>fbExplanations=[];
+    List<String>fbOptions=[];
+    List<String>fbAnswers=[];
+    List<String>fbExplanations=[];
+    
 
-    fbOptions = question['options'].map((i)=>FBOptions.fromJson((i))).toList();
-    fbAnswers = question['answers'].map((i)=>FBAnswers.fromJson((i))).toList();
-    fbExplanations = question['explanation'].map((i)=>FBExplanations.fromJson((i))).toList();
+    if(question['options']!=null)
+    { 
+      print("In options");
+      for(String option in question['options'])
+      { 
+        //print(option);
+        fbOptions.add(option);
+      }
+        
+    }
+    
+    if(question['answers']!=null)
+    {
+      for(String answer in question['answers'])
+        fbAnswers.add(answer);
+    }
+    
+    if(question['explanation']!=null)
+    {
+      for(String explanation in question['explanation'])
+        fbExplanations.add(explanation);
+    }
+    
+    // fbOptions = question['options'].map((i)=>FBOptions.fromJson((i))).toList();
+    // fbAnswers = question['answers'].map((i)=>FBAnswers.fromJson((i))).toList();
+    // fbExplanations = question['explanation'].map((i)=>FBExplanations.fromJson((i))).toList();
     
 
     return new FB(
+      id: question['id'],
       paragraph : question['paragraph'],
       options : fbOptions,
       answers : fbAnswers,
       explanation : fbExplanations,
       taskId : taskDetail['id'],
       subtaskId: question['subTask_id'],
-      level: question['level'],
-      taskName: question['name'],
-      instruction: question['instruction'],
-      instructionImage: question['instructionImage']
+      level: taskDetail['level'],
+      topicId: taskDetail['topic_id'],
+      taskName: taskDetail['name'],
+      instruction: taskDetail['instruction'],
+      instructionImage: taskDetail['instructionImage']
 
     );
   }
 
+  Map<String,dynamic>toFB()
+  {
+    Map<String,dynamic>map= new Map();
+    
+    map['fbId']=fbId;
+    map['SubtaskId']=subtaskId;
+    map['Options']=concatenateElements(options);
+    map['Answers']=concatenateElements(answers);
+    map['Explanations']=concatenateElements(explanation);
+    map['Paragraph']=paragraph;
+
+    return map;
+  }
+
+  factory FB.fromDatabase(Map<String,dynamic>taskDetails,Map<String,dynamic>questions)
+  {   
+
+    List<String>optionList=[];
+    List<String>answerList=[];
+    List<String>explanationList=[];
+    if(questions['Options']!=null)
+      optionList=questions['Options'].split('#');
+    
+    if(questions['Answers']!=null)
+      answerList=questions['Answers'].split('#');
+    
+    if(questions['Explanation']!=null)
+      explanationList=questions['Explanation'].split('#');
+
+    return new FB(
+      id: questions['fbId'],
+      paragraph : questions['Paragraph'],
+      options : optionList,
+      answers : answerList,
+      explanation : explanationList,
+      taskId : taskDetails['TopicTaskId'],
+      subtaskId: questions['SubtaskId'],
+      level: taskDetails['Level'],
+      topicId: taskDetails['TopicId'],
+      taskName: taskDetails['TaskType'],
+      instruction: taskDetails['Instruction'],
+      instructionImage: taskDetails['Instruction_Image']
+    );
+
+  }
+  
+  String concatenateElements(List<String>list)
+  { 
+    if(list.isEmpty)
+      return null;
+
+    String result="";
+    for(String element in list)
+      result=result+element+"#";
+    result=result.substring(0,result.length-1);
+    return result;
+    
+  }
+
+  void debugMessage()
+  {
+    print("Task_Id: "+taskId.toString());
+    print("Level: "+level.toString());
+    print("Taskname: "+taskName);
+    print("TopicId: "+topicId.toString());
+    print("SubtaskId: "+subtaskId.toString());
+    print("FBId: "+fbId.toString());
+    print("Paragraph: "+paragraph);
+    print("Options: "+options.toString());
+    print("Answers: "+answers.toString());
+    //print("Explanation: ");
+    //String taskName,
+    //int topicId,
+    //String instruction,
+    //String instructionImage
+  }
 }
 
+/*
 class FBOptions{
   int _fbOptionsId;
   int _fbId;
@@ -221,4 +325,6 @@ class FBAnswers{
       answer:answer
     );
   }
+
 }
+*/

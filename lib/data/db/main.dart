@@ -79,32 +79,21 @@ class MainDatabaseHelper {
   String taskTableId='TopicTaskId';
   String taskType='TaskType';
   //String topicIdFK='TopicId';
-  //String level='Level';
-  String topicTaskQuestion='TopicTaskQuestion';
+  String taskLevel='Level';
+  String taskInstruction='Instruction';
+  String taskInstructionImage='Instruction_Image';
 
   //Subtask Table
-  String subtaskTable='TopicSubtasks';
-  String subtaskId='TopicSubtaskId';
+  String subtaskTable='Subtasks';
+  String subtaskId='SubtaskId';
 
   //FB Table
   String fbTable='FB';
   String fbId='fbId';
   String paragraph='Paragraph';
-
-  //FBOptions Table;
-  String fbOptionsTable='FBOptions';
-  String fbOptionId='FBOptionId';
-  String fbOption='Option';
-
-  //FBAnswers Table
-  String fbAnswersTable='FBAnswers';
-  String fbAnswerId='FBAnswerId';
-  String fbAnswer='Answer';
-
-  //FBExplanation Table
-  String fbExplanationTable='FBExplanations';
-  String fbExplanationId='FBExplanationId';
-  String fbExplanation='Explanation';
+  String options='Options';
+  String answers='Answers';
+  String explanations='Explanations';
   
   //Jumbled Words Table
   String jwTable='Jumbled_Words';
@@ -112,6 +101,13 @@ class MainDatabaseHelper {
   String jwSentence='Sentence';
   String jwAnswer='Answer';
   String jwExplanation='Explanation';
+
+  //Jumbled Sentence Table
+  String jsTable='Jumbled_Sentence';
+  String jsId='jsId';
+  String jsSentence='Sentence';
+  String jsAnswer='Answer';
+  String jsExplanation='Explanation';
 
   void _createDb(Database db, int version) async {
 
@@ -153,9 +149,11 @@ class MainDatabaseHelper {
     await db.execute(
       '''
       CREATE TABLE $topicTaskTable(
-        $taskTableId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $taskTableId INTEGER PRIMARY KEY,
+        $taskLevel INTEGER,
         $taskType TEXT,
-        $topicTaskQuestion TEXT,
+        $taskInstruction TEXT,
+        $taskInstructionImage TEXT,
         $topicIdFK INTEGER,
         FOREIGN KEY($topicIdFK) REFERENCES $topicTable($topicId)
       )
@@ -165,7 +163,7 @@ class MainDatabaseHelper {
     await db.execute(
       '''
       CREATE TABLE $subtaskTable(
-        $subtaskId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $subtaskId INTEGER PRIMARY KEY,
         $taskTableId INTEGER,
         FOREIGN KEY($taskTableId) REFERENCES $topicTaskTable($taskTableId)
       )
@@ -175,43 +173,13 @@ class MainDatabaseHelper {
     await db.execute(
       '''
       CREATE TABLE $fbTable(
-        $fbId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $fbId INTEGER PRIMARY KEY,
         $paragraph TEXT,
+        $options TEXT,
+        $answers TEXT,
+        $explanations TEXT,
         $subtaskId INTEGER,
         FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
-      )
-      '''
-    );
-
-    await db.execute(
-      '''
-      CREATE TABLE $fbOptionsTable(
-        $fbOptionId INTEGER PRIMARY KEY AUTOINCREMENT,
-        $fbId INTEGER,
-        $fbOption TEXT,
-        FOREIGN KEY($fbId) REFERENCES $fbId($fbTable)
-      )
-      '''
-    );
-
-    await db.execute(
-      '''
-      CREATE TABLE $fbAnswersTable(
-        $fbAnswerId INTEGER PRIMARY KEY AUTOINCREMENT,
-        $fbId INTEGER,
-        $fbAnswer TEXT,
-        FOREIGN KEY($fbId) REFERENCES $fbId($fbTable)
-      )
-      '''
-    );
-
-    await db.execute(
-      '''
-      CREATE TABLE $fbExplanationTable(
-        $fbExplanationId INTEGER PRIMARY KEY AUTOINCREMENT,
-        $fbId INTEGER,
-        $fbExplanation TEXT,
-        FOREIGN KEY($fbId) REFERENCES $fbId($fbTable)
       )
       '''
     );
@@ -228,67 +196,23 @@ class MainDatabaseHelper {
       )
       '''
     );
+  
+    await db.execute(
+      '''
+      CREATE TABLE $jsTable(
+        $jsId INTEGER PRIMARY KEY,
+        $subtaskId INTEGER,
+        $jsSentence TEXT,
+        $jsAnswer TEXT,
+        $jsExplanation TEXT,
+        FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
+      )
+      '''
+    );
   }
 
   void _configureDB(Database db) async {
     await db.execute("PRAGMA foreign_keys = ON");
   }
 
-//   //FETCH TO GET ALL NOTES
-//   Future<List<Map<String, dynamic>>> getNoteMapList() async {
-//     Database db = await this.database;
-//     var result =
-//         db.rawQuery("SELECT * FROM $noteTable ORDER BY $colPriority ASC");
-// //    var result = await db.query(noteTable, orderBy: "$colPriority ASC");  //WORKS THE SAME CALLED HELPER FUNC
-//     return result;
-//   }
-
-  /*
-  //INSERT OPS
-  Future<int> insertNote(Note note) async
-  {
-    Database db = await this.database;
-    var result = await db.insert(noteTable, note.toMap());
-    return result;
-  }
-
-  //UPDATE OPS
-  Future<int> updateNote(Note note) async
-  {
-    var db = await this.database;
-    var result =
-    await db.update(noteTable, note.toMap(), where: '$colid = ?', whereArgs: [note.id]);
-    return result;
-  }
-
-  //DELETE OPS
-  Future<int> deleteNote(int id) async
-  {
-    var db = await this.database;
-    int result = await db.delete(noteTable, where:"$colid = ?", whereArgs: [id]);
-    return result;
-  }
-
-  //GET THE NO:OF NOTES
-  Future<int> getCount() async
-  {
-    Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery("SELECT COUNT (*) FROM $noteTable");
-    int result = Sqflite.firstIntValue(x);
-    return result;
-  }
-
-  //GET THE 'MAP LIST' [List<Map>] and CONVERT IT TO 'Note List' [List<Note>]
-  Future<List<Note>> getNoteList() async
-  {
-    var noteMapList = await getNoteMapList(); //GET THE MAPLIST FROM DB
-    int count = noteMapList.length; //COUNT OF OBJS IN THE LIST
-    List<Note> noteList = List<Note>();
-    for(int index=0; index<count; index++)
-      {
-        noteList.add(Note.fromMapObject(noteMapList[index]));
-      }
-      return noteList;
-  }
-  */
 }

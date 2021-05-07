@@ -5,8 +5,7 @@ class TopicTask{
   String _taskName;
   String _instruction;
   String _instructionImage;
-  int get level => this._level;
-
+  
   set taskId(int value) => this._taskId = value;
 
   get taskId => this._taskId;
@@ -16,7 +15,11 @@ class TopicTask{
   get instruction => this._instruction;
 
   set instructionImage( value) => this._instructionImage = value;
+  
+  get instructionImage => this._instructionImage;
 
+  get level => this._level;
+  
   set level(int value) => this._level = value;
 
   get taskName => this._taskName;
@@ -34,7 +37,26 @@ class TopicTask{
     int topicId,
     String instruction,
     String instructionImage 
-  });
+  }):_taskId=taskId,
+    _level=level,
+    _taskName=taskName,
+    _topicId=topicId,
+    _instruction=instruction,
+    _instructionImage=instructionImage;
+
+  Map<String,dynamic>toTask()
+  { 
+    Map<String,dynamic>map= new Map();
+    
+    map['TopicTaskId']=taskId;
+    map['TaskType']=taskName;
+    map['TopicId']=topicId;
+    map['Level']=level;
+    map['Instruction']=instruction;
+    map['Instruction_Image']=instructionImage;    
+    
+    return map;
+  }
 
 }
 
@@ -56,11 +78,23 @@ class SubTask extends TopicTask{
     String instruction,
     String instructionImage
   }):_subtaskId=subtaskId,
-      super(level:level,
+      super(
+            taskId: taskId,
+            level:level,
             topicId:topicId,
             taskName:taskName,
             instruction: instruction,
             instructionImage: instructionImage
             );
+
+  Map<String,dynamic>toSubTask()
+  { 
+    Map<String,dynamic>map= new Map();
+    
+    map['SubtaskId']=subtaskId;
+    map['TopicTaskId']=taskId;
+    
+    return map;
+  } 
 
 }

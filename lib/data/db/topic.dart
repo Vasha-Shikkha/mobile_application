@@ -34,7 +34,7 @@ class TopicDatabaseHelper{
 
     List<Map<String,dynamic> >result = await database.query(_topicTable,
                                       columns: [_topicId,_topicName,_topicType],
-                                      where:'$_topicType = ? _level',
+                                      where:'$_topicType = ?',
                                       whereArgs: [topicType]);
     
     List<Topic>topicList = [];

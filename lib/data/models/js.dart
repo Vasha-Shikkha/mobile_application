@@ -14,11 +14,10 @@ class JSList{
   factory JSList.fromJson(List<dynamic> json){
     
     List<JS>jsList = [];
-
     for(dynamic element in json)
     {
       Map<String,dynamic>taskDetail=element['taskDetail'];
-      List< Map<String,dynamic> >questions=element['questions'];
+      List< dynamic >questions=element['questions']; 
 
       for(Map<String,dynamic>question in questions)
       {
@@ -27,7 +26,8 @@ class JSList{
       }
     }
 
-    //fbs = json.map((i)=>FB.fromJson((i))).toList();
+    print(jsList.length);
+
     return new JSList(jsList:jsList);
   }
 
@@ -37,7 +37,7 @@ class JSList{
 class JS extends SubTask{
   int _id;
   String _sentence;
-  List<String> _chunks;
+  List<String> _chunks; // Has two getters. One is chunks, the other is answer
   String _explanation;
   
   get id => this._id;
@@ -48,8 +48,12 @@ class JS extends SubTask{
 
   set sentence( value) => this._sentence = value;
 
+  get answer => this._chunks;
+
+  set answer( value) => this._chunks = value;
+
   get chunks{
-    List<String>value = new List<String>();
+    List<String>value = [];
     for(String chunk in _chunks)
       value.add(chunk);
     value.shuffle();
@@ -73,6 +77,7 @@ class JS extends SubTask{
     String instructionImage,
     String sentence,
     List<String> chunks,
+    List<String> answer,
     String explanation
   }): _id=id,
       _explanation=explanation,
@@ -93,18 +98,84 @@ class JS extends SubTask{
 
     //Map<String,dynamic>taskDetails= json['taskDetail'];
     //List<Map<String,dynamic> >questions 
-    return JS(
+    List<String>chunkList=[];
+    for(String chunk in question['chunks'])
+      chunkList.add(chunk);
+    
+    return new JS(
+      id : question['id'],
       sentence : question['paragraph'],
-      chunks : question['chunks'],
+      chunks : chunkList,
       explanation : question['explanation'],
       taskId : taskDetail['id'],
+      topicId: taskDetail['topic_id'],
       subtaskId: question['subTask_id'],
-      level: question['level'],
-      taskName: question['name'],
-      instruction: question['instruction'],
-      instructionImage: question['instructionImage']
+      level: taskDetail['level'],
+      taskName: taskDetail['name'],
+      instruction: taskDetail['instruction'],
+      instructionImage: taskDetail['instructionImage']
 
     );
+  }
+
+  Map<String,dynamic>toJS()
+  { 
+    Map<String,dynamic>map= new Map();
+    map['jsId']=id;
+    map['Sentence']=sentence;
+    map['Answer']=concatenateChunks(answer);
+    map['Explanation']=explanation;
+    map['SubtaskId']=subtaskId;
+  
+    return map;
+  }
+
+  factory JS.fromDatabase(Map<String,dynamic>taskDetails,Map<String,dynamic>questions)
+  {   
+    /*
+    return new FB(
+      id: questions['fbId'],
+      paragraph : questions['Paragraph'],
+      options : optionList,
+      answers : answerList,
+      explanation : explanationList,
+      taskId : taskDetails['TopicTaskId'],
+      subtaskId: questions['SubTask_id'],
+      level: taskDetails['Level'],
+      topicId: taskDetails['TopicId'],
+      taskName: taskDetails['TaskType'],
+      instruction: taskDetails['Instruction'],
+      instructionImage: taskDetails['Instruction_Image']
+    );
+    */
+    return new JS(
+      id : questions['jsId'],
+      sentence : questions['Sentence'],
+      chunks : questions['Answer'].split(" "),
+      explanation : questions['Explanation'],
+      taskId : taskDetails['TopicTaskId'],
+      subtaskId: questions['SubtaskId'],
+      level: taskDetails['Level'],
+      topicId: taskDetails['TopicId'],
+      taskName: taskDetails['TaskType'],
+      instruction: taskDetails['Instruction'],
+      instructionImage: taskDetails['Instruction_Image']
+
+    );
+  }
+
+  void debugMessage()
+  {
+    print("Task_Id: "+taskId.toString());
+    print("Level: "+level.toString());
+    print("Taskname: "+taskName);
+    print("TopicId: "+topicId.toString());
+    print("SubtaskId: "+subtaskId.toString());
+    print("JSId: "+id.toString());
+    print("Sentence: "+sentence);
+    print("Chunks: "+chunks.toString());
+    print("Answers: "+answer.toString());
+    
   }
 
   String concatenateChunks(List<String>tokens)
