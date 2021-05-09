@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vasha_shikkha/ui/topic/exercise_list_screen.dart';
+import 'package:Vasha_Shikkha/ui/topic/exercise_list_screen.dart';
 
 class TutorialScreen extends StatelessWidget {
   final String subtopicName;

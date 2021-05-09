@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vasha_shikkha/ui/base/progress_slider.dart';
-import 'package:vasha_shikkha/ui/topic/tutorial_screen.dart';
+import 'package:Vasha_Shikkha/ui/base/progress_slider.dart';
+import 'package:Vasha_Shikkha/ui/topic/tutorial_screen.dart';
 
 class SubtopicCard extends StatelessWidget {
   final String topicName;

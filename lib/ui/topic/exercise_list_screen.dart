@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vasha_shikkha/ui/topic/exercise_card.dart';
+import 'package:Vasha_Shikkha/ui/topic/exercise_card.dart';
 
 class ExerciseListScreen extends StatefulWidget {
   final String subtopicName;

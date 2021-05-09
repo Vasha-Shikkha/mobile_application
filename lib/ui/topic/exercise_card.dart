@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vasha_shikkha/ui/base/progress_slider.dart';
+import 'package:Vasha_Shikkha/ui/base/progress_slider.dart';
 
 class ExerciseCard extends StatelessWidget {
   final String exerciseName;

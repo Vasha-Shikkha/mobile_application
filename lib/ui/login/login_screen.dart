@@ -1,8 +1,8 @@
-import 'package:vasha_shikkha/style/colors.dart';
-import 'package:vasha_shikkha/style/tab_indication_painter.dart';
-import 'package:vasha_shikkha/ui/login/login_form.dart';
+import 'package:Vasha_Shikkha/style/colors.dart';
+import 'package:Vasha_Shikkha/style/tab_indication_painter.dart';
+import 'package:Vasha_Shikkha/ui/login/login_form.dart';
 import 'package:flutter/material.dart';
-import 'package:vasha_shikkha/ui/login/registration_form.dart';
+import 'package:Vasha_Shikkha/ui/login/registration_form.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

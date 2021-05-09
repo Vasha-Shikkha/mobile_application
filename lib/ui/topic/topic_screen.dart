@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vasha_shikkha/ui/base/bottom_navbar.dart';
-import 'package:vasha_shikkha/ui/topic/subtopic_card.dart';
+import 'package:Vasha_Shikkha/ui/base/bottom_navbar.dart';
+import 'package:Vasha_Shikkha/ui/topic/subtopic_card.dart';
 
 class TopicScreen extends StatefulWidget {
   final String topicName;

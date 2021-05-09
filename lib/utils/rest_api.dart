@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:vasha_shikkha/utils/network_util.dart';
+import 'package:Vasha_Shikkha/utils/network_util.dart';
 
 class RestApi {
   NetworkUtil _netUtil = new NetworkUtil();

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vasha_shikkha/ui/base/correct_dialog.dart';
-import 'package:vasha_shikkha/ui/base/incorrect_dialog.dart';
+import 'package:Vasha_Shikkha/ui/base/correct_dialog.dart';
+import 'package:Vasha_Shikkha/ui/base/incorrect_dialog.dart';
 
 class ExerciseScreen extends StatefulWidget {
   final String exerciseName;

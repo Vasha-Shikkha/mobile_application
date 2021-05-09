@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vasha_shikkha/ui/home/home_screen.dart';
+import 'package:Vasha_Shikkha/ui/home/home_screen.dart';
 
 class BottomNavbar extends StatelessWidget {
   @override

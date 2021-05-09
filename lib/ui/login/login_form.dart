@@ -1,6 +1,5 @@
-import 'package:vasha_shikkha/data/moor_database.dart';
-import 'package:vasha_shikkha/style/colors.dart';
-import 'package:vasha_shikkha/utils/rest_api.dart';
+import 'package:Vasha_Shikkha/style/colors.dart';
+import 'package:Vasha_Shikkha/utils/rest_api.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -22,14 +21,13 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController loginPasswordController = new TextEditingController();
 
   bool _obscureTextLogin = true;
-  TokensDao _dbProvider;
+
   final String _dummyPhone = "01712345678";
   final String _dummyPassword = "test1234";
 
   @override
   void initState() {
     super.initState();
-    _dbProvider = Provider.of<TokensDao>(context, listen: false);
   }
 
   @override
@@ -304,6 +302,5 @@ class _LoginFormState extends State<LoginForm> {
     print(_phone + " pass :" + _password + "\n-----");
 
     final tokenEntry = await RestApi().login(_phone, _password);
-    _dbProvider.addToken(token: tokenEntry['token']);
   }
 }

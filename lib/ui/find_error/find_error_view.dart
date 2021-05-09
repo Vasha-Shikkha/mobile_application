@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vasha_shikkha/ui/base/exercise_screen.dart';
+import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 
 class FindErrorView extends StatefulWidget {
   @override

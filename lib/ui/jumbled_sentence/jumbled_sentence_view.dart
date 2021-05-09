@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vasha_shikkha/ui/base/exercise_screen.dart';
-import 'package:vasha_shikkha/ui/fill_in_the_blanks/widgets/drag_target_blank.dart';
-import 'package:vasha_shikkha/ui/fill_in_the_blanks/widgets/draggable_option.dart';
+import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
+import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/widgets/drag_target_blank.dart';
+import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/widgets/draggable_option.dart';
 
 class JumbledSentenceView extends StatefulWidget {
   @override

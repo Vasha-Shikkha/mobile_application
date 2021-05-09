@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:vasha_shikkha/ui/base/bottom_navbar.dart';
-import 'package:vasha_shikkha/ui/topic/topic_screen.dart';
+import 'package:Vasha_Shikkha/ui/base/bottom_navbar.dart';
+import 'package:Vasha_Shikkha/ui/topic/topic_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static final String id = 'home_screen';

@@ -1,4 +1,4 @@
-import 'package:vasha_shikkha/ui/base/exercise_screen.dart';
+import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'widgets/drag_target_blank.dart';
 import 'widgets/draggable_option.dart';
 import 'package:flutter/material.dart';
