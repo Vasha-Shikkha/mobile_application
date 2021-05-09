@@ -2,6 +2,7 @@ import 'package:vasha_shikkha/style/colors.dart';
 import 'package:vasha_shikkha/style/tab_indication_painter.dart';
 import 'package:vasha_shikkha/ui/login/login_form.dart';
 import 'package:flutter/material.dart';
+import 'package:vasha_shikkha/ui/login/registration_form.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -31,7 +32,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ? MediaQuery.of(context).size.height
                 : 775.0,
             decoration: new BoxDecoration(
-              gradient: CustomColors.primaryGradient,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Theme.of(context).primaryColorDark,
+                  Theme.of(context).accentColor,
+                ],
+              ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -56,13 +64,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPageChanged: (i) {
                       if (i == 0) {
                         setState(() {
-                          right = Colors.black;
+                          right = Colors.white;
                           left = Colors.black;
                         });
                       } else if (i == 1) {
                         setState(() {
                           right = Colors.black;
-                          left = Colors.black;
+                          left = Colors.white;
                         });
                       }
                     },
@@ -75,7 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       new ConstrainedBox(
                         constraints: const BoxConstraints.expand(),
-                        child: _buildSignUp(context),
+                        child: RegistrationForm(
+                          scaffoldKey: _scaffoldKey,
+                        ),
                       ),
                     ],
                   ),
@@ -105,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: TextButton(
                 onPressed: _onSignInButtonPress,
                 child: Text(
-                  "Existing",
+                  "Login",
                   style: TextStyle(
                     color: left,
                     fontSize: 16.0,
@@ -117,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: TextButton(
                 onPressed: _onSignUpButtonPress,
                 child: Text(
-                  "New",
+                  "Register",
                   style: TextStyle(
                     color: right,
                     fontSize: 16.0,
