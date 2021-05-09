@@ -1,18 +1,18 @@
-import 'package:Vasha_Shikkha/ui/base/ExerciseScreen.dart';
-import 'package:Vasha_Shikkha/ui/fb/widgets/drag_target_blank.dart';
-import 'package:Vasha_Shikkha/ui/fb/widgets/draggable_option.dart';
+import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
+import 'widgets/drag_target_blank.dart';
+import 'widgets/draggable_option.dart';
 import 'package:flutter/material.dart';
 
 class FillInTheBlanksView extends StatefulWidget {
   final String sentence =
-      "A  vehicle is # to move people and things. A vehicle is not #.";
+      "Are you going to the # this afternoon? I heard there are lots of # this year. I'm going to buy some # for my family.";
 
   @override
   _FillInTheBlanksViewState createState() => _FillInTheBlanksViewState();
 }
 
 class _FillInTheBlanksViewState extends State<FillInTheBlanksView> {
-  List<String> options = ['fair', 'hospital', 'candies', 'doctor', 'teacher'];
+  List<String> options = ['fair', 'hospital', 'stalls', 'shops', 'sweets'];
 
   List<Widget> _buildSentenceWidgets() {
     List<Widget> widgets = [];
@@ -64,32 +64,42 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView> {
         // TODO: handle check
       },
       exercise: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.end,
-                children: _buildSentenceWidgets(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10, bottom: 20),
+                child: Text(
+                  "Fill in the blanks using the given words",
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 100,
-            ),
-            Wrap(
-              alignment: WrapAlignment.center,
-              children: options
-                  .map<DraggableOption>(
-                    (option) => DraggableOption(
-                      text: option,
-                      renderKey: GlobalKey(),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ],
+              Wrap(
+                alignment: WrapAlignment.center,
+                children: options
+                    .map<DraggableOption>(
+                      (option) => DraggableOption(
+                        text: option,
+                        renderKey: GlobalKey(),
+                      ),
+                    )
+                    .toList(),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.end,
+                  children: _buildSentenceWidgets(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

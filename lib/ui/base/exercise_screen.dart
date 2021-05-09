@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:Vasha_Shikkha/ui/base/correct_dialog.dart';
+import 'package:Vasha_Shikkha/ui/base/incorrect_dialog.dart';
 
-class ExerciseScreen extends StatelessWidget {
+class ExerciseScreen extends StatefulWidget {
   final String exerciseName;
   final Widget exercise;
   final Function onCheck;
 
-  const ExerciseScreen(
-      {Key key, this.exerciseName, this.exercise, this.onCheck})
+  ExerciseScreen({Key key, this.exerciseName, this.exercise, this.onCheck})
       : super(key: key);
+
+  @override
+  _ExerciseScreenState createState() => _ExerciseScreenState();
+}
+
+class _ExerciseScreenState extends State<ExerciseScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _checkCalled = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white12,
@@ -21,12 +31,12 @@ class ExerciseScreen extends StatelessWidget {
             color: Theme.of(context).accentColor,
           ),
           onPressed: () {
-            // TODO: handle navigation
+            Navigator.of(context).pop();
           },
         ),
         title: Center(
           child: Text(
-            exerciseName,
+            widget.exerciseName,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -36,6 +46,19 @@ class ExerciseScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
+            padding: EdgeInsets.zero,
+            splashRadius: 18,
+            icon: Icon(
+              Icons.search_rounded,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            onPressed: () {
+              // TODO: show dictionary search
+            },
+          ),
+          IconButton(
+            padding: EdgeInsets.zero,
+            splashRadius: 18,
             icon: Icon(
               Icons.description_rounded,
               color: Theme.of(context).primaryColorDark,
@@ -52,28 +75,34 @@ class ExerciseScreen extends StatelessWidget {
           SizedBox(
             height: 20.0,
           ),
-          exercise,
+          widget.exercise,
         ],
       ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: _buildSkipButton(context),
-              ),
+      bottomSheet: _checkCalled
+          ? _buildCheckResult()
+          : _buildPersistentBottomSheet(context),
+    );
+  }
+
+  Padding _buildPersistentBottomSheet(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: _buildSkipButton(context),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: _buildCheckButton(context),
-              ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: _buildCheckButton(context),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -113,8 +142,20 @@ class ExerciseScreen extends StatelessWidget {
             MaterialStateProperty.all(Theme.of(context).primaryColorDark),
       ),
       child: Text('Check'),
-      onPressed: onCheck,
+      onPressed: () {
+        setState(() {
+          _checkCalled = true;
+        });
+      },
     );
+  }
+
+  Widget _buildCheckResult() {
+    if (widget.onCheck()) {
+      return CorrectDialog();
+    } else {
+      return IncorrectDialog();
+    }
   }
 
   OutlinedButton _buildSkipButton(BuildContext context) {

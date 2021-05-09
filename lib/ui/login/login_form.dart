@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../../data/rest/fb.dart';
 import '../../data/models/fb.dart';
 
-
 import '../../data/rest/js.dart';
 import '../../data/models/js.dart';
 
@@ -56,7 +55,7 @@ class _LoginFormState extends State<LoginForm> {
         children: <Widget>[
           Stack(
             alignment: Alignment.topCenter,
-            overflow: Overflow.visible,
+            clipBehavior: Clip.antiAlias,
             children: <Widget>[
               Card(
                 elevation: 2.0,
@@ -137,29 +136,15 @@ class _LoginFormState extends State<LoginForm> {
               Container(
                 margin: EdgeInsets.only(top: 170.0),
                 decoration: new BoxDecoration(
+                  color: Theme.of(context).primaryColorDark,
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: CustomColors.loginGradientStart,
-                      offset: Offset(1.0, 6.0),
-                      blurRadius: 20.0,
-                    ),
-                    BoxShadow(
-                      color: CustomColors.loginGradientEnd,
+                      color: Theme.of(context).primaryColorDark,
                       offset: Offset(1.0, 6.0),
                       blurRadius: 20.0,
                     ),
                   ],
-                  gradient: new LinearGradient(
-                    colors: [
-                      CustomColors.loginGradientEnd,
-                      CustomColors.loginGradientStart,
-                    ],
-                    begin: const FractionalOffset(0.2, 0.2),
-                    end: const FractionalOffset(1.0, 1.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp,
-                  ),
                 ),
                 child: MaterialButton(
                   highlightColor: Colors.transparent,
@@ -201,104 +186,105 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 10.0),
-            child: FlatButton(
-                onPressed: () {},
-                child: Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Colors.white,
-                    fontSize: 15.0,
-                  ),
-                )),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: new LinearGradient(
-                        colors: [
-                          Colors.white10,
-                          Colors.white,
-                        ],
-                        begin: const FractionalOffset(0.0, 0.0),
-                        end: const FractionalOffset(1.0, 1.0),
-                        stops: [0.0, 1.0],
-                        tileMode: TileMode.clamp),
-                  ),
-                  width: 100.0,
-                  height: 1.0,
+            child: TextButton(
+              onPressed: () {},
+              child: Text(
+                "Forgot Password?",
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  color: Colors.white,
+                  fontSize: 15.0,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                  child: Text(
-                    "Or",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: new LinearGradient(
-                        colors: [
-                          Colors.white,
-                          Colors.white10,
-                        ],
-                        begin: const FractionalOffset(0.0, 0.0),
-                        end: const FractionalOffset(1.0, 1.0),
-                        stops: [0.0, 1.0],
-                        tileMode: TileMode.clamp),
-                  ),
-                  width: 100.0,
-                  height: 1.0,
-                ),
-              ],
+              ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 10.0, right: 40.0),
-                child: GestureDetector(
-                  onTap: () => showInSnackBar("Facebook button pressed"),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: new Icon(
-                      FontAwesomeIcons.facebookF,
-                      color: Color(0xFF0084ff),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: GestureDetector(
-                  onTap: () => showInSnackBar("Google button pressed"),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: new Icon(
-                      FontAwesomeIcons.google,
-                      color: Color(0xFF0084ff),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(top: 10.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: <Widget>[
+          //       Container(
+          //         decoration: BoxDecoration(
+          //           gradient: new LinearGradient(
+          //               colors: [
+          //                 Colors.white10,
+          //                 Colors.white,
+          //               ],
+          //               begin: const FractionalOffset(0.0, 0.0),
+          //               end: const FractionalOffset(1.0, 1.0),
+          //               stops: [0.0, 1.0],
+          //               tileMode: TileMode.clamp),
+          //         ),
+          //         width: 100.0,
+          //         height: 1.0,
+          //       ),
+          //       Padding(
+          //         padding: EdgeInsets.only(left: 15.0, right: 15.0),
+          //         child: Text(
+          //           "Or",
+          //           style: TextStyle(
+          //             color: Colors.white,
+          //             fontSize: 16.0,
+          //           ),
+          //         ),
+          //       ),
+          //       Container(
+          //         decoration: BoxDecoration(
+          //           gradient: new LinearGradient(
+          //               colors: [
+          //                 Colors.white,
+          //                 Colors.white10,
+          //               ],
+          //               begin: const FractionalOffset(0.0, 0.0),
+          //               end: const FractionalOffset(1.0, 1.0),
+          //               stops: [0.0, 1.0],
+          //               tileMode: TileMode.clamp),
+          //         ),
+          //         width: 100.0,
+          //         height: 1.0,
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: <Widget>[
+          //     Padding(
+          //       padding: EdgeInsets.only(top: 10.0, right: 40.0),
+          //       child: GestureDetector(
+          //         onTap: () => showInSnackBar("Facebook button pressed"),
+          //         child: Container(
+          //           padding: const EdgeInsets.all(15.0),
+          //           decoration: new BoxDecoration(
+          //             shape: BoxShape.circle,
+          //             color: Colors.white,
+          //           ),
+          //           child: new Icon(
+          //             FontAwesomeIcons.facebookF,
+          //             color: Color(0xFF0084ff),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //     Padding(
+          //       padding: EdgeInsets.only(top: 10.0),
+          //       child: GestureDetector(
+          //         onTap: () => showInSnackBar("Google button pressed"),
+          //         child: Container(
+          //           padding: const EdgeInsets.all(15.0),
+          //           decoration: new BoxDecoration(
+          //             shape: BoxShape.circle,
+          //             color: Colors.white,
+          //           ),
+          //           child: new Icon(
+          //             FontAwesomeIcons.google,
+          //             color: Color(0xFF0084ff),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );
@@ -332,41 +318,40 @@ class _LoginFormState extends State<LoginForm> {
     String _password = loginPasswordController.text;
     print(_phone + " pass :" + _password + "\n-----");
 
-    LoginController loginController=new LoginController();
-    TopicController topicController=new TopicController();
+    LoginController loginController = new LoginController();
+    TopicController topicController = new TopicController();
 
-    FBController fbController=new FBController();
-    JSController jsController=new JSController();
+    FBController fbController = new FBController();
+    JSController jsController = new JSController();
     Token tokenEntry = await loginController.login(_phone, _password);
     //print(tokenEntry.token);
     print(tokenEntry.token);
     print("Hello");
 
-    
-    List<Topic> topicList=await topicController.getTopicList(tokenEntry.token, 'grammar', 4);
-    
-    for(Topic topic in topicList)
-    {
+    List<Topic> topicList =
+        await topicController.getTopicList(tokenEntry.token, 'grammar', 4);
+
+    for (Topic topic in topicList) {
       topic.debugMessage();
     }
-    
+
     /*
     FBList fbList = await FBRest().getFBList(tokenEntry.token,6,4,5,0);
     fbList.fbs[0].debugMessage();
     */
-    
+
     //List<FB>fbList2= await fbController.getFBList(tokenEntry.token, 6, 4, 5, 0);
     //fbList2[0].debugMessage();
-    
+
     /*
     JSList jsList=await JSRest().getJSList(tokenEntry.token, 24, 3, 20, 0);
     print("Hello World");
     jsList.jsList[0].debugMessage();
     */
-    
-    List<JS> jsList2=await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
+
+    List<JS> jsList2 =
+        await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
     jsList2[0].debugMessage();
-    
 
     //final tokenEntry = await RestApi().login(_phone, _password);
     //_dbProvider.addToken(token: tokenEntry['token']);
