@@ -32,7 +32,6 @@ dependencies:
   provider: ^4.3.2+3
   path_provider: ^1.6.24
   path:
-  moor_flutter: ^3.1.0
   font_awesome_flutter: ^8.11.0
   percent_indicator: ^2.1.9
   flutter_svg: ^0.21.0+1
@@ -41,8 +40,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  moor_generator: ^3.1.0
-  build_runner: ^1.6.7
+ 
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
