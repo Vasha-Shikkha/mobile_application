@@ -1,19 +1,19 @@
+import 'package:Vasha_Shikkha/data/models/task.dart';
 import 'package:flutter/material.dart';
-import 'package:Vasha_Shikkha/ui/base/progress_slider.dart';
 
-class ExerciseCard extends StatelessWidget {
+class TaskCard extends StatelessWidget {
   final String exerciseName;
-  final String imageAssetName;
+  final int serial;
   final String route;
-  final double progress;
+  final List<SubTask> subtasks;
 
-  const ExerciseCard(
-      {Key key,
-      @required this.exerciseName,
-      @required this.imageAssetName,
-      @required this.route,
-      this.progress = 0})
-      : super(key: key);
+  const TaskCard({
+    Key key,
+    @required this.exerciseName,
+    @required this.route,
+    @required this.serial,
+    @required this.subtasks,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,20 +27,20 @@ class ExerciseCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16.0),
+          padding: const EdgeInsets.all(24.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    imageAssetName,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    height: MediaQuery.of(context).size.width * 0.2,
+                padding: const EdgeInsets.only(right: 16.0),
+                child: CircleAvatar(
+                  backgroundColor: Theme.of(context).primaryColorDark,
+                  child: Text(
+                    serial.toString(),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -53,10 +53,14 @@ class ExerciseCard extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
+                      fontSize: 18,
                     ),
                   ),
-                  ProgressSlider(
-                    value: progress,
+                  Text(
+                    '${subtasks.length} questions',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),

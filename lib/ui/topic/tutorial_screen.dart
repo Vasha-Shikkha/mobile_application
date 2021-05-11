@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:Vasha_Shikkha/ui/topic/exercise_list_screen.dart';
+import 'package:Vasha_Shikkha/ui/topic/task_list_screen.dart';
 
 class TutorialScreen extends StatelessWidget {
+  final int level;
+  final int topicId;
   final String subtopicName;
 
-  const TutorialScreen({Key key, @required this.subtopicName})
+  const TutorialScreen(
+      {Key key,
+      @required this.subtopicName,
+      @required this.level,
+      @required this.topicId})
       : super(key: key);
 
   @override
@@ -65,8 +71,11 @@ class TutorialScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>
-                          ExerciseListScreen(subtopicName: subtopicName),
+                      builder: (context) => TaskListScreen(
+                        subtopicName: subtopicName,
+                        level: level,
+                        topicId: topicId,
+                      ),
                     ),
                   );
                 },

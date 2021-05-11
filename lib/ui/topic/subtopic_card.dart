@@ -3,6 +3,8 @@ import 'package:Vasha_Shikkha/ui/base/progress_slider.dart';
 import 'package:Vasha_Shikkha/ui/topic/tutorial_screen.dart';
 
 class SubtopicCard extends StatelessWidget {
+  final int level;
+  final int topicId;
   final String topicName;
   final String imageAssetName;
   final double progress;
@@ -12,6 +14,8 @@ class SubtopicCard extends StatelessWidget {
     @required this.topicName,
     @required this.imageAssetName,
     this.progress = 0,
+    @required this.level,
+    @required this.topicId,
   }) : super(key: key);
 
   @override
@@ -20,7 +24,11 @@ class SubtopicCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => TutorialScreen(subtopicName: topicName),
+            builder: (context) => TutorialScreen(
+              subtopicName: topicName,
+              level: level,
+              topicId: topicId,
+            ),
           ),
         );
       },

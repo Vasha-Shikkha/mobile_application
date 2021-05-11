@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:Vasha_Shikkha/data/controllers/topic.dart';
 import 'package:Vasha_Shikkha/data/db/token.dart';
-import 'package:Vasha_Shikkha/data/models/token.dart';
 import 'package:Vasha_Shikkha/data/models/topic.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/bottom_navbar.dart';
@@ -52,9 +51,9 @@ class _TopicScreenState extends State<TopicScreen>
     setState(() {
       _loading = true;
     });
-    Token token = await TokenDatabaseHelper().getToken();
+    final t = await TokenDatabaseHelper().getToken();
     topics = await _topicController.getTopicList(
-        token.toString(), widget.topicName, _selectedLevel);
+        t.token, widget.topicName, _selectedLevel);
     Future.delayed(
       Duration(seconds: 2),
       () {
@@ -183,6 +182,8 @@ class _TopicScreenState extends State<TopicScreen>
       children: topics
           .map(
             (topic) => SubtopicCard(
+              level: _selectedLevel,
+              topicId: topic.id,
               topicName: topic.topicName,
               imageAssetName:
                   dummyImages.elementAt(Random().nextInt(dummyImages.length)),
