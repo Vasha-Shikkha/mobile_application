@@ -1,24 +1,10 @@
-//import 'package:Vasha_Shikkha/data/moor_database.dart';
-//import 'package:Vasha_Shikkha/data/rest/login.dart';
 import 'package:Vasha_Shikkha/style/colors.dart';
-//import 'package:Vasha_Shikkha/utils/rest_api.dart';
+import 'package:Vasha_Shikkha/ui/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
-import '../../data/rest/fb.dart';
-import '../../data/models/fb.dart';
-
-import '../../data/rest/js.dart';
-import '../../data/models/js.dart';
-
-import '../../data/models/token.dart';
 import '../../data/controllers/login.dart';
-
-import '../../data/models/topic.dart';
-import '../../data/controllers/topic.dart';
-import '../../data/controllers/fb.dart';
-import '../../data/controllers/js.dart';
 
 class LoginForm extends StatefulWidget {
   final scaffoldKey;
@@ -37,14 +23,16 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController loginPasswordController = new TextEditingController();
 
   bool _obscureTextLogin = true;
-  //TokensDao _dbProvider;
+  bool _loading = false;
+
+  LoginController _loginController;
   final String _dummyPhone = "01730029348";
   final String _dummyPassword = "123";
 
   @override
   void initState() {
     super.initState();
-    //_dbProvider = Provider.of<TokensDao>(context, listen: false);
+    _loginController = LoginController();
   }
 
   @override
@@ -147,38 +135,47 @@ class _LoginFormState extends State<LoginForm> {
                   ],
                 ),
                 child: MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width / 2,
+                  height: 30,
                   highlightColor: Colors.transparent,
                   splashColor: CustomColors.loginGradientEnd,
-                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 42.0),
-                    child: Text(
-                      "LOGIN",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                  ),
-                  onPressed: () {
-                    if (loginPhoneController.text == _dummyPhone &&
-                        loginPasswordController.text == _dummyPassword) {
-                      showInSnackBar("Login complete");
-                      _login();
-                      Navigator.of(context).pushReplacementNamed('/mcq');
-                    } else {
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                  child: _loading
+                      ? SizedBox(
+                          width: 50,
+                          child: SpinKitWanderingCubes(
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          "LOGIN",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                  onPressed: () async {
+                    setState(() {
+                      _loading = true;
+                    });
+                    try {
+                      await _login();
+                      showInSnackBar("Login successful");
+                      await Future.delayed(
+                        Duration(seconds: 1),
+                        () {
+                          Navigator.of(context)
+                              .pushReplacementNamed(HomeScreen.id);
+                        },
+                      );
+                    } catch (e) {
                       showInSnackBar("Incorrect phone number or password");
+                      setState(() {
+                        _loading = false;
+                      });
                     }
-
-                    //No need to show this now
-                    //TODO: Need progressbar for API calls
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => MyHomePage())
-                    // );
-                    // Navigator.of(context).pushReplacement(
-                    //   new MaterialPageRoute(builder: (context) =>AnimationDemoHome()));
                   },
                 ),
               ),
@@ -198,93 +195,6 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.only(top: 10.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: <Widget>[
-          //       Container(
-          //         decoration: BoxDecoration(
-          //           gradient: new LinearGradient(
-          //               colors: [
-          //                 Colors.white10,
-          //                 Colors.white,
-          //               ],
-          //               begin: const FractionalOffset(0.0, 0.0),
-          //               end: const FractionalOffset(1.0, 1.0),
-          //               stops: [0.0, 1.0],
-          //               tileMode: TileMode.clamp),
-          //         ),
-          //         width: 100.0,
-          //         height: 1.0,
-          //       ),
-          //       Padding(
-          //         padding: EdgeInsets.only(left: 15.0, right: 15.0),
-          //         child: Text(
-          //           "Or",
-          //           style: TextStyle(
-          //             color: Colors.white,
-          //             fontSize: 16.0,
-          //           ),
-          //         ),
-          //       ),
-          //       Container(
-          //         decoration: BoxDecoration(
-          //           gradient: new LinearGradient(
-          //               colors: [
-          //                 Colors.white,
-          //                 Colors.white10,
-          //               ],
-          //               begin: const FractionalOffset(0.0, 0.0),
-          //               end: const FractionalOffset(1.0, 1.0),
-          //               stops: [0.0, 1.0],
-          //               tileMode: TileMode.clamp),
-          //         ),
-          //         width: 100.0,
-          //         height: 1.0,
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: <Widget>[
-          //     Padding(
-          //       padding: EdgeInsets.only(top: 10.0, right: 40.0),
-          //       child: GestureDetector(
-          //         onTap: () => showInSnackBar("Facebook button pressed"),
-          //         child: Container(
-          //           padding: const EdgeInsets.all(15.0),
-          //           decoration: new BoxDecoration(
-          //             shape: BoxShape.circle,
-          //             color: Colors.white,
-          //           ),
-          //           child: new Icon(
-          //             FontAwesomeIcons.facebookF,
-          //             color: Color(0xFF0084ff),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //     Padding(
-          //       padding: EdgeInsets.only(top: 10.0),
-          //       child: GestureDetector(
-          //         onTap: () => showInSnackBar("Google button pressed"),
-          //         child: Container(
-          //           padding: const EdgeInsets.all(15.0),
-          //           decoration: new BoxDecoration(
-          //             shape: BoxShape.circle,
-          //             color: Colors.white,
-          //           ),
-          //           child: new Icon(
-          //             FontAwesomeIcons.google,
-          //             color: Color(0xFF0084ff),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );
@@ -308,32 +218,33 @@ class _LoginFormState extends State<LoginForm> {
           fontSize: 16.0,
         ),
       ),
-      backgroundColor: Colors.blue,
-      duration: Duration(seconds: 3),
+      backgroundColor: Theme.of(context).primaryColorDark,
+      duration: Duration(seconds: 1),
     ));
   }
 
-  void _login() async {
+  Future<void> _login() {
     String _phone = loginPhoneController.text;
     String _password = loginPasswordController.text;
     print(_phone + " pass :" + _password + "\n-----");
+    return _loginController.login(_phone, _password);
 
-    LoginController loginController = new LoginController();
-    TopicController topicController = new TopicController();
+    // LoginController loginController = new LoginController();
+    // TopicController topicController = new TopicController();
 
-    FBController fbController = new FBController();
-    JSController jsController = new JSController();
-    Token tokenEntry = await loginController.login(_phone, _password);
+    // FBController fbController = new FBController();
+    // JSController jsController = new JSController();
+    // Token tokenEntry = await loginController.login(_phone, _password);
     //print(tokenEntry.token);
-    print(tokenEntry.token);
-    print("Hello");
+    // print(tokenEntry.token);
+    // print("Hello");
 
-    List<Topic> topicList =
-        await topicController.getTopicList(tokenEntry.token, 'grammar', 4);
+    // List<Topic> topicList =
+    //     await topicController.getTopicList(tokenEntry.token, 'grammar', 4);
 
-    for (Topic topic in topicList) {
-      topic.debugMessage();
-    }
+    // for (Topic topic in topicList) {
+    //   topic.debugMessage();
+    // }
 
     /*
     FBList fbList = await FBRest().getFBList(tokenEntry.token,6,4,5,0);
@@ -349,9 +260,9 @@ class _LoginFormState extends State<LoginForm> {
     jsList.jsList[0].debugMessage();
     */
 
-    List<JS> jsList2 =
-        await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
-    jsList2[0].debugMessage();
+    // List<JS> jsList2 =
+    //     await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
+    // jsList2[0].debugMessage();
 
     //final tokenEntry = await RestApi().login(_phone, _password);
     //_dbProvider.addToken(token: tokenEntry['token']);
