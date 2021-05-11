@@ -64,11 +64,11 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TopicCard(
-                  topicName: 'COMMUNICATIVE',
+                  topicName: 'communicative',
                   imageAssetName: 'assets/img/vocabulary.png',
                 ),
                 TopicCard(
-                  topicName: 'GRAMMAR',
+                  topicName: 'grammar',
                   imageAssetName: 'assets/img/grammar.png',
                 ),
               ],
@@ -124,7 +124,7 @@ class TopicCard extends StatelessWidget {
               ),
             ),
             Text(
-              topicName,
+              topicName.toUpperCase(),
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,

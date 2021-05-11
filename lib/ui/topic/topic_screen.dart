@@ -1,6 +1,13 @@
+import 'dart:math';
+
+import 'package:Vasha_Shikkha/data/controllers/topic.dart';
+import 'package:Vasha_Shikkha/data/db/token.dart';
+import 'package:Vasha_Shikkha/data/models/token.dart';
+import 'package:Vasha_Shikkha/data/models/topic.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/bottom_navbar.dart';
 import 'package:Vasha_Shikkha/ui/topic/subtopic_card.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class TopicScreen extends StatefulWidget {
   final String topicName;
@@ -15,23 +22,47 @@ class _TopicScreenState extends State<TopicScreen>
     with SingleTickerProviderStateMixin {
   int _selectedLevel = 1;
   List<int> levels = [1, 2, 3, 4, 5, 6];
-  List<SubTopic> subTopics = [
-    SubTopic(name: 'Places', imageAsset: 'assets/img/places.png', progress: 44),
-    SubTopic(name: 'Birds', imageAsset: 'assets/img/birds.png', progress: 12),
-    SubTopic(name: 'Food', imageAsset: 'assets/img/food.png'),
+  bool _loading = false;
+  List<Topic> topics;
+
+  List<String> dummyImages = [
+    'assets/img/places.png',
+    'assets/img/birds.png',
+    'assets/img/food.png',
   ];
+
   TabController _tabController;
+  TopicController _topicController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: levels.length, vsync: this);
+    _topicController = TopicController();
+    _fetchSubtopics();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  Future<void> _fetchSubtopics() async {
+    setState(() {
+      _loading = true;
+    });
+    Token token = await TokenDatabaseHelper().getToken();
+    topics = await _topicController.getTopicList(
+        token.toString(), widget.topicName, _selectedLevel);
+    Future.delayed(
+      Duration(seconds: 2),
+      () {
+        setState(() {
+          _loading = false;
+        });
+      },
+    );
   }
 
   @override
@@ -75,7 +106,7 @@ class _TopicScreenState extends State<TopicScreen>
             Padding(
               padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
               child: Text(
-                widget.topicName,
+                widget.topicName.toUpperCase(),
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
@@ -97,6 +128,7 @@ class _TopicScreenState extends State<TopicScreen>
                   onTap: (index) {
                     setState(() {
                       _selectedLevel = index + 1;
+                      _fetchSubtopics();
                     });
                   },
                   tabs: levels
@@ -125,7 +157,14 @@ class _TopicScreenState extends State<TopicScreen>
                 ),
               ),
             ),
-            _buildSubtopicGrid(_selectedLevel),
+            _loading
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: SpinKitThreeBounce(
+                      color: Theme.of(context).accentColor,
+                    ),
+                  )
+                : _buildSubtopicGrid(_selectedLevel),
           ],
         ),
       ),
@@ -141,23 +180,16 @@ class _TopicScreenState extends State<TopicScreen>
       crossAxisCount: 3,
       crossAxisSpacing: 8,
       mainAxisSpacing: 8,
-      children: subTopics
+      children: topics
           .map(
-            (e) => SubtopicCard(
-              topicName: e.name,
-              imageAssetName: e.imageAsset,
-              progress: e.progress,
+            (topic) => SubtopicCard(
+              topicName: topic.topicName,
+              imageAssetName:
+                  dummyImages.elementAt(Random().nextInt(dummyImages.length)),
+              progress: Random().nextInt(100).toDouble(),
             ),
           )
           .toList(),
     );
   }
-}
-
-class SubTopic {
-  final String name;
-  final String imageAsset;
-  final double progress;
-
-  SubTopic({@required this.name, @required this.imageAsset, this.progress = 0});
 }

@@ -7,21 +7,24 @@ class ProgressSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliderTheme(
-      data: SliderThemeData(
-        trackShape: CustomTrackShape(),
-        thumbShape: SliderComponentShape.noThumb,
-        trackHeight: 5,
-      ),
-      child: Slider.adaptive(
-        value: value,
-        min: 0,
-        max: 100,
-        activeColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
-        inactiveColor: Theme.of(context).primaryColorLight.withOpacity(0.5),
-        onChanged: (val) {
-          // TODO: handle slider update
-        },
+    return SizedBox(
+      height: 5,
+      child: SliderTheme(
+        data: SliderThemeData(
+          trackShape: CustomTrackShape(),
+          thumbShape: SliderComponentShape.noThumb,
+          trackHeight: 5,
+        ),
+        child: Slider.adaptive(
+          value: value,
+          min: 0,
+          max: 100,
+          activeColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
+          inactiveColor: Theme.of(context).primaryColorLight.withOpacity(0.5),
+          onChanged: (val) {
+            // TODO: handle slider update
+          },
+        ),
       ),
     );
   }

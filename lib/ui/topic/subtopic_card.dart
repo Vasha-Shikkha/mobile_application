@@ -30,30 +30,33 @@ class SubtopicCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset(
                   imageAssetName,
                   fit: BoxFit.fill,
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.width * 0.2,
+                  width: 60,
+                  height: 60,
                 ),
               ),
             ),
             Text(
               topicName,
+              maxLines: 3,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
               child: ProgressSlider(
                 value: progress,
               ),
