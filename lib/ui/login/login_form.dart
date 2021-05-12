@@ -1,5 +1,6 @@
 //import 'package:Vasha_Shikkha/data/moor_database.dart';
 //import 'package:Vasha_Shikkha/data/rest/login.dart';
+import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
 import 'package:Vasha_Shikkha/style/colors.dart';
 //import 'package:Vasha_Shikkha/utils/rest_api.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,9 @@ import '../../data/models/fb.dart';
 
 import '../../data/rest/js.dart';
 import '../../data/models/js.dart';
+
+import '../../data/rest/mcq.dart';
+import '../../data/models/mcq.dart';
 
 import '../../data/models/token.dart';
 import '../../data/controllers/login.dart';
@@ -337,6 +341,8 @@ class _LoginFormState extends State<LoginForm> {
 
     FBController fbController=new FBController();
     JSController jsController=new JSController();
+    MCQController mcqController=new MCQController();
+    
     Token tokenEntry = await loginController.login(_phone, _password);
     //print(tokenEntry.token);
     print(tokenEntry.token);
@@ -364,10 +370,11 @@ class _LoginFormState extends State<LoginForm> {
     jsList.jsList[0].debugMessage();
     */
     
-    List<JS> jsList2=await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
-    jsList2[0].debugMessage();
-    
-
+    //List<JS> jsList2=await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
+    //jsList2[0].debugMessage();
+    List<MCQ> mcqList2= await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
+    print(mcqList2.length);
+    mcqList2[0].debugMessage();
     //final tokenEntry = await RestApi().login(_phone, _password);
     //_dbProvider.addToken(token: tokenEntry['token']);
   }
