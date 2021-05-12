@@ -6,8 +6,14 @@ class ExerciseScreen extends StatefulWidget {
   final String exerciseName;
   final Widget exercise;
   final Function onCheck;
+  final Function onContinue;
 
-  ExerciseScreen({Key key, this.exerciseName, this.exercise, this.onCheck})
+  ExerciseScreen(
+      {Key key,
+      @required this.exerciseName,
+      @required this.exercise,
+      @required this.onCheck,
+      @required this.onContinue})
       : super(key: key);
 
   @override
@@ -72,9 +78,6 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       body: Column(
         children: [
           _buildSlider(context),
-          SizedBox(
-            height: 20.0,
-          ),
           widget.exercise,
         ],
       ),
@@ -152,9 +155,23 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
 
   Widget _buildCheckResult() {
     if (widget.onCheck()) {
-      return CorrectDialog();
+      return CorrectDialog(
+        onContinue: () {
+          widget.onContinue();
+          setState(() {
+            _checkCalled = false;
+          });
+        },
+      );
     } else {
-      return IncorrectDialog();
+      return IncorrectDialog(
+        onContinue: () {
+          widget.onContinue();
+          setState(() {
+            _checkCalled = false;
+          });
+        },
+      );
     }
   }
 

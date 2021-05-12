@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class DragTargetBlank extends StatefulWidget {
+  final int serial;
+  final Function updateBlankData;
+
+  const DragTargetBlank(
+      {Key key, @required this.serial, @required this.updateBlankData})
+      : super(key: key);
   @override
   _DragTargetBlankState createState() => _DragTargetBlankState();
 }
@@ -55,6 +61,7 @@ class _DragTargetBlankState extends State<DragTargetBlank> {
           final RenderBox renderBox =
               data['renderKey'].currentContext.findRenderObject();
           width = renderBox.size.width;
+          widget.updateBlankData(widget.serial, placedData['text']);
         });
       },
     );
@@ -101,6 +108,7 @@ class _DragTargetBlankState extends State<DragTargetBlank> {
           empty = true;
           width = 80;
           placedData = null;
+          widget.updateBlankData(widget.serial, null);
         });
       },
     );

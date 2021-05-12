@@ -1,4 +1,6 @@
 import 'package:Vasha_Shikkha/data/models/task.dart';
+import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/fill_in_the_blanks_view.dart';
+import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
 import 'package:flutter/material.dart';
 
 class TaskCard extends StatelessWidget {
@@ -15,11 +17,30 @@ class TaskCard extends StatelessWidget {
     @required this.subtasks,
   }) : super(key: key);
 
+  Widget _getTaskViewWidget() {
+    switch (route) {
+      case FillInTheBlanksView.route:
+        return FillInTheBlanksView(
+          subtasks: subtasks,
+        );
+        break;
+      case JumbledSentenceView.route:
+        return JumbledSentenceView(
+          subtasks: subtasks,
+        );
+        break;
+      default:
+        return Container();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(route);
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => _getTaskViewWidget()),
+        );
       },
       child: Card(
         color: Colors.grey.shade200,

@@ -3,6 +3,8 @@ import 'package:Vasha_Shikkha/data/controllers/js.dart';
 import 'package:Vasha_Shikkha/data/db/token.dart';
 import 'package:Vasha_Shikkha/data/models/fb.dart';
 import 'package:Vasha_Shikkha/data/models/js.dart';
+import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/fill_in_the_blanks_view.dart';
+import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/topic/task_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -79,7 +81,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
         tasks.add({
           'name': 'Fill In The Blanks',
           'subtasks': fbList,
-          'route': '/fill-in-the-blanks',
+          'route': FillInTheBlanksView.route,
         });
       }
       List<JS> jsList = await JSController()
@@ -88,7 +90,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
         tasks.add({
           'name': 'Jumbled Sentence',
           'subtasks': jsList,
-          'route': '/jumbled-sentence',
+          'route': JumbledSentenceView.route,
         });
       }
     } catch (e) {

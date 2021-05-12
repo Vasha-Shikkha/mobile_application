@@ -38,6 +38,7 @@ dependencies:
   flutter_svg: ^0.21.0+1
   sqflite: ^2.0.0+3
   flutter_spinkit: ^5.0.0
+  flutter_animated_dialog: ^2.0.0
 
 dev_dependencies:
   flutter_test:

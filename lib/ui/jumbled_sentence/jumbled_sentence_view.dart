@@ -1,9 +1,16 @@
+import 'package:Vasha_Shikkha/data/models/task.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/widgets/drag_target_blank.dart';
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/widgets/draggable_option.dart';
 
 class JumbledSentenceView extends StatefulWidget {
+  static const String route = '/jumbled-sentence';
+  final List<SubTask> subtasks;
+
+  const JumbledSentenceView({Key key, @required this.subtasks})
+      : super(key: key);
+
   @override
   _JumbledSentenceViewState createState() => _JumbledSentenceViewState();
 }

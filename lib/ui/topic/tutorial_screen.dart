@@ -69,7 +69,7 @@ class TutorialScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.of(context).push(
+                  Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (context) => TaskListScreen(
                         subtopicName: subtopicName,

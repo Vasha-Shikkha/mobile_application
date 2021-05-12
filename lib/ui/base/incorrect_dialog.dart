@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class IncorrectDialog extends StatelessWidget {
+  final Function onContinue;
+
+  const IncorrectDialog({Key key, @required this.onContinue}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -84,7 +88,7 @@ class IncorrectDialog extends StatelessWidget {
             MaterialStateProperty.all(Theme.of(context).primaryColorDark),
       ),
       child: Text('Continue'),
-      onPressed: () {},
+      onPressed: onContinue,
     );
   }
 }

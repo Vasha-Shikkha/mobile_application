@@ -10,7 +10,5 @@ final routes = {
   '/login': (BuildContext context) => LoginScreen(),
   HomeScreen.id: (BuildContext context) => HomeScreen(),
   '/multiple-choice': (BuildContext context) => MultipleChoiceView(),
-  '/fill-in-the-blanks': (BuildContext context) => FillInTheBlanksView(),
   '/find-error': (BuildContext context) => FindErrorView(),
-  '/jumbled-sentence': (BuildContext context) => JumbledSentenceView(),
 };
