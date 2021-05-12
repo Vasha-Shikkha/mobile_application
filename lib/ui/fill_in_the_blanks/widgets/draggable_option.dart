@@ -22,6 +22,13 @@ class _DraggableOptionState extends State<DraggableOption> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    available = true;
+  }
+
   _afterLayout(_) {
     final RenderBox renderBox =
         widget.renderKey.currentContext.findRenderObject();

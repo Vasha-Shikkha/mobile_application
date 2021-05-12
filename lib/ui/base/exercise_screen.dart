@@ -4,17 +4,21 @@ import 'package:Vasha_Shikkha/ui/base/incorrect_dialog.dart';
 
 class ExerciseScreen extends StatefulWidget {
   final String exerciseName;
+  final int subtaskCount;
+  final int initialSubtask;
   final Widget exercise;
   final Function onCheck;
   final Function onContinue;
 
-  ExerciseScreen(
-      {Key key,
-      @required this.exerciseName,
-      @required this.exercise,
-      @required this.onCheck,
-      @required this.onContinue})
-      : super(key: key);
+  ExerciseScreen({
+    Key key,
+    @required this.exerciseName,
+    @required this.exercise,
+    @required this.onCheck,
+    @required this.onContinue,
+    @required this.subtaskCount,
+    @required this.initialSubtask,
+  }) : super(key: key);
 
   @override
   _ExerciseScreenState createState() => _ExerciseScreenState();
@@ -23,6 +27,21 @@ class ExerciseScreen extends StatefulWidget {
 class _ExerciseScreenState extends State<ExerciseScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _checkCalled = false;
+  int _currentSubtask;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentSubtask = widget.initialSubtask;
+  }
+
+  StepState _getStepState(int index) {
+    if (index < _currentSubtask) {
+      return StepState.complete;
+    } else {
+      return StepState.indexed;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +96,30 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       ),
       body: Column(
         children: [
-          _buildSlider(context),
+          SizedBox(
+            height: 80,
+            child: Theme(
+              data: ThemeData(
+                primarySwatch: Colors.purple,
+                canvasColor: Colors.white,
+                shadowColor: Colors.transparent,
+              ),
+              child: Stepper(
+                physics: ScrollPhysics(),
+                type: StepperType.horizontal,
+                currentStep: _currentSubtask,
+                steps: List<Step>.generate(
+                  widget.subtaskCount,
+                  (index) => Step(
+                    title: Container(),
+                    content: Container(),
+                    state: _getStepState(index),
+                    isActive: index <= _currentSubtask,
+                  ),
+                ),
+              ),
+            ),
+          ),
           widget.exercise,
         ],
       ),
@@ -160,6 +202,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           widget.onContinue();
           setState(() {
             _checkCalled = false;
+            if (_currentSubtask + 1 < widget.subtaskCount) _currentSubtask++;
           });
         },
       );
@@ -169,6 +212,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           widget.onContinue();
           setState(() {
             _checkCalled = false;
+            if (_currentSubtask + 1 < widget.subtaskCount) _currentSubtask++;
           });
         },
       );

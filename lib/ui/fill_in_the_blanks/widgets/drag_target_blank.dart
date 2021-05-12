@@ -17,6 +17,14 @@ class _DragTargetBlankState extends State<DragTargetBlank> {
   double width = 80;
 
   @override
+  void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    empty = true;
+    placedData = null;
+    width = 80;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DragTarget<Map<String, dynamic>>(
       builder: (BuildContext context, List<Map<String, dynamic>> candidateData,
