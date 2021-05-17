@@ -20,6 +20,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../data/controllers/login.dart';
 
+import '../../data/models/error.dart';
+
+import '../../data/controllers/error.dart';
+
+import '../../data/models/topic.dart';
+import '../../data/controllers/topic.dart';
+import '../../data/controllers/fb.dart';
+import '../../data/controllers/js.dart';
+
 class LoginForm extends StatefulWidget {
   final scaffoldKey;
 
@@ -251,7 +260,9 @@ class _LoginFormState extends State<LoginForm> {
     JSController jsController = new JSController();
     MCQController mcqController = new MCQController();
 
-    // Token tokenEntry = await _loginController.login(_phone, _password);
+    ErrorController errorController = new ErrorController();
+
+    //print(tokenEntry.token);
     print(tokenEntry.token);
     // print(tokenEntry.token);
     // print("Hello");
@@ -278,13 +289,19 @@ class _LoginFormState extends State<LoginForm> {
     jsList.jsList[0].debugMessage();
     */
 
-    List<JS> jsList2 =
-        await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
-    jsList2[0].debugMessage();
-    List<MCQ> mcqList2 =
-        await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
-
+    //List<JS> jsList2=await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
+    //jsList2[0].debugMessage();
+    /*
+    List<MCQ> mcqList2= await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
     print(mcqList2.length);
     mcqList2[0].debugMessage();
+    */
+
+    List<Error> errorList2 =
+        await errorController.getErrorList(tokenEntry.token, 25, 6, 20, 0);
+    print(errorList2.length);
+    errorList2[0].debugMessage();
+    //final tokenEntry = await RestApi().login(_phone, _password);
+    //_dbProvider.addToken(token: tokenEntry['token']);
   }
 }

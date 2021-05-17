@@ -117,6 +117,15 @@ class MainDatabaseHelper {
   String mcqAnswer='Answer';
   String mcqExplanation='Explanation';
 
+  //Error Table
+  String errorTable='Error_In_Sentence';
+  String errorId='errorId';
+  String errorQuestion='Question';
+  String errorOptions='Options';
+  String errorAnswer='Answer';
+  String errorExplanation='Explanation';
+  String isMCQ='isMCQ';
+
   void _createDb(Database db, int version) async {
 
     await db.execute(
@@ -226,6 +235,21 @@ class MainDatabaseHelper {
         $mcqOptions TEXT,
         $mcqAnswer TEXT,
         $mcqExplanation TEXT,
+        $subtaskId INTEGER,
+        FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
+      )
+      '''
+    );
+
+    await db.execute(
+      '''
+      CREATE TABLE $errorTable(
+        $errorId INTEGER PRIMARY KEY,
+        $errorQuestion TEXT,
+        $errorOptions TEXT,
+        $errorAnswer TEXT,
+        $errorExplanation TEXT,
+        $isMCQ INTEGER,
         $subtaskId INTEGER,
         FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
       )
