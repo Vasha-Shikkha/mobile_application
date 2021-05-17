@@ -3,6 +3,11 @@
 // import 'package:Vasha_Shikkha/data/controllers/fb.dart';
 // import 'package:Vasha_Shikkha/data/controllers/js.dart';
 // import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
+import 'package:Vasha_Shikkha/data/controllers/js.dart';
+import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
+import 'package:Vasha_Shikkha/data/models/js.dart';
+import 'package:Vasha_Shikkha/data/models/mcq.dart';
+import 'package:Vasha_Shikkha/data/models/token.dart';
 import 'package:Vasha_Shikkha/style/colors.dart';
 import 'package:Vasha_Shikkha/ui/home/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -176,6 +181,7 @@ class _LoginFormState extends State<LoginForm> {
                         },
                       );
                     } catch (e) {
+                      print(e);
                       showInSnackBar("Incorrect phone number or password");
                       setState(() {
                         _loading = false;
@@ -232,17 +238,17 @@ class _LoginFormState extends State<LoginForm> {
     String _phone = loginPhoneController.text;
     String _password = loginPasswordController.text;
     print(_phone + " pass :" + _password + "\n-----");
-    return _loginController.login(_phone, _password);
+    Token tokenEntry = await _loginController.login(_phone, _password);
 
     // LoginController loginController = new LoginController();
     // TopicController topicController = new TopicController();
 
     // FBController fbController=new FBController();
-    // JSController jsController=new JSController();
-    // MCQController mcqController=new MCQController();
+    JSController jsController = new JSController();
+    MCQController mcqController = new MCQController();
 
     // Token tokenEntry = await _loginController.login(_phone, _password);
-    //print(tokenEntry.token);
+    print(tokenEntry.token);
     // print(tokenEntry.token);
     // print("Hello");
 
@@ -267,11 +273,15 @@ class _LoginFormState extends State<LoginForm> {
     jsList.jsList[0].debugMessage();
     */
 
-    //List<JS> jsList2=await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
-    //jsList2[0].debugMessage();
-    // List<MCQ> mcqList2= await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
+    // List<JS> jsList2 =
+    //     await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
+    // jsList2[0].debugMessage();
+    // List<MCQ> mcqList2 =
+    //     await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
+    // print('mcq');
     // print(mcqList2.length);
-    // mcqList2[0].debugMessage();
+    // // mcqList2[0].debugMessage();
+    // print('mcq');
     //final tokenEntry = await RestApi().login(_phone, _password);
     //_dbProvider.addToken(token: tokenEntry['token']);
   }

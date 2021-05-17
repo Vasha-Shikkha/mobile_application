@@ -1,10 +1,13 @@
 import 'package:Vasha_Shikkha/data/controllers/fb.dart';
 import 'package:Vasha_Shikkha/data/controllers/js.dart';
+import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
 import 'package:Vasha_Shikkha/data/db/token.dart';
 import 'package:Vasha_Shikkha/data/models/fb.dart';
 import 'package:Vasha_Shikkha/data/models/js.dart';
+import 'package:Vasha_Shikkha/data/models/mcq.dart';
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/fill_in_the_blanks_view.dart';
 import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
+import 'package:Vasha_Shikkha/ui/mcq/multiple_choice_view.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/topic/task_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -36,31 +39,12 @@ class _TaskListScreenState extends State<TaskListScreen> {
     'assets/img/food.png',
   ];
 
-  // List<Exercise> exercises = [
-  //   Exercise(
-  //     name: 'Fill In The Blanks',
-  //     imageAsset: 'assets/img/places.png',
-  //     route: '/fill-in-the-blanks',
-  //     progress: 44,
-  //   ),
-  //   Exercise(
-  //     name: 'Multiple Choice Question',
-  //     imageAsset: 'assets/img/birds.png',
-  //     route: '/multiple-choice',
-  //     progress: 12,
-  //   ),
   //   Exercise(
   //     name: 'Finding Error',
   //     imageAsset: 'assets/img/places.png',
   //     route: '/find-error',
   //     progress: 81,
   //   ),
-  //   Exercise(
-  //     name: 'Jumbled Sentence',
-  //     imageAsset: 'assets/img/food.png',
-  //     route: '/jumbled-sentence',
-  //   ),
-  // ];
 
   @override
   void initState() {
@@ -91,6 +75,15 @@ class _TaskListScreenState extends State<TaskListScreen> {
           'name': 'Jumbled Sentence',
           'subtasks': jsList,
           'route': JumbledSentenceView.route,
+        });
+      }
+      List<MCQ> mcqList = await MCQController()
+          .getMCQList(token, widget.topicId, widget.level, 20, 0);
+      if (mcqList.length > 0) {
+        tasks.add({
+          'name': 'Multiple Choice Question',
+          'subtasks': mcqList,
+          'route': MultipleChoiceView.route,
         });
       }
     } catch (e) {
@@ -166,18 +159,4 @@ class _TaskListScreenState extends State<TaskListScreen> {
       ),
     );
   }
-}
-
-class Exercise {
-  final String name;
-  final String imageAsset;
-  final String route;
-  final double progress;
-
-  Exercise({
-    @required this.name,
-    @required this.imageAsset,
-    @required this.route,
-    this.progress = 0,
-  });
 }

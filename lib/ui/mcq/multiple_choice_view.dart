@@ -1,24 +1,65 @@
+import 'package:Vasha_Shikkha/data/models/mcq.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
+import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 class MultipleChoiceView extends StatefulWidget {
+  static const String route = '/multiple-choice';
+  final List<MCQ> subtasks;
+
+  const MultipleChoiceView({Key key, @required this.subtasks})
+      : super(key: key);
+
   @override
   _MultipleChoiceViewState createState() => _MultipleChoiceViewState();
 }
 
 class _MultipleChoiceViewState extends State<MultipleChoiceView> {
-  final String question =
-      "Rehnuma has just received the result of her final examination of class 7. She has stood first in her class. She is now-";
+  int _currentSubtask;
 
-  final List<String> _options = ["sad", "excited", "happy", "on cloud nine"];
+  @override
+  void initState() {
+    super.initState();
+    _currentSubtask = 0;
+  }
 
-  final String _correctOption = "on cloud nine";
   int _selectedOption = -1;
 
   @override
   Widget build(BuildContext context) {
     return ExerciseScreen(
       exerciseName: "Multiple Choice Question",
+      subtaskCount: widget.subtasks.length,
+      initialSubtask: 0, // TODO: should be last attempted
+      onCheck: () {
+        if (_selectedOption == -1) return false;
+        String answer = widget.subtasks.elementAt(_currentSubtask).answer;
+        String selectedAnswer =
+            widget.subtasks.elementAt(_currentSubtask).options[_selectedOption];
+        return selectedAnswer.compareTo(answer) == 0;
+      },
+      onContinue: () {
+        if (_currentSubtask + 1 < widget.subtasks.length) {
+          setState(() {
+            _currentSubtask++;
+          });
+        } else {
+          showAnimatedDialog(
+            context: context,
+            animationType: DialogTransitionType.fadeScale,
+            builder: (context) => ClassicGeneralDialogWidget(
+              titleText: 'Task Complete!',
+              contentText: 'You have attempted all the questions in this task.',
+              onNegativeClick: null,
+              positiveText: 'OK',
+              onPositiveClick: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          );
+        }
+      },
       exercise: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -33,7 +74,7 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView> {
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
-              Text(question),
+              Text(widget.subtasks.elementAt(_currentSubtask).question),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 20,
               ),
@@ -42,14 +83,14 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView> {
           ),
         ),
       ),
-      onCheck: _onCheck,
     );
   }
 
   ListView _buildOptions() {
+    List<String> options = widget.subtasks.elementAt(_currentSubtask).options;
     return ListView.separated(
       shrinkWrap: true,
-      itemCount: _options.length,
+      itemCount: options.length,
       separatorBuilder: (context, index) => SizedBox(
         height: 10,
       ),
@@ -66,7 +107,7 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView> {
           child: ListTile(
             selected: index == _selectedOption,
             title: Text(
-              _options[index],
+              options[index],
               style: TextStyle(color: Colors.black),
             ),
             onTap: () {
@@ -84,10 +125,5 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView> {
         );
       },
     );
-  }
-
-  bool _onCheck() {
-    if (_selectedOption == -1) return false;
-    return _options[_selectedOption].compareTo(_correctOption) == 0;
   }
 }
