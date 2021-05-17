@@ -1,24 +1,65 @@
+import 'package:Vasha_Shikkha/data/models/error.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
+import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 class FindErrorView extends StatefulWidget {
+  static const String route = '/find-error';
+  final List<Error> subtasks;
+
+  const FindErrorView({Key key, @required this.subtasks}) : super(key: key);
+
   @override
   _FindErrorViewState createState() => _FindErrorViewState();
 }
 
 class _FindErrorViewState extends State<FindErrorView> {
-  final String _question =
-      "Fahim <b>lives</b> in a village, so he <b>is</b> very curious about the daily lives of city people.";
+  int _currentSubtask;
+  int _selectedOption;
 
-  final List<String> _options = ["lives", "is", "No error"];
-
-  final String _correctOption = "No error";
-  int _selectedOption = -1;
+  @override
+  void initState() {
+    super.initState();
+    _currentSubtask = 0;
+    _selectedOption = -1;
+  }
 
   @override
   Widget build(BuildContext context) {
     return ExerciseScreen(
       exerciseName: "Finding Error",
+      subtaskCount: widget.subtasks.length,
+      initialSubtask: 0, // TODO: should be last attempted
+      onCheck: () {
+        if (_selectedOption == -1) return false;
+        String answer = widget.subtasks.elementAt(_currentSubtask).answer;
+        String selectedAnswer =
+            widget.subtasks.elementAt(_currentSubtask).options[_selectedOption];
+        return selectedAnswer.compareTo(answer) == 0;
+      },
+      onContinue: () {
+        if (_currentSubtask + 1 < widget.subtasks.length) {
+          setState(() {
+            _currentSubtask++;
+            _selectedOption = -1;
+          });
+        } else {
+          showAnimatedDialog(
+            context: context,
+            animationType: DialogTransitionType.fadeScale,
+            builder: (context) => ClassicGeneralDialogWidget(
+              titleText: 'Task Complete!',
+              contentText: 'You have attempted all the questions in this task.',
+              onNegativeClick: null,
+              positiveText: 'OK',
+              onPositiveClick: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          );
+        }
+      },
       exercise: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -42,11 +83,11 @@ class _FindErrorViewState extends State<FindErrorView> {
           ),
         ),
       ),
-      onCheck: _onCheck,
     );
   }
 
   RichText _buildQuestion() {
+    String _question = widget.subtasks.elementAt(_currentSubtask).question;
     RegExp regExp = RegExp("<b>");
     final matches = regExp.allMatches(_question);
     print(matches);
@@ -89,6 +130,7 @@ class _FindErrorViewState extends State<FindErrorView> {
   }
 
   ListView _buildOptions() {
+    List<String> _options = widget.subtasks.elementAt(_currentSubtask).options;
     return ListView.separated(
       shrinkWrap: true,
       itemCount: _options.length,
@@ -126,10 +168,5 @@ class _FindErrorViewState extends State<FindErrorView> {
         );
       },
     );
-  }
-
-  bool _onCheck() {
-    if (_selectedOption == -1) return false;
-    return _options[_selectedOption].compareTo(_correctOption) == 0;
   }
 }

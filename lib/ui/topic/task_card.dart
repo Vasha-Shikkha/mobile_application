@@ -1,5 +1,6 @@
 import 'package:Vasha_Shikkha/data/models/task.dart';
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/fill_in_the_blanks_view.dart';
+import 'package:Vasha_Shikkha/ui/find_error/find_error_view.dart';
 import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
 import 'package:Vasha_Shikkha/ui/mcq/multiple_choice_view.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,11 @@ class TaskCard extends StatelessWidget {
         break;
       case MultipleChoiceView.route:
         return MultipleChoiceView(
+          subtasks: subtasks,
+        );
+        break;
+      case FindErrorView.route:
+        return FindErrorView(
           subtasks: subtasks,
         );
         break;

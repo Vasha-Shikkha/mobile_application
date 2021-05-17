@@ -1,11 +1,14 @@
+import 'package:Vasha_Shikkha/data/controllers/error.dart';
 import 'package:Vasha_Shikkha/data/controllers/fb.dart';
 import 'package:Vasha_Shikkha/data/controllers/js.dart';
 import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
 import 'package:Vasha_Shikkha/data/db/token.dart';
+import 'package:Vasha_Shikkha/data/models/error.dart';
 import 'package:Vasha_Shikkha/data/models/fb.dart';
 import 'package:Vasha_Shikkha/data/models/js.dart';
 import 'package:Vasha_Shikkha/data/models/mcq.dart';
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/fill_in_the_blanks_view.dart';
+import 'package:Vasha_Shikkha/ui/find_error/find_error_view.dart';
 import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
 import 'package:Vasha_Shikkha/ui/mcq/multiple_choice_view.dart';
 import 'package:flutter/material.dart';
@@ -79,17 +82,28 @@ class _TaskListScreenState extends State<TaskListScreen> {
       //   });
       // }
       // print('js done');
-      List<MCQ> mcqList = await MCQController()
-          .getMCQList(token, widget.topicId, widget.level, 20, 0);
-      print(mcqList);
-      if (mcqList.isNotEmpty) {
+      // List<MCQ> mcqList = await MCQController()
+      //     .getMCQList(token, widget.topicId, widget.level, 20, 0);
+      // print(mcqList);
+      // if (mcqList.isNotEmpty) {
+      //   tasks.add({
+      //     'name': 'Multiple Choice Question',
+      //     'subtasks': mcqList,
+      //     'route': MultipleChoiceView.route,
+      //   });
+      // }
+      // print('mcq done');
+      List<Error> errorList = await ErrorController()
+          .getErrorList(token, widget.topicId, widget.level, 20, 0);
+      print(errorList);
+      if (errorList.isNotEmpty) {
         tasks.add({
-          'name': 'Multiple Choice Question',
-          'subtasks': mcqList,
-          'route': MultipleChoiceView.route,
+          'name': 'Finding Error',
+          'subtasks': errorList,
+          'route': FindErrorView.route,
         });
       }
-      print('mcq done');
+      print('error done');
     } catch (e) {
       print('found error');
       print(e);

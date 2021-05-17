@@ -289,13 +289,14 @@ class _LoginFormState extends State<LoginForm> {
     jsList.jsList[0].debugMessage();
     */
 
-    //List<JS> jsList2=await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
-    //jsList2[0].debugMessage();
-    /*
-    List<MCQ> mcqList2= await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
+    List<JS> jsList2 =
+        await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
+    jsList2[0].debugMessage();
+
+    List<MCQ> mcqList2 =
+        await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
     print(mcqList2.length);
     mcqList2[0].debugMessage();
-    */
 
     List<Error> errorList2 =
         await errorController.getErrorList(tokenEntry.token, 25, 6, 20, 0);
