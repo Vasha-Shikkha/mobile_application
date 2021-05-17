@@ -1,4 +1,3 @@
-import 'package:Vasha_Shikkha/style/colors.dart';
 import 'package:Vasha_Shikkha/style/tab_indication_painter.dart';
 import 'package:Vasha_Shikkha/ui/login/login_form.dart';
 import 'package:flutter/material.dart';
@@ -139,10 +138,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  Widget _buildSignUp(BuildContext context) {
-    return Text('sign up');
   }
 
   void _onSignInButtonPress() {

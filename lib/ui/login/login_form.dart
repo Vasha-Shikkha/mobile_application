@@ -1,24 +1,14 @@
 //import 'package:Vasha_Shikkha/data/moor_database.dart';
 //import 'package:Vasha_Shikkha/data/rest/login.dart';
-import 'package:Vasha_Shikkha/data/controllers/fb.dart';
-import 'package:Vasha_Shikkha/data/controllers/js.dart';
-import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
+// import 'package:Vasha_Shikkha/data/controllers/fb.dart';
+// import 'package:Vasha_Shikkha/data/controllers/js.dart';
+// import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
 import 'package:Vasha_Shikkha/style/colors.dart';
 import 'package:Vasha_Shikkha/ui/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../data/rest/fb.dart';
-import '../../data/models/fb.dart';
-
-import '../../data/rest/js.dart';
-import '../../data/models/js.dart';
-
-import '../../data/rest/mcq.dart';
-import '../../data/models/mcq.dart';
-
-import '../../data/models/token.dart';
 import '../../data/controllers/login.dart';
 
 class LoginForm extends StatefulWidget {
