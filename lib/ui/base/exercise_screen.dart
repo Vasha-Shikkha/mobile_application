@@ -9,6 +9,7 @@ class ExerciseScreen extends StatefulWidget {
   final Widget exercise;
   final Function onCheck;
   final Function onContinue;
+  final Function onExplain;
 
   ExerciseScreen({
     Key key,
@@ -18,6 +19,7 @@ class ExerciseScreen extends StatefulWidget {
     @required this.onContinue,
     @required this.subtaskCount,
     @required this.initialSubtask,
+    @required this.onExplain,
   }) : super(key: key);
 
   @override
@@ -230,6 +232,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
       );
     } else {
       return IncorrectDialog(
+        onExplain: widget.onExplain,
         onContinue: () {
           widget.onContinue();
           setState(() {

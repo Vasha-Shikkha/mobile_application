@@ -1,4 +1,5 @@
 import 'package:Vasha_Shikkha/data/models/error.dart';
+import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
@@ -13,7 +14,7 @@ class FindErrorView extends StatefulWidget {
   _FindErrorViewState createState() => _FindErrorViewState();
 }
 
-class _FindErrorViewState extends State<FindErrorView> {
+class _FindErrorViewState extends State<FindErrorView> with ExerciseMixin {
   int _currentSubtask;
   int _selectedOption;
 
@@ -60,6 +61,10 @@ class _FindErrorViewState extends State<FindErrorView> {
           );
         }
       },
+      onExplain: () => onExplain(
+        context,
+        widget.subtasks.elementAt(_currentSubtask).explanation,
+      ),
       exercise: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

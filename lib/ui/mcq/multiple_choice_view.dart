@@ -1,4 +1,5 @@
 import 'package:Vasha_Shikkha/data/models/mcq.dart';
+import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
@@ -14,7 +15,8 @@ class MultipleChoiceView extends StatefulWidget {
   _MultipleChoiceViewState createState() => _MultipleChoiceViewState();
 }
 
-class _MultipleChoiceViewState extends State<MultipleChoiceView> {
+class _MultipleChoiceViewState extends State<MultipleChoiceView>
+    with ExerciseMixin {
   int _currentSubtask;
   int _selectedOption;
 
@@ -61,6 +63,10 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView> {
           );
         }
       },
+      onExplain: () => onExplain(
+        context,
+        widget.subtasks.elementAt(_currentSubtask).explanation,
+      ),
       exercise: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

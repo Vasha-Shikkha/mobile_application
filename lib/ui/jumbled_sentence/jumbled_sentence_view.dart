@@ -1,4 +1,5 @@
 import 'package:Vasha_Shikkha/data/models/js.dart';
+import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/widgets/drag_target_blank.dart';
@@ -16,7 +17,8 @@ class JumbledSentenceView extends StatefulWidget {
   _JumbledSentenceViewState createState() => _JumbledSentenceViewState();
 }
 
-class _JumbledSentenceViewState extends State<JumbledSentenceView> {
+class _JumbledSentenceViewState extends State<JumbledSentenceView>
+    with ExerciseMixin {
   int _currentSubtask;
   Map<int, String> _blankData;
 
@@ -75,6 +77,10 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView> {
           );
         }
       },
+      onExplain: () => onExplain(
+        context,
+        widget.subtasks.elementAt(_currentSubtask).explanation,
+      ),
       exercise: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -173,7 +173,11 @@ class _TopicScreenState extends State<TopicScreen>
   Widget _buildSubtopicGrid(int level) {
     return GridView.count(
       childAspectRatio: 0.75,
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
+      padding: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        bottom: 160,
+      ),
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       crossAxisCount: 3,

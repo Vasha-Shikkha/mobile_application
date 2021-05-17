@@ -53,7 +53,6 @@ class CorrectDialog extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                         ),
-                        Text("Some sort of explanation"),
                       ],
                     ),
                   ],

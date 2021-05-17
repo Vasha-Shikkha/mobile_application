@@ -1,4 +1,5 @@
 import 'package:Vasha_Shikkha/data/models/fb.dart';
+import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:Vasha_Shikkha/ui/base/task_complete.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
@@ -17,7 +18,8 @@ class FillInTheBlanksView extends StatefulWidget {
   _FillInTheBlanksViewState createState() => _FillInTheBlanksViewState();
 }
 
-class _FillInTheBlanksViewState extends State<FillInTheBlanksView> {
+class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
+    with ExerciseMixin {
   int _currentSubtask;
   ScrollController _scrollController;
   Map<int, String> _blankData;
@@ -130,6 +132,10 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView> {
           );
         }
       },
+      onExplain: () => onExplain(
+        context,
+        widget.subtasks.elementAt(_currentSubtask).explanation.join('\n'),
+      ),
       exercise: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
