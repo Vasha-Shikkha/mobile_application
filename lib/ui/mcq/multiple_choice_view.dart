@@ -16,14 +16,14 @@ class MultipleChoiceView extends StatefulWidget {
 
 class _MultipleChoiceViewState extends State<MultipleChoiceView> {
   int _currentSubtask;
+  int _selectedOption;
 
   @override
   void initState() {
     super.initState();
     _currentSubtask = 0;
+    _selectedOption = -1;
   }
-
-  int _selectedOption = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +42,7 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView> {
         if (_currentSubtask + 1 < widget.subtasks.length) {
           setState(() {
             _currentSubtask++;
+            _selectedOption = -1;
           });
         } else {
           showAnimatedDialog(

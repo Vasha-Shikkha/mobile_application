@@ -61,32 +61,37 @@ class _TaskListScreenState extends State<TaskListScreen> {
       String token = t.token;
       List<FB> fbList = await FBController()
           .getFBList(token, widget.topicId, widget.level, 20, 0);
-      if (fbList.length > 0) {
+      if (fbList != null && fbList.isNotEmpty) {
         tasks.add({
           'name': 'Fill In The Blanks',
           'subtasks': fbList,
           'route': FillInTheBlanksView.route,
         });
       }
-      List<JS> jsList = await JSController()
-          .getJSList(token, widget.topicId, widget.level, 20, 0);
-      if (jsList.length > 0) {
-        tasks.add({
-          'name': 'Jumbled Sentence',
-          'subtasks': jsList,
-          'route': JumbledSentenceView.route,
-        });
-      }
+      print('fb done');
+      // List<JS> jsList = await JSController()
+      //     .getJSList(token, widget.topicId, widget.level, 20, 0);
+      // if (jsList != null && jsList.isNotEmpty) {
+      //   tasks.add({
+      //     'name': 'Jumbled Sentence',
+      //     'subtasks': jsList,
+      //     'route': JumbledSentenceView.route,
+      //   });
+      // }
+      // print('js done');
       List<MCQ> mcqList = await MCQController()
           .getMCQList(token, widget.topicId, widget.level, 20, 0);
-      if (mcqList.length > 0) {
+      print(mcqList);
+      if (mcqList.isNotEmpty) {
         tasks.add({
           'name': 'Multiple Choice Question',
           'subtasks': mcqList,
           'route': MultipleChoiceView.route,
         });
       }
+      print('mcq done');
     } catch (e) {
+      print('found error');
       print(e);
     } finally {
       setState(() {

@@ -1,6 +1,7 @@
 import 'package:Vasha_Shikkha/data/models/task.dart';
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/fill_in_the_blanks_view.dart';
 import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
+import 'package:Vasha_Shikkha/ui/mcq/multiple_choice_view.dart';
 import 'package:flutter/material.dart';
 
 class TaskCard extends StatelessWidget {
@@ -26,6 +27,11 @@ class TaskCard extends StatelessWidget {
         break;
       case JumbledSentenceView.route:
         return JumbledSentenceView(
+          subtasks: subtasks,
+        );
+        break;
+      case MultipleChoiceView.route:
+        return MultipleChoiceView(
           subtasks: subtasks,
         );
         break;

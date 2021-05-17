@@ -3,11 +3,15 @@
 // import 'package:Vasha_Shikkha/data/controllers/fb.dart';
 // import 'package:Vasha_Shikkha/data/controllers/js.dart';
 // import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
+import 'package:Vasha_Shikkha/data/controllers/fb.dart';
 import 'package:Vasha_Shikkha/data/controllers/js.dart';
 import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
+import 'package:Vasha_Shikkha/data/controllers/topic.dart';
+import 'package:Vasha_Shikkha/data/models/fb.dart';
 import 'package:Vasha_Shikkha/data/models/js.dart';
 import 'package:Vasha_Shikkha/data/models/mcq.dart';
 import 'package:Vasha_Shikkha/data/models/token.dart';
+import 'package:Vasha_Shikkha/data/models/topic.dart';
 import 'package:Vasha_Shikkha/style/colors.dart';
 import 'package:Vasha_Shikkha/ui/home/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -241,9 +245,9 @@ class _LoginFormState extends State<LoginForm> {
     Token tokenEntry = await _loginController.login(_phone, _password);
 
     // LoginController loginController = new LoginController();
-    // TopicController topicController = new TopicController();
+    TopicController topicController = new TopicController();
 
-    // FBController fbController=new FBController();
+    FBController fbController = new FBController();
     JSController jsController = new JSController();
     MCQController mcqController = new MCQController();
 
@@ -252,20 +256,21 @@ class _LoginFormState extends State<LoginForm> {
     // print(tokenEntry.token);
     // print("Hello");
 
-    // List<Topic> topicList =
-    //     await topicController.getTopicList(tokenEntry.token, 'grammar', 4);
+    List<Topic> topicList =
+        await topicController.getTopicList(tokenEntry.token, 'grammar', 4);
 
-    // for (Topic topic in topicList) {
-    //   topic.debugMessage();
-    // }
+    for (Topic topic in topicList) {
+      topic.debugMessage();
+    }
 
     /*
     FBList fbList = await FBRest().getFBList(tokenEntry.token,6,4,5,0);
     fbList.fbs[0].debugMessage();
     */
 
-    //List<FB>fbList2= await fbController.getFBList(tokenEntry.token, 6, 4, 5, 0);
-    //fbList2[0].debugMessage();
+    List<FB> fbList2 =
+        await fbController.getFBList(tokenEntry.token, 6, 4, 5, 0);
+    fbList2[0].debugMessage();
 
     /*
     JSList jsList=await JSRest().getJSList(tokenEntry.token, 24, 3, 20, 0);
@@ -273,16 +278,13 @@ class _LoginFormState extends State<LoginForm> {
     jsList.jsList[0].debugMessage();
     */
 
-    // List<JS> jsList2 =
-    //     await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
-    // jsList2[0].debugMessage();
-    // List<MCQ> mcqList2 =
-    //     await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
-    // print('mcq');
-    // print(mcqList2.length);
-    // // mcqList2[0].debugMessage();
-    // print('mcq');
-    //final tokenEntry = await RestApi().login(_phone, _password);
-    //_dbProvider.addToken(token: tokenEntry['token']);
+    List<JS> jsList2 =
+        await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
+    jsList2[0].debugMessage();
+    List<MCQ> mcqList2 =
+        await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
+
+    print(mcqList2.length);
+    mcqList2[0].debugMessage();
   }
 }

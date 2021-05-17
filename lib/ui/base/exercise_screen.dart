@@ -24,23 +24,25 @@ class ExerciseScreen extends StatefulWidget {
   _ExerciseScreenState createState() => _ExerciseScreenState();
 }
 
-class _ExerciseScreenState extends State<ExerciseScreen> {
+class _ExerciseScreenState extends State<ExerciseScreen>
+    with SingleTickerProviderStateMixin {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _checkCalled = false;
   int _currentSubtask;
+
+  TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _currentSubtask = widget.initialSubtask;
+    _tabController = TabController(length: widget.subtaskCount, vsync: this);
   }
 
-  StepState _getStepState(int index) {
-    if (index < _currentSubtask) {
-      return StepState.complete;
-    } else {
-      return StepState.indexed;
-    }
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -96,29 +98,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       ),
       body: Column(
         children: [
-          SizedBox(
-            height: 80,
-            child: Theme(
-              data: ThemeData(
-                primarySwatch: Colors.purple,
-                canvasColor: Colors.white,
-                shadowColor: Colors.transparent,
-              ),
-              child: Stepper(
-                physics: ScrollPhysics(),
-                type: StepperType.horizontal,
-                currentStep: _currentSubtask,
-                steps: List<Step>.generate(
-                  widget.subtaskCount,
-                  (index) => Step(
-                    title: Container(),
-                    content: Container(),
-                    state: _getStepState(index),
-                    isActive: index <= _currentSubtask,
-                  ),
-                ),
-              ),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, bottom: 16, top: 8),
+            child: _buildTaskSteps(),
           ),
           widget.exercise,
         ],
@@ -126,6 +108,43 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       bottomSheet: _checkCalled
           ? _buildCheckResult()
           : _buildPersistentBottomSheet(context),
+    );
+  }
+
+  Widget _buildTaskSteps() {
+    return TabBar(
+      isScrollable: true,
+      labelPadding: EdgeInsets.zero,
+      controller: _tabController,
+      indicatorColor: Colors.transparent,
+      onTap: (index) {},
+      tabs: List.generate(
+        widget.subtaskCount,
+        (index) => Container(
+          width: 20,
+          height: 20,
+          margin: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: index <= _currentSubtask ? Colors.purple : Colors.grey,
+          ),
+          child: Center(
+            child: index < _currentSubtask
+                ? Icon(
+                    Icons.check,
+                    size: 16,
+                  )
+                : Text(
+                    '${index + 1}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                  ),
+          ),
+        ),
+      ).toList(),
     );
   }
 
@@ -202,7 +221,10 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           widget.onContinue();
           setState(() {
             _checkCalled = false;
-            if (_currentSubtask + 1 < widget.subtaskCount) _currentSubtask++;
+            if (_currentSubtask + 1 < widget.subtaskCount) {
+              _currentSubtask++;
+              _tabController.animateTo(_currentSubtask);
+            }
           });
         },
       );
@@ -212,7 +234,10 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           widget.onContinue();
           setState(() {
             _checkCalled = false;
-            if (_currentSubtask + 1 < widget.subtaskCount) _currentSubtask++;
+            if (_currentSubtask + 1 < widget.subtaskCount) {
+              _currentSubtask++;
+              _tabController.animateTo(_currentSubtask);
+            }
           });
         },
       );
