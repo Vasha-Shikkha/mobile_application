@@ -30,7 +30,9 @@ class MCQController {
 
     if (count == 0) {
       mcqList = await mcqRest.getMCQList(token, topicId, level, limit, offset);
-      mcqList.mcqList[0].debugMessage();
+      if (mcqList.mcqList.isNotEmpty) {
+        mcqList.mcqList[0].debugMessage();
+      }
       _insertMCQList(mcqList);
     }
 

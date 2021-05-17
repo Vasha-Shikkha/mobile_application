@@ -254,34 +254,34 @@ class _LoginFormState extends State<LoginForm> {
     Token tokenEntry = await _loginController.login(_phone, _password);
 
     // LoginController loginController = new LoginController();
-    TopicController topicController = new TopicController();
+    // TopicController topicController = new TopicController();
 
-    FBController fbController = new FBController();
-    JSController jsController = new JSController();
-    MCQController mcqController = new MCQController();
+    // FBController fbController = new FBController();
+    // JSController jsController = new JSController();
+    // MCQController mcqController = new MCQController();
 
-    ErrorController errorController = new ErrorController();
+    // ErrorController errorController = new ErrorController();
 
     //print(tokenEntry.token);
-    print(tokenEntry.token);
+    // print(tokenEntry.token);
     // print(tokenEntry.token);
     // print("Hello");
 
-    List<Topic> topicList =
-        await topicController.getTopicList(tokenEntry.token, 'grammar', 4);
+    // List<Topic> topicList =
+    //     await topicController.getTopicList(tokenEntry.token, 'grammar', 4);
 
-    for (Topic topic in topicList) {
-      topic.debugMessage();
-    }
+    // for (Topic topic in topicList) {
+    //   topic.debugMessage();
+    // }
 
     /*
     FBList fbList = await FBRest().getFBList(tokenEntry.token,6,4,5,0);
     fbList.fbs[0].debugMessage();
     */
 
-    List<FB> fbList2 =
-        await fbController.getFBList(tokenEntry.token, 6, 4, 5, 0);
-    fbList2[0].debugMessage();
+    // List<FB> fbList2 =
+    //     await fbController.getFBList(tokenEntry.token, 6, 4, 5, 0);
+    // fbList2[0].debugMessage();
 
     /*
     JSList jsList=await JSRest().getJSList(tokenEntry.token, 24, 3, 20, 0);
@@ -289,19 +289,20 @@ class _LoginFormState extends State<LoginForm> {
     jsList.jsList[0].debugMessage();
     */
 
-    List<JS> jsList2 =
-        await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
-    jsList2[0].debugMessage();
+    // List<JS> jsList2 =
+    //     await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
+    // jsList2[0].debugMessage();
 
-    List<MCQ> mcqList2 =
-        await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
-    print(mcqList2.length);
-    mcqList2[0].debugMessage();
+    // List<MCQ> mcqList2 =
+    //     await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
+    // print(mcqList2.length);
+    // mcqList2[0].debugMessage();
 
-    List<Error> errorList2 =
-        await errorController.getErrorList(tokenEntry.token, 25, 6, 20, 0);
-    print(errorList2.length);
-    errorList2[0].debugMessage();
+    // List<Error> errorList2 =
+    //     await errorController.getErrorList(tokenEntry.token, 25, 6, 20, 0);
+    // print(errorList2.length);
+    // errorList2[0].debugMessage();
+
     //final tokenEntry = await RestApi().login(_phone, _password);
     //_dbProvider.addToken(token: tokenEntry['token']);
   }

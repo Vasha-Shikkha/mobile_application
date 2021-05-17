@@ -64,7 +64,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
       String token = t.token;
       List<FB> fbList = await FBController()
           .getFBList(token, widget.topicId, widget.level, 20, 0);
-      if (fbList != null && fbList.isNotEmpty) {
+      if (fbList.isNotEmpty) {
         tasks.add({
           'name': 'Fill In The Blanks',
           'subtasks': fbList,
@@ -72,30 +72,31 @@ class _TaskListScreenState extends State<TaskListScreen> {
         });
       }
       print('fb done');
-      // List<JS> jsList = await JSController()
-      //     .getJSList(token, widget.topicId, widget.level, 20, 0);
-      // if (jsList != null && jsList.isNotEmpty) {
-      //   tasks.add({
-      //     'name': 'Jumbled Sentence',
-      //     'subtasks': jsList,
-      //     'route': JumbledSentenceView.route,
-      //   });
-      // }
-      // print('js done');
-      // List<MCQ> mcqList = await MCQController()
-      //     .getMCQList(token, widget.topicId, widget.level, 20, 0);
-      // print(mcqList);
-      // if (mcqList.isNotEmpty) {
-      //   tasks.add({
-      //     'name': 'Multiple Choice Question',
-      //     'subtasks': mcqList,
-      //     'route': MultipleChoiceView.route,
-      //   });
-      // }
-      // print('mcq done');
+
+      List<JS> jsList = await JSController()
+          .getJSList(token, widget.topicId, widget.level, 20, 0);
+      if (jsList.isNotEmpty) {
+        tasks.add({
+          'name': 'Jumbled Sentence',
+          'subtasks': jsList,
+          'route': JumbledSentenceView.route,
+        });
+      }
+      print('js done');
+
+      List<MCQ> mcqList = await MCQController()
+          .getMCQList(token, widget.topicId, widget.level, 20, 0);
+      if (mcqList.isNotEmpty) {
+        tasks.add({
+          'name': 'Multiple Choice Question',
+          'subtasks': mcqList,
+          'route': MultipleChoiceView.route,
+        });
+      }
+      print('mcq done');
+
       List<Error> errorList = await ErrorController()
           .getErrorList(token, widget.topicId, widget.level, 20, 0);
-      print(errorList);
       if (errorList.isNotEmpty) {
         tasks.add({
           'name': 'Finding Error',

@@ -30,7 +30,9 @@ class JSController {
 
     if (count == 0) {
       jsList = await jsRest.getJSList(token, topicId, level, limit, offset);
-      jsList.jsList[0].debugMessage();
+      if (jsList.jsList.isNotEmpty) {
+        jsList.jsList[0].debugMessage();
+      }
       _insertJSList(jsList);
     }
 
