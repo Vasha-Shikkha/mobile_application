@@ -20,6 +20,11 @@ import '../../data/models/mcq.dart';
 import '../../data/models/token.dart';
 import '../../data/controllers/login.dart';
 
+import '../../data/models/error.dart';
+import '../../data/rest/error.dart';
+import '../../data/controllers/error.dart';
+
+
 import '../../data/models/topic.dart';
 import '../../data/controllers/topic.dart';
 import '../../data/controllers/fb.dart';
@@ -342,7 +347,8 @@ class _LoginFormState extends State<LoginForm> {
     FBController fbController=new FBController();
     JSController jsController=new JSController();
     MCQController mcqController=new MCQController();
-    
+    ErrorController errorController = new ErrorController();
+
     Token tokenEntry = await loginController.login(_phone, _password);
     //print(tokenEntry.token);
     print(tokenEntry.token);
@@ -372,9 +378,15 @@ class _LoginFormState extends State<LoginForm> {
     
     //List<JS> jsList2=await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
     //jsList2[0].debugMessage();
+    /*
     List<MCQ> mcqList2= await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
     print(mcqList2.length);
     mcqList2[0].debugMessage();
+    */
+    
+    List<Error> errorList2= await errorController.getErrorList(tokenEntry.token, 25, 6, 20, 0);
+    print(errorList2.length);
+    errorList2[0].debugMessage();
     //final tokenEntry = await RestApi().login(_phone, _password);
     //_dbProvider.addToken(token: tokenEntry['token']);
   }
