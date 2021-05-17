@@ -1,9 +1,24 @@
+//import 'package:Vasha_Shikkha/data/moor_database.dart';
+//import 'package:Vasha_Shikkha/data/rest/login.dart';
+import 'package:Vasha_Shikkha/data/controllers/fb.dart';
+import 'package:Vasha_Shikkha/data/controllers/js.dart';
+import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
 import 'package:Vasha_Shikkha/style/colors.dart';
 import 'package:Vasha_Shikkha/ui/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../data/rest/fb.dart';
+import '../../data/models/fb.dart';
+
+import '../../data/rest/js.dart';
+import '../../data/models/js.dart';
+
+import '../../data/rest/mcq.dart';
+import '../../data/models/mcq.dart';
+
+import '../../data/models/token.dart';
 import '../../data/controllers/login.dart';
 
 class LoginForm extends StatefulWidget {
@@ -223,7 +238,7 @@ class _LoginFormState extends State<LoginForm> {
     ));
   }
 
-  Future<void> _login() {
+  Future<void> _login() async {
     String _phone = loginPhoneController.text;
     String _password = loginPasswordController.text;
     print(_phone + " pass :" + _password + "\n-----");
@@ -232,9 +247,11 @@ class _LoginFormState extends State<LoginForm> {
     // LoginController loginController = new LoginController();
     // TopicController topicController = new TopicController();
 
-    // FBController fbController = new FBController();
-    // JSController jsController = new JSController();
-    // Token tokenEntry = await loginController.login(_phone, _password);
+    // FBController fbController=new FBController();
+    // JSController jsController=new JSController();
+    // MCQController mcqController=new MCQController();
+
+    // Token tokenEntry = await _loginController.login(_phone, _password);
     //print(tokenEntry.token);
     // print(tokenEntry.token);
     // print("Hello");
@@ -260,10 +277,11 @@ class _LoginFormState extends State<LoginForm> {
     jsList.jsList[0].debugMessage();
     */
 
-    // List<JS> jsList2 =
-    //     await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
-    // jsList2[0].debugMessage();
-
+    //List<JS> jsList2=await jsController.getJSList(tokenEntry.token, 24, 3, 20, 0);
+    //jsList2[0].debugMessage();
+    // List<MCQ> mcqList2= await mcqController.getMCQList(tokenEntry.token, 4, 4, 20, 0);
+    // print(mcqList2.length);
+    // mcqList2[0].debugMessage();
     //final tokenEntry = await RestApi().login(_phone, _password);
     //_dbProvider.addToken(token: tokenEntry['token']);
   }

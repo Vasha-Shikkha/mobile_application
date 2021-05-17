@@ -54,13 +54,16 @@ class JSDatabaseHelper{
                                                                       whereArgs:[taskId]
                                                                       );
 
+      for(Map<String,dynamic>questionDetail in questionDetails)
+        results.add(new JS.fromDatabase(taskDetail, questionDetail));
+      /*
       Map<String,dynamic> questionDetail=questionDetails[0];
       
       print("Length of list: "+questionDetails.length.toString());
       taskIds.add(taskId);
       
       results.add(new JS.fromDatabase(taskDetail, questionDetail));
-    
+      */
     }
 
     return results;

@@ -109,6 +109,14 @@ class MainDatabaseHelper {
   String jsAnswer='Answer';
   String jsExplanation='Explanation';
 
+  //MCQ Table
+  String mcqTable='MCQ';
+  String mcqId='mcqId';
+  String mcqQuestion='Question';
+  String mcqOptions='Options';
+  String mcqAnswer='Answer';
+  String mcqExplanation='Explanation';
+
   void _createDb(Database db, int version) async {
 
     await db.execute(
@@ -205,6 +213,20 @@ class MainDatabaseHelper {
         $jsSentence TEXT,
         $jsAnswer TEXT,
         $jsExplanation TEXT,
+        FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
+      )
+      '''
+    );
+
+    await db.execute(
+      '''
+      CREATE TABLE $mcqTable(
+        $mcqId INTEGER PRIMARY KEY,
+        $mcqQuestion TEXT,
+        $mcqOptions TEXT,
+        $mcqAnswer TEXT,
+        $mcqExplanation TEXT,
+        $subtaskId INTEGER,
         FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
       )
       '''
