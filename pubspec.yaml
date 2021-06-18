@@ -61,20 +61,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/json/mock_mcq.json
-    - assets/img/login_logo.png
-    - assets/img/profile.jpg
-    - assets/img/icons/fav.png
-    - assets/img/icons/profile.png
-    - assets/img/icons/tasks.png
-    - assets/img/icons/home.png
-    - assets/img/bangladesh.jpg
-    - assets/img/welcome.svg
-    - assets/img/vocabulary.png
-    - assets/img/grammar.png
-    - assets/img/reading.png
-    - assets/img/places.png
-    - assets/img/birds.png
-    - assets/img/food.png
+    - assets/img/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

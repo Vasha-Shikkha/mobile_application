@@ -42,13 +42,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
     'assets/img/food.png',
   ];
 
-  //   Exercise(
-  //     name: 'Finding Error',
-  //     imageAsset: 'assets/img/places.png',
-  //     route: '/find-error',
-  //     progress: 81,
-  //   ),
-
   @override
   void initState() {
     super.initState();
