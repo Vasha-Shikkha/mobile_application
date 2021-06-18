@@ -1,5 +1,6 @@
 import 'package:Vasha_Shikkha/routes.dart';
 import 'package:Vasha_Shikkha/style/custom_theme.dart';
+import 'package:Vasha_Shikkha/ui/flashcard/flashcard.dart';
 import 'package:Vasha_Shikkha/ui/picture_to_word/picture_to_word_view.dart';
 import 'package:Vasha_Shikkha/ui/word_to_picture/word_to_picture_view.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: customThemeData,
       routes: routes,
       // initialRoute: '/login',
-      initialRoute: WordToPictureView.route,
+      initialRoute: Flashcard.route,
     );
   }
 }

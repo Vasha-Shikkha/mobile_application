@@ -52,6 +52,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
+        centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white12,
         leading: IconButton(
@@ -63,14 +64,12 @@ class _ExerciseScreenState extends State<ExerciseScreen>
             Navigator.of(context).pop();
           },
         ),
-        title: Center(
-          child: Text(
-            widget.exerciseName,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Colors.deepPurple,
-            ),
+        title: Text(
+          widget.exerciseName,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.deepPurple,
           ),
         ),
         actions: [
