@@ -29,32 +29,35 @@ class _DragTargetBlankState extends State<DragTargetBlank> {
     return DragTarget<Map<String, dynamic>>(
       builder: (BuildContext context, List<Map<String, dynamic>> candidateData,
           List rejectedData) {
-        return Container(
-          width: width,
-          height: 50,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: empty
-                ? Divider(
-                    color: Colors.black,
-                    thickness: 1,
-                    height: 1,
-                    indent: 2,
-                    endIndent: 2,
-                  )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      _buildPlacedOption(),
-                      Divider(
-                        color: Colors.black,
-                        thickness: 1,
-                        height: 1,
-                        indent: 2,
-                        endIndent: 2,
-                      ),
-                    ],
-                  ),
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: Container(
+            width: width,
+            height: 50,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: empty
+                  ? Divider(
+                      color: Colors.black,
+                      thickness: 1,
+                      height: 1,
+                      indent: 2,
+                      endIndent: 2,
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        _buildPlacedOption(),
+                        Divider(
+                          color: Colors.black,
+                          thickness: 1,
+                          height: 1,
+                          indent: 2,
+                          endIndent: 2,
+                        ),
+                      ],
+                    ),
+            ),
           ),
         );
       },
