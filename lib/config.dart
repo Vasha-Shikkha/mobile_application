@@ -6,3 +6,5 @@ const FB_URL = "http://10.0.2.2:4000/user/task/fill_in_the_blanks";
 const JS_URL = "http://10.0.2.2:4000/user/task/fix_jumbled_sentence";
 const MCQ_URL = "http://10.0.2.2:4000/user/task/mcq";
 const Error_URL = "http://10.0.2.2:4000/user/task/error_in_sentence";
+const PW_URL="http://10.0.2.2:4000/user/task/picture_to_word";
+const WP_URL="http://10.0.2.2:4000/user/task/word_to_picture";

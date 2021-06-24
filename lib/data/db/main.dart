@@ -126,8 +126,26 @@ class MainDatabaseHelper {
   String errorExplanation='Explanation';
   String isMCQ='isMCQ';
 
+  //WP Table
+  String wpTable='Word_to_Picture';
+  String wpId='wpId';
+  String wpQuestion='Question';
+  String wpImages='Images';
+  String wpAnswer='Answer';
+  String wpExplanation='Explanation';
+
+  //PW Table
+  String pwTable='Picture_to_Word';
+  String pwId='pwId';
+  String pwQuestion='Question';
+  String pwOptions='Options';
+  String pwImage='Image';
+  String pwAnswer='Answer';
+  String pwExplanation='Explanation';
+
   void _createDb(Database db, int version) async {
 
+    //Token Table
     await db.execute(
       
       '''
@@ -139,6 +157,7 @@ class MainDatabaseHelper {
       '''
     );
 
+    //Topic Table
     await db.execute(
       '''
       CREATE TABLE $topicTable(
@@ -150,6 +169,7 @@ class MainDatabaseHelper {
       '''
     );
 
+    //Count Table
     await db.execute(
       
       '''
@@ -163,6 +183,7 @@ class MainDatabaseHelper {
       '''
     );
 
+    //Topic Task
     await db.execute(
       '''
       CREATE TABLE $topicTaskTable(
@@ -177,6 +198,7 @@ class MainDatabaseHelper {
       '''
     );
 
+    //Subtask Table
     await db.execute(
       '''
       CREATE TABLE $subtaskTable(
@@ -187,6 +209,7 @@ class MainDatabaseHelper {
       '''
     );
 
+    //FB Table
     await db.execute(
       '''
       CREATE TABLE $fbTable(
@@ -201,6 +224,7 @@ class MainDatabaseHelper {
       '''
     );
 
+    //Jumbled Words Table
     await db.execute(
       '''
       CREATE TABLE $jwTable(
@@ -213,7 +237,8 @@ class MainDatabaseHelper {
       )
       '''
     );
-  
+
+    //Jumbled Sentence Table
     await db.execute(
       '''
       CREATE TABLE $jsTable(
@@ -227,6 +252,7 @@ class MainDatabaseHelper {
       '''
     );
 
+    //MCQ Table
     await db.execute(
       '''
       CREATE TABLE $mcqTable(
@@ -241,6 +267,7 @@ class MainDatabaseHelper {
       '''
     );
 
+    //Error in Sentence Table
     await db.execute(
       '''
       CREATE TABLE $errorTable(
@@ -255,6 +282,38 @@ class MainDatabaseHelper {
       )
       '''
     );
+
+    //Word to Picture Table
+    await db.execute(
+      '''
+      CREATE TABLE $wpTable(
+        $wpId INTEGER PRIMARY KEY,
+        $wpQuestion TEXT,
+        $wpImages TEXT,
+        $wpAnswer TEXT,
+        $wpExplanation TEXT,
+        $subtaskId INTEGER,
+        FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
+      )
+      '''
+    );
+
+    //Picture to Word Table
+    await db.execute(
+      '''
+      CREATE TABLE $pwTable(
+        $pwId INTEGER PRIMARY KEY,
+        $pwQuestion TEXT,
+        $pwImage TEXT,
+        $pwAnswer TEXT,
+        $pwOptions TEXT,
+        $pwExplanation TEXT,
+        $subtaskId INTEGER,
+        FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
+      )
+      '''
+    );
+  
   }
 
   void _configureDB(Database db) async {
