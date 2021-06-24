@@ -146,7 +146,7 @@ class WP extends SubTask{
   { 
     Map<String,dynamic>map= new Map();
     map['wpId']=id;
-    map['Images'] = downloadImages(images);
+    map['Images'] = images;
     map['Question']=question;
     map['Answer']=answer;
     map['Explanation']=explanation;
