@@ -106,7 +106,7 @@ class PW extends SubTask{
     
     return new PW(
       id : question['id'],
-      question : question['paragraph'],
+      question : question['question'],
       image : question['image'],
       options: question['options'],
       answer : question['answer'],

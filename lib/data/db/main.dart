@@ -143,6 +143,13 @@ class MainDatabaseHelper {
   String pwAnswer='Answer';
   String pwExplanation='Explanation';
 
+  //SM Table
+  String smTable='Sentence_Matching';
+  String smId='smId';
+  String smLeftPart='LeftPart';
+  String smRightPart='RightPart';
+  String smExplanation='Explanation';
+
   void _createDb(Database db, int version) async {
 
     //Token Table
@@ -313,7 +320,20 @@ class MainDatabaseHelper {
       )
       '''
     );
-  
+
+    //Sentence Matching
+    await db.execute(
+      '''
+      CREATE TABLE $smTable(
+        $smId INTEGER PRIMARY KEY,
+        $smLeftPart TEXT,
+        $smRightPart TEXT,
+        $smExplanation TEXT,
+        $subtaskId INTEGER,
+        FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
+      )
+      '''
+    );
   }
 
   void _configureDB(Database db) async {

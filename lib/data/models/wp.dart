@@ -101,7 +101,7 @@ class WP extends SubTask{
     
     return new WP(
       id : question['id'],
-      question : question['paragraph'],
+      question : question['question'],
       images : question['images'],
       answer : question['answer'],
       explanation: question['explanation'],
