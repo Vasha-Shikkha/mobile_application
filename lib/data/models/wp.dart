@@ -142,11 +142,25 @@ class WP extends SubTask{
     
   }
 
+  String concatenateElements(List<String>strings)
+  {
+    String result="";
+    for(String chunk in strings)
+      result=result+" "+chunk;
+    return result.trim();
+  }
+
+  List<String> tokenizeElements(String string)
+  {
+    List<String>tokens=string.split(" ");
+    return tokens;
+  }
+
   Map<String,dynamic>toWP()
   { 
     Map<String,dynamic>map= new Map();
     map['wpId']=id;
-    map['Images'] = images;
+    map['Images'] = concatenateElements(images);
     map['Question']=question;
     map['Answer']=answer;
     map['Explanation']=explanation;
@@ -157,12 +171,14 @@ class WP extends SubTask{
 
   factory WP.fromDatabase(Map<String,dynamic>taskDetails,Map<String,dynamic>questions)
   {   
+    List<String>tokens=questions['Images'].split(" ");
     
+
     return new WP(
       id : questions['wpId'],
       question : questions['Question'],
       answer : questions['Answer'],
-      images : questions['Images'],
+      images : tokens,
       explanation : questions['Explanation'],
       taskId : taskDetails['TopicTaskId'],
       subtaskId: questions['SubtaskId'],
@@ -174,10 +190,5 @@ class WP extends SubTask{
 
     );
   }
-
-  
-
-  
-
 
 }
