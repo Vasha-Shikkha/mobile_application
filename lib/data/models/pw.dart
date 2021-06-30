@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-
+import '../../config.dart';
 
 class PWList{
   List<PW> _pwList;
@@ -82,12 +82,15 @@ class PW extends SubTask{
     String taskName,
     String instruction,
     String instructionImage,
+    
     String question,
     String answer,
     String explanation,
     String image,
     List<String> options
   }): _id=id,
+      _question=question,
+      _answer=answer,
       _explanation=explanation,
       _image=image,
       _options = options,
@@ -104,32 +107,64 @@ class PW extends SubTask{
   factory PW.fromJson(Map<String,dynamic> taskDetail,Map<String,dynamic>question)
   {  
     
+    List<String>pwOptions=[];
+    if(question['options']!=null)
+    {
+      for(String option in question['options'])
+        pwOptions.add(option);
+    }
+
     return new PW(
-      id : question['id'],
+      // id : question['id'],
       question : question['question'],
       image : question['image'],
-      options: question['options'],
+      options: pwOptions,
       answer : question['answer'],
       explanation: question['explanation'],
-      taskId : taskDetail['id'],
+      taskId : taskDetail['task_id'],
       topicId: taskDetail['topic_id'],
-      subtaskId: question['subTask_id'],
+      subtaskId: question['subTaskId'],
       level: taskDetail['level'],
       taskName: taskDetail['name'],
-      instruction: taskDetail['instruction'],
-      instructionImage: taskDetail['instructionImage']
+      instruction: taskDetail['instruction'] == null ? "": taskDetail['instruction'],
+      instructionImage: taskDetail['instructionImage'] == null ? "": taskDetail['instructionImage'],
+      
+      // shId : taskDetail['sh_id'],
+      // shTaskId : taskDetail['sh_task_id'],
+      // userId : taskDetail['user_id'],
+      // solvedStatus : taskDetail['solved_status'],
+      // attempted : taskDetail['attempted'],
+      // deleted : taskDetail['deleted'],
 
     );
   }
 
-  Future<String>downloadImage(String url)async
+  Future<String> downloadImage(String image)async
   {
     Dio dio= Dio(); 
     Directory directory = await getApplicationDocumentsDirectory();
-    String savePath="pw_"+id.toString()+"_image";
-    var res= await dio.download(url, savePath);
+    
+    String savePath="";
+    String url="";
+
+    if(image.contains(IMG_BASE)==true)
+    {
+      url = image;
+      savePath= image.replaceAll(IMG_BASE, '');
+    }
+    else{
+      url = IMG_BASE + image;
+      savePath = image;
+    }
+    String finalPath = join(directory.path,savePath);
+    // print(url);
+    // print(savePath);
+    // String savePath="pw_"+id.toString()+"_image";
+    print(finalPath);
+    var res= await dio.download(url, finalPath);
+    
     if(res.statusCode == 200)
-      return savePath;
+      return finalPath;
     
   }
 
@@ -149,7 +184,8 @@ class PW extends SubTask{
   Map<String,dynamic>toPW()
   { 
     Map<String,dynamic>map= new Map();
-    map['pwId']=id;
+    if(id!=null)
+      map['pwId']=id;
     map['Image'] = image;
     map['Question']=question;
     map['Options']=concatenateElements(options);
@@ -159,6 +195,22 @@ class PW extends SubTask{
   
     return map;
   }
+
+  void debugMessage()
+  {
+    print("Task_Id: "+taskId.toString());
+    print("Level: "+level.toString());
+    print("Taskname: "+taskName);
+    print("TopicId: "+topicId.toString());
+    print("SubtaskId: "+subtaskId.toString());
+    if(id!=null)
+      print("pwId: "+id.toString());
+    print("Question: "+question.toString());
+    print("Image: "+image.toString());
+    print("Answer: "+answer.toString());
+    print("Options: "+concatenateElements(options));
+  }
+
 
   factory PW.fromDatabase(Map<String,dynamic>taskDetails,Map<String,dynamic>questions)
   {   

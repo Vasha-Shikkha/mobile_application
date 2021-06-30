@@ -37,21 +37,21 @@ class SMList{
 
 class SM extends SubTask{
   int _id;
-  String _leftPart;
-  String _rightPart;
+  String _partOne;
+  String _partTwo;
   String _explanation;
   
   get id => this._id;
 
   set id( value) => this._id = value;
 
-  get leftPart => this._leftPart;
+  get partOne => this._partOne;
 
-  set leftPart( value) => this._leftPart= value;
+  set partOne( value) => this._partOne= value;
 
-  get rightPart => this._rightPart;
+  get partTwo => this._partTwo;
 
-  set rightPart( value) => this._rightPart = value;
+  set partTwo( value) => this._partTwo = value;
 
   get explanation => this._explanation;
 
@@ -66,12 +66,13 @@ class SM extends SubTask{
     String taskName,
     String instruction,
     String instructionImage,
-    String leftPart,
-    String rightPart,
+    String partOne,
+    String partTwo,
     String explanation,
   }): _id=id,
       _explanation=explanation,
-      _leftPart=leftPart,
+      _partOne=partOne,
+      _partTwo=partTwo,
       super(
         taskId: taskId,
         subtaskId: subtaskId,
@@ -89,17 +90,17 @@ class SM extends SubTask{
     //List<Map<String,dynamic> >questions 
     
     return new SM(
-      id : question['id'],
-      leftPart : question['left_part'],
-      rightPart : question['right_part'],
+      //id : question['id'],
+      partOne : question['part_one'],
+      partTwo : question['part_two'],
       explanation: question['explanation'],
-      taskId : taskDetail['id'],
+      taskId : taskDetail['task_id'],
       topicId: taskDetail['topic_id'],
-      subtaskId: question['subTask_id'],
+      subtaskId: question['subTaskId'],
       level: taskDetail['level'],
       taskName: taskDetail['name'],
-      instruction: taskDetail['instruction'],
-      instructionImage: taskDetail['instructionImage']
+      instruction: taskDetail['instruction'] == null ? "": taskDetail['instruction'],
+      instructionImage: taskDetail['instructionImage'] == null ? "": taskDetail['instructionImage']
 
     );
   }
@@ -107,13 +108,28 @@ class SM extends SubTask{
   Map<String,dynamic>toSM()
   { 
     Map<String,dynamic>map= new Map();
-    map['smId']=id;
-    map['LeftPart'] = leftPart;
-    map['RightPart']=rightPart;
+    if(id!=null)
+      map['smId']=id;
+    map['PartOne'] = partOne;
+    map['PartTwo']=partTwo;
     map['Explanation']=explanation;
     map['SubtaskId']=subtaskId;
   
     return map;
+  }
+
+  void debugMessage()
+  {
+    print("Task_Id: "+taskId.toString());
+    print("Level: "+level.toString());
+    print("Taskname: "+taskName);
+    print("TopicId: "+topicId.toString());
+    print("SubtaskId: "+subtaskId.toString());
+    if(id!=null)
+      print("smId: "+id.toString());
+    print("PartOne: "+partOne.toString());
+    print("PartTwo: "+partTwo.toString());
+    
   }
 
   factory SM.fromDatabase(Map<String,dynamic>taskDetails,Map<String,dynamic>questions)
@@ -121,8 +137,8 @@ class SM extends SubTask{
     
     return new SM(
       id : questions['smId'],
-      leftPart : questions['LeftPart'],
-      rightPart : questions['RightPart'],
+      partOne : questions['PartOne'],
+      partTwo : questions['PartTwo'],
       explanation : questions['Explanation'],
       taskId : taskDetails['TopicTaskId'],
       subtaskId: questions['SubtaskId'],

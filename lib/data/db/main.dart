@@ -146,8 +146,8 @@ class MainDatabaseHelper {
   //SM Table
   String smTable='Sentence_Matching';
   String smId='smId';
-  String smLeftPart='LeftPart';
-  String smRightPart='RightPart';
+  String smPartOne='PartOne';
+  String smPartTwo='PartTwo';
   String smExplanation='Explanation';
 
   void _createDb(Database db, int version) async {
@@ -309,7 +309,7 @@ class MainDatabaseHelper {
     await db.execute(
       '''
       CREATE TABLE $pwTable(
-        $pwId INTEGER PRIMARY KEY,
+        $pwId INTEGER PRIMARY KEY AUTOINCREMENT,
         $pwQuestion TEXT,
         $pwImage TEXT,
         $pwAnswer TEXT,
@@ -325,9 +325,9 @@ class MainDatabaseHelper {
     await db.execute(
       '''
       CREATE TABLE $smTable(
-        $smId INTEGER PRIMARY KEY,
-        $smLeftPart TEXT,
-        $smRightPart TEXT,
+        $smId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $smPartOne TEXT,
+        $smPartTwo TEXT,
         $smExplanation TEXT,
         $subtaskId INTEGER,
         FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)

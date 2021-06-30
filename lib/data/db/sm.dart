@@ -7,6 +7,8 @@ import '../models/sm.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'task.dart';
+import '../models/task.dart';
+
 
 class SMDatabaseHelper{
   SMDatabaseHelper._createInstance();
@@ -18,10 +20,10 @@ class SMDatabaseHelper{
   final TaskDatabaseHelper _taskDatabaseHelper = new TaskDatabaseHelper();
 
   //PW Table
-  String _smTable='Sentence Matching';
+  String _smTable='Sentence_Matching';
   String _smId='smId';
-  String _smLeftPart='Left_Part';
-  String _smRightPart='Right_Part';
+  String _smPartOne='PartOne';
+  String _smPartTwo='PartTwo';
   String _smExplanation='Explanation';
 
   
@@ -49,7 +51,7 @@ class SMDatabaseHelper{
                                                                       $subtaskTable INNER JOIN $_smTable ON
                                                                       $subtaskTable.$subtaskId = $_smTable.$subtaskId
                                                                       '''
-                                                                      ,columns: ['$subtaskTable.$subtaskId',_smId,_smLeftPart,_smExplanation,_smRightPart],
+                                                                      ,columns: ['$subtaskTable.$subtaskId',_smId,_smPartOne,_smExplanation,_smPartTwo],
                                                                       where:'$subtaskTable.$taskTableId=?',
                                                                       whereArgs:[taskId]
                                                                       );
@@ -61,6 +63,42 @@ class SMDatabaseHelper{
 
     return results;
 
+  }
+
+  Future<List<SM> >getSMs(int topicId,int level,TopicTask task,{int limit,int offset})async
+  {
+    var database= await _databaseHelper.database; 
+
+    Map<String,dynamic>taskDetail=task.toTask();
+
+    String taskTableId = _taskDatabaseHelper.taskTableId;
+    int taskId=taskDetail[taskTableId];
+    // print("Task :"+taskId.toString());
+
+    String subtaskTable=_taskDatabaseHelper.subtaskTable;
+    String subtaskId=_taskDatabaseHelper.subtaskId;
+
+    List<SM>results=[];
+
+    List<Map<String,dynamic> >questionDetails = await database.query('''
+                                                                      $subtaskTable INNER JOIN $_smTable ON
+                                                                      $subtaskTable.$subtaskId = $_smTable.$subtaskId
+                                                                      '''
+                                                                      ,columns: ['$subtaskTable.$subtaskId',_smId,_smExplanation,_smPartOne,_smPartTwo],
+                                                                      where:'$subtaskTable.$taskTableId=?',
+                                                                      whereArgs:[taskId]
+    );
+
+    print("Length :"+questionDetails.length.toString());
+
+    for(Map<String,dynamic>questionDetail in questionDetails)
+    {
+      SM sm = new SM.fromDatabase(taskDetail, questionDetail);
+      // pw.debugMessage();
+      results.add(sm);
+    }
+      // results.add(new PW.fromDatabase(taskDetail, questionDetail));
+    return results;
   }
 
   //insert topics
