@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: customThemeData,
       routes: routes,
       // initialRoute: '/login',
-      initialRoute: WordMatchingView.route,
+      initialRoute: WordToPictureView.route,
     );
   }
 }

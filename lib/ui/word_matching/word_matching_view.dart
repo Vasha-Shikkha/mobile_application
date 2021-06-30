@@ -76,6 +76,12 @@ class _WordMatchingViewState extends State<WordMatchingView>
         print(_blankData);
         return correct;
       },
+      onReset: () {
+        setState(() {
+          _blankData = {};
+          _buildBlanks();
+        });
+      },
       onContinue: () {
         if (_currentSubtask + 1 < widget.subtasks.length) {
           setState(() {

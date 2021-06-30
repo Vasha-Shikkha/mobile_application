@@ -8,6 +8,7 @@ class ExerciseScreen extends StatefulWidget {
   final int initialSubtask;
   final Widget exercise;
   final Function onCheck;
+  final Function onReset;
   final Function onContinue;
   final Function onExplain;
 
@@ -16,6 +17,7 @@ class ExerciseScreen extends StatefulWidget {
     @required this.exerciseName,
     @required this.exercise,
     @required this.onCheck,
+    @required this.onReset,
     @required this.onContinue,
     @required this.subtaskCount,
     @required this.initialSubtask,
@@ -158,6 +160,12 @@ class _ExerciseScreenState extends State<ExerciseScreen>
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
+              child: _buildResetButton(context),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
               child: _buildSkipButton(context),
             ),
           ),
@@ -246,12 +254,40 @@ class _ExerciseScreenState extends State<ExerciseScreen>
     }
   }
 
-  OutlinedButton _buildSkipButton(BuildContext context) {
+  OutlinedButton _buildResetButton(BuildContext context) {
     return OutlinedButton(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.white),
         foregroundColor:
             MaterialStateProperty.all(Theme.of(context).primaryColorDark),
+        elevation: MaterialStateProperty.all(5.0),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        side: MaterialStateProperty.all(
+          BorderSide(
+            color: Theme.of(context).primaryColorLight,
+            width: 0.5,
+          ),
+        ),
+        shadowColor:
+            MaterialStateProperty.all(Theme.of(context).primaryColorLight),
+      ),
+      child: Text('Reset'),
+      onPressed: () {
+        widget.onReset();
+      },
+    );
+  }
+
+  OutlinedButton _buildSkipButton(BuildContext context) {
+    return OutlinedButton(
+      style: ButtonStyle(
+        backgroundColor:
+            MaterialStateProperty.all(Theme.of(context).primaryColorLight),
+        foregroundColor: MaterialStateProperty.all(Colors.white),
         elevation: MaterialStateProperty.all(5.0),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
