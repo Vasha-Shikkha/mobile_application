@@ -1,42 +1,16 @@
-import 'package:Vasha_Shikkha/data/models/mcq.dart';
+import 'dart:io';
+import 'package:Vasha_Shikkha/data/models/pw.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
-class PTW {
-  int ptwId;
-  String question;
-  String imagePath;
-  List<String> options;
-  String answer;
-  String explanation;
-
-  PTW({
-    @required this.ptwId,
-    @required this.question,
-    @required this.imagePath,
-    @required this.options,
-    @required this.answer,
-    @required this.explanation,
-  });
-}
-
 class PictureToWordView extends StatefulWidget {
   static const String route = '/picture-to-word';
-  final List<PTW> subtasks = [
-    PTW(
-      ptwId: 1,
-      question: "Select the word that best matches the picture",
-      imagePath: "assets/img/doctor.png",
-      options: ["nurse", "teacher", "doctor", "police", "actor"],
-      answer: "doctor",
-      explanation: "",
-    ),
-  ];
-  // final List<MCQ> subtasks;
 
-  // const PictureToWordView({Key key, @required this.subtasks}) : super(key: key);
+  final List<PW> subtasks;
+
+  const PictureToWordView({Key key, @required this.subtasks}) : super(key: key);
 
   @override
   _PictureToWordViewState createState() => _PictureToWordViewState();
@@ -117,11 +91,20 @@ class _PictureToWordViewState extends State<PictureToWordView>
               SizedBox(
                 height: MediaQuery.of(context).size.height / 20,
               ),
-              Image.asset(
-                widget.subtasks.elementAt(_currentSubtask).imagePath,
+              Image.file(
+                File(
+                  widget.subtasks
+                      .elementAt(_currentSubtask)
+                      .image
+                      .toString()
+                      .substring(1),
+                ),
                 fit: BoxFit.fill,
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.3,
+              ),
+              SizedBox(
+                height: 16,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.3,

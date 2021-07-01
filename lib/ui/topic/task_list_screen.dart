@@ -2,15 +2,19 @@ import 'package:Vasha_Shikkha/data/controllers/error.dart';
 import 'package:Vasha_Shikkha/data/controllers/fb.dart';
 import 'package:Vasha_Shikkha/data/controllers/js.dart';
 import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
+import 'package:Vasha_Shikkha/data/controllers/task.dart';
 import 'package:Vasha_Shikkha/data/db/token.dart';
 import 'package:Vasha_Shikkha/data/models/error.dart';
 import 'package:Vasha_Shikkha/data/models/fb.dart';
 import 'package:Vasha_Shikkha/data/models/js.dart';
 import 'package:Vasha_Shikkha/data/models/mcq.dart';
+import 'package:Vasha_Shikkha/data/models/task.dart';
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/fill_in_the_blanks_view.dart';
 import 'package:Vasha_Shikkha/ui/find_error/find_error_view.dart';
 import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
 import 'package:Vasha_Shikkha/ui/mcq/multiple_choice_view.dart';
+import 'package:Vasha_Shikkha/ui/picture_to_word/picture_to_word_view.dart';
+import 'package:Vasha_Shikkha/ui/word_matching/word_matching_view.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/topic/task_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -55,49 +59,79 @@ class _TaskListScreenState extends State<TaskListScreen> {
     try {
       final t = await TokenDatabaseHelper().getToken();
       String token = t.token;
-      List<FB> fbList = await FBController()
-          .getFBList(token, widget.topicId, widget.level, 20, 0);
-      if (fbList.isNotEmpty) {
-        tasks.add({
-          'name': 'Fill In The Blanks',
-          'subtasks': fbList,
-          'route': FillInTheBlanksView.route,
-        });
-      }
-      print('fb done');
 
-      List<JS> jsList = await JSController()
-          .getJSList(token, widget.topicId, widget.level, 20, 0);
-      if (jsList.isNotEmpty) {
-        tasks.add({
-          'name': 'Jumbled Sentence',
-          'subtasks': jsList,
-          'route': JumbledSentenceView.route,
-        });
-      }
-      print('js done');
+      TaskController taskController = new TaskController();
 
-      List<MCQ> mcqList = await MCQController()
-          .getMCQList(token, widget.topicId, widget.level, 20, 0);
-      if (mcqList.isNotEmpty) {
-        tasks.add({
-          'name': 'Multiple Choice Question',
-          'subtasks': mcqList,
-          'route': MultipleChoiceView.route,
-        });
-      }
-      print('mcq done');
+      List<TaskList> list = await taskController.getTaskList(
+          token, widget.topicId, widget.level, 20, 0);
 
-      List<Error> errorList = await ErrorController()
-          .getErrorList(token, widget.topicId, widget.level, 20, 0);
-      if (errorList.isNotEmpty) {
-        tasks.add({
-          'name': 'Finding Error',
-          'subtasks': errorList,
-          'route': FindErrorView.route,
-        });
+      for (TaskList tl in list) {
+        final tn = tl.taskList[0].taskName;
+
+        switch (tn) {
+          case 'Picture to Word':
+            print('pw here');
+            tasks.add({
+              'name': 'Picture To Word',
+              'subtasks': tl.taskList,
+              'route': PictureToWordView.route,
+            });
+            break;
+          case 'Sentence Matching':
+            print('sm here');
+            tasks.add({
+              'name': 'Word Matching',
+              'subtasks': tl.taskList,
+              'route': WordMatchingView.route,
+            });
+            break;
+          default:
+        }
       }
-      print('error done');
+
+      //   List<FB> fbList = await FBController()
+      //       .getFBList(token, widget.topicId, widget.level, 20, 0);
+      //   if (fbList.isNotEmpty) {
+      //     tasks.add({
+      //       'name': 'Fill In The Blanks',
+      //       'subtasks': fbList,
+      //       'route': FillInTheBlanksView.route,
+      //     });
+      //   }
+      //   print('fb done');
+
+      //   List<JS> jsList = await JSController()
+      //       .getJSList(token, widget.topicId, widget.level, 20, 0);
+      //   if (jsList.isNotEmpty) {
+      //     tasks.add({
+      //       'name': 'Jumbled Sentence',
+      //       'subtasks': jsList,
+      //       'route': JumbledSentenceView.route,
+      //     });
+      //   }
+      //   print('js done');
+
+      //   List<MCQ> mcqList = await MCQController()
+      //       .getMCQList(token, widget.topicId, widget.level, 20, 0);
+      //   if (mcqList.isNotEmpty) {
+      //     tasks.add({
+      //       'name': 'Multiple Choice Question',
+      //       'subtasks': mcqList,
+      //       'route': MultipleChoiceView.route,
+      //     });
+      //   }
+      //   print('mcq done');
+
+      //   List<Error> errorList = await ErrorController()
+      //       .getErrorList(token, widget.topicId, widget.level, 20, 0);
+      //   if (errorList.isNotEmpty) {
+      //     tasks.add({
+      //       'name': 'Finding Error',
+      //       'subtasks': errorList,
+      //       'route': FindErrorView.route,
+      //     });
+      //   }
+      //   print('error done');
     } catch (e) {
       print('found error');
       print(e);

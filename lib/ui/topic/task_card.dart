@@ -3,6 +3,7 @@ import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/fill_in_the_blanks_view.dart
 import 'package:Vasha_Shikkha/ui/find_error/find_error_view.dart';
 import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
 import 'package:Vasha_Shikkha/ui/mcq/multiple_choice_view.dart';
+import 'package:Vasha_Shikkha/ui/picture_to_word/picture_to_word_view.dart';
 import 'package:flutter/material.dart';
 
 class TaskCard extends StatelessWidget {
@@ -41,6 +42,10 @@ class TaskCard extends StatelessWidget {
           subtasks: subtasks,
         );
         break;
+      case PictureToWordView.route:
+        return PictureToWordView(
+          subtasks: subtasks,
+        );
       default:
         return Container();
     }
