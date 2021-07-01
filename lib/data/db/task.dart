@@ -3,7 +3,7 @@ import 'dart:io' as io;
 
 import 'main.dart';
 import 'package:path/path.dart';
-import '../models/fb.dart';
+import '../models/task.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -82,6 +82,28 @@ class TaskDatabaseHelper{
     return taskDetails;
   }
 
+  Future<List<TopicTask> >getTasks(int topicId,int level,{int limit,int offset}) async{
+    var database = await _databaseHelper.database;
+
+    List<Map<String,dynamic> >tasks = await database.query(_topicTaskTable,
+      columns: [taskTableId,taskType,_topicId,taskInstruction,taskInstructionImage,_level],
+      where: '$_level = ? and $_topicId = ?',
+      whereArgs: [level,topicId],
+      orderBy: '$taskTableId ASC',
+      limit: limit,
+      offset: offset
+      );
+    
+    print("Hello World");
+
+    List<TopicTask>taskDetails=[];
+    for(Map<String,dynamic>element in tasks)
+      taskDetails.add(new TopicTask.fromDatabase(element));
+      
+    return taskDetails;
+  }
+
+
   Future<int>getCount(String taskName,int topicId)async{
     var database= await _databaseHelper.database;
     List<Map<String,dynamic>> x = await database.rawQuery('SELECT COUNT(*) FROM $topicTaskTable where $taskType = "$taskName" and $_topicId=$topicId');
@@ -90,9 +112,38 @@ class TaskDatabaseHelper{
     return result;
   }
 
+  Future<int>getCount2(int topicId,level,limit,offset)async
+  {
+    var database= await _databaseHelper.database;
+    int offsetNo= offset*10;
+    List<Map<String,dynamic> >x = await database.rawQuery('SELECT COUNT(*) FROM $topicTaskTable where $_topicId=$topicId LIMIT $limit OFFSET $offsetNo');
+    int result = Sqflite.firstIntValue(x);
+    return result;
+  }
+
+  Future<bool>entryExists(int taskId)async{
+    var database = await _databaseHelper.database;
+    List<Map<String,dynamic> > x = await database.rawQuery('SELECT COUNT(*) FROM $topicTaskTable where $_taskTableId=$taskId');
+    int count= Sqflite.firstIntValue(x);
+    if(count == 0)
+      return false;
+    else
+      return true;
+
+  }
+
   Future<int>insertTask(Map<String,dynamic>task) async
   {
     var database= await _databaseHelper.database;
+    // int taskId=task['TopicTaskId'];
+    // bool exists=await entryExists(taskId);
+    // if(exists==false)
+    // { 
+    //   print("Inserted");
+    //   return await database.insert(topicTaskTable,task);
+    // }
+    // else
+    //   return -1;
     return await database.insert(topicTaskTable,task,conflictAlgorithm: ConflictAlgorithm.replace);
   }
 

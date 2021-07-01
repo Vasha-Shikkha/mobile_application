@@ -12,22 +12,34 @@ import 'package:Vasha_Shikkha/data/models/js.dart';
 import 'package:Vasha_Shikkha/data/models/mcq.dart';
 import 'package:Vasha_Shikkha/data/models/token.dart';
 import 'package:Vasha_Shikkha/data/models/topic.dart';
+
 import 'package:Vasha_Shikkha/style/colors.dart';
 import 'package:Vasha_Shikkha/ui/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../data/controllers/login.dart';
 
 import '../../data/models/error.dart';
-
+import '../../data/models/sm.dart';
 import '../../data/controllers/error.dart';
 
 import '../../data/models/topic.dart';
 import '../../data/controllers/topic.dart';
 import '../../data/controllers/fb.dart';
 import '../../data/controllers/js.dart';
+import '../../data/models/pw.dart';
+import '../../data/models/task.dart';
+
+import '../../data/rest/task.dart';
+
+import '../../data/controllers/topic.dart';
+import '../../data/controllers/task.dart';
+
+import 'dart:async';
+
 
 class LoginForm extends StatefulWidget {
   final scaffoldKey;
@@ -248,10 +260,37 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Future<void> _login() async {
+  
     String _phone = loginPhoneController.text;
     String _password = loginPasswordController.text;
     print(_phone + " pass :" + _password + "\n-----");
+
     Token tokenEntry = await _loginController.login(_phone, _password);
+
+    TopicController topicController = new TopicController();
+    
+    List<Topic>getTopicList = await topicController.getTopicList(tokenEntry.token, 'grammar', 1);
+
+    TaskController taskController= new TaskController();
+
+    List<TaskList> list = await taskController.getTaskList(tokenEntry.token, 3, 2, 10, 0);
+
+    for(TopicTask element in list[0].taskList)
+    {
+      if(element.taskName == 'Picture to Word')
+      { 
+        print("We are in touching distance");
+        PW temp=element;
+        temp.debugMessage();
+        
+      }
+      if(element.taskName == 'Sentence Matching')
+      {
+        print("We are the champions, my friends");
+        SM temp=element;
+        temp.debugMessage();
+      }
+    }
 
     // LoginController loginController = new LoginController();
     // TopicController topicController = new TopicController();
