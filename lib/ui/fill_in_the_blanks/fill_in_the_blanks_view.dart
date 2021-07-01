@@ -23,6 +23,8 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
   int _currentSubtask;
   ScrollController _scrollController;
   Map<int, String> _blankData;
+  List<Widget> _sentenceWidgets;
+  List<DraggableOption> _optionWidgets;
 
   @override
   void initState() {
@@ -30,6 +32,10 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
     _currentSubtask = 0;
     _scrollController = ScrollController();
     _blankData = {};
+    _optionWidgets = [];
+    _buildOptions();
+    _sentenceWidgets = [];
+    _buildSentenceWidgets();
   }
 
   @override
@@ -38,13 +44,27 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
     super.dispose();
   }
 
-  void _updateBlankData(int serial, String text) {
-    _blankData[serial] = text;
+  void _updateBlankData(int blankSerial, int optionSerial, String text) {
+    final currentText = _optionWidgets[optionSerial].text;
+    final renderKey = _optionWidgets[optionSerial].renderKey;
+    _blankData[blankSerial] = text;
+    if (text == null) {
+      setState(() {
+        print("hello $currentText $text");
+        _optionWidgets[optionSerial] = DraggableOption(
+          text: currentText,
+          optionSerial: optionSerial,
+          renderKey: renderKey,
+        );
+        print(_blankData);
+      });
+    }
   }
 
-  List<Widget> _buildSentenceWidgets(String sentence) {
+  void _buildSentenceWidgets() {
+    String sentence = widget.subtasks.elementAt(_currentSubtask).paragraph;
     int blankCount = 0;
-    List<Widget> widgets = [];
+    _sentenceWidgets.clear();
     List<String> articles = ["a", "an", "the"];
     List<String> punctuation = [",", ".", ";", "?", "!", ":"];
 
@@ -67,12 +87,12 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
           serial: blankCount,
           updateBlankData: _updateBlankData,
         );
-        widgets.add(blank);
+        _sentenceWidgets.add(blank);
         _blankData[blankCount] = null;
         blankCount++;
       } else if (articles.contains(word.toLowerCase()) ||
           punctuation.contains(word)) {
-        widgets.add(Padding(
+        _sentenceWidgets.add(Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Text(
             '$word ',
@@ -80,7 +100,7 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
         ));
       } else {
         // TODO: show meaning
-        widgets.add(Padding(
+        _sentenceWidgets.add(Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Text(
             '$word ',
@@ -88,7 +108,6 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
         ));
       }
     });
-    return widgets;
   }
 
   @override
@@ -97,6 +116,13 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
       exerciseName: "Fill in the blanks",
       subtaskCount: widget.subtasks.length,
       initialSubtask: 0, // TODO: should be last attempted
+      onReset: () {
+        setState(() {
+          _blankData = {};
+          _buildOptions();
+          _buildSentenceWidgets();
+        });
+      },
       onCheck: () {
         bool correct = true;
         List<String> answers =
@@ -114,6 +140,8 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
           setState(() {
             _currentSubtask++;
             _blankData = {};
+            _buildOptions();
+            _buildSentenceWidgets();
           });
         } else {
           showAnimatedDialog(
@@ -151,7 +179,7 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
               // ),
               Wrap(
                 alignment: WrapAlignment.center,
-                children: _buildOptions(),
+                children: _optionWidgets,
               ),
               SizedBox(
                 height: 20,
@@ -172,9 +200,7 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
                         controller: _scrollController,
                         child: Wrap(
                           crossAxisAlignment: WrapCrossAlignment.end,
-                          children: _buildSentenceWidgets(widget.subtasks
-                              .elementAt(_currentSubtask)
-                              .paragraph),
+                          children: _sentenceWidgets,
                         ),
                       ),
                     ),
@@ -188,17 +214,19 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
     );
   }
 
-  List<DraggableOption> _buildOptions() {
+  void _buildOptions() {
     // TODO: options not reloading
     List<String> options = widget.subtasks.elementAt(_currentSubtask).options;
     options.shuffle();
-    return options
-        .map<DraggableOption>(
-          (option) => DraggableOption(
-            text: option,
-            renderKey: GlobalKey(),
-          ),
-        )
-        .toList();
+    _optionWidgets.clear();
+    for (int i = 0; i < options.length; i++) {
+      _optionWidgets.add(
+        DraggableOption(
+          text: options.elementAt(i),
+          optionSerial: i,
+          renderKey: GlobalKey(),
+        ),
+      );
+    }
   }
 }

@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
       title: 'Vasha Shikkha',
       theme: customThemeData,
       routes: routes,
-      // initialRoute: '/login',
-      initialRoute: WordToPictureView.route,
+      initialRoute: '/login',
+      // initialRoute: WordToPictureView.route,
     );
   }
 }

@@ -29,35 +29,33 @@ class _DragTargetBlankState extends State<DragTargetBlank> {
     return DragTarget<Map<String, dynamic>>(
       builder: (BuildContext context, List<Map<String, dynamic>> candidateData,
           List rejectedData) {
-        return Align(
+        return Container(
           alignment: Alignment.centerLeft,
-          child: Container(
-            width: width,
-            height: 50,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: empty
-                  ? Divider(
-                      color: Colors.black,
-                      thickness: 1,
-                      height: 1,
-                      indent: 2,
-                      endIndent: 2,
-                    )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        _buildPlacedOption(),
-                        Divider(
-                          color: Colors.black,
-                          thickness: 1,
-                          height: 1,
-                          indent: 2,
-                          endIndent: 2,
-                        ),
-                      ],
-                    ),
-            ),
+          width: width,
+          height: 50,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: empty
+                ? Divider(
+                    color: Colors.black,
+                    thickness: 1,
+                    height: 1,
+                    indent: 2,
+                    endIndent: 2,
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      _buildPlacedOption(),
+                      Divider(
+                        color: Colors.black,
+                        thickness: 1,
+                        height: 1,
+                        indent: 2,
+                        endIndent: 2,
+                      ),
+                    ],
+                  ),
           ),
         );
       },
@@ -71,42 +69,42 @@ class _DragTargetBlankState extends State<DragTargetBlank> {
           empty = false;
           final RenderBox renderBox =
               data['renderKey'].currentContext.findRenderObject();
-          width = renderBox.size.width;
-          widget.updateBlankData(widget.serial, placedData['text']);
+          width = renderBox.size.width + 24;
+          widget.updateBlankData(
+              widget.serial, data['optionSerial'], placedData['text']);
         });
       },
     );
   }
 
-  Draggable<Map<String, dynamic>> _buildPlacedOption() {
-    return Draggable<Map<String, dynamic>>(
-      data: {
-        'text': placedData['text'],
-        'renderKey': placedData['renderKey'],
-      },
-      child: Material(
-        color: Colors.transparent,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: GestureDetector(
-            onLongPress: () {
-              print('long press ${placedData['text']}');
-            },
-            child: Chip(
-              label: Text(placedData['text']),
-              labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
-              elevation: 10.0,
-              backgroundColor: Colors.white,
-            ),
-          ),
-        ),
-      ),
-      childWhenDragging: Container(),
-      feedback: Material(
-        color: Colors.transparent,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
+  Widget _buildPlacedOption() {
+    // return Draggable<Map<String, dynamic>>(
+    //   data: {
+    //     'text': placedData['text'],
+    //     'renderKey': placedData['renderKey'],
+    //   },
+    //   child:
+    return Material(
+      color: Colors.transparent,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: GestureDetector(
+          onLongPress: () {
+            print('long press ${placedData['text']}');
+            setState(() {});
+          },
           child: Chip(
+            deleteIconColor: Theme.of(context).accentColor,
+            onDeleted: () {
+              print('deleted ${placedData['text']}');
+              setState(() {
+                empty = true;
+                width = 80;
+                widget.updateBlankData(
+                    widget.serial, placedData['optionSerial'], null);
+                placedData = null;
+              });
+            },
             label: Text(placedData['text']),
             labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
             elevation: 10.0,
@@ -114,14 +112,30 @@ class _DragTargetBlankState extends State<DragTargetBlank> {
           ),
         ),
       ),
-      onDragCompleted: () {
-        setState(() {
-          empty = true;
-          width = 80;
-          placedData = null;
-          widget.updateBlankData(widget.serial, null);
-        });
-      },
     );
+    //   childWhenDragging: Container(),
+    //   feedback: Material(
+    //     color: Colors.transparent,
+    //     child: Padding(
+    //       padding: EdgeInsets.symmetric(horizontal: 10.0),
+    //       child: Chip(
+    //         label: Text(placedData['text']),
+    //         labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
+    //         elevation: 10.0,
+    //         backgroundColor: Colors.white,
+    //       ),
+    //     ),
+    //   ),
+    //   onDragCompleted: () {
+    //     setState(() {
+    //       empty = true;
+    //       width = 80;
+
+    //       widget.updateBlankData(
+    //           widget.serial, placedData['optionSerial'], null);
+    //       placedData = null;
+    //     });
+    // },
+    // );
   }
 }

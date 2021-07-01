@@ -54,6 +54,11 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
         print(_blankData);
         return correct;
       },
+      onReset: () {
+        setState(() {
+          _blankData = {};
+        });
+      },
       onContinue: () {
         if (_currentSubtask + 1 < widget.subtasks.length) {
           setState(() {
@@ -137,13 +142,17 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
         .toString()
         .split(" ");
     words.shuffle();
-    return words
-        .map<DraggableOption>(
-          (option) => DraggableOption(
-            text: option,
-            renderKey: GlobalKey(),
-          ),
-        )
-        .toList();
+
+    List<DraggableOption> optionWidgets = [];
+    for (int i = 0; i < words.length; i++) {
+      optionWidgets.add(
+        DraggableOption(
+          text: words.elementAt(i),
+          optionSerial: i,
+          renderKey: GlobalKey(),
+        ),
+      );
+    }
+    return optionWidgets;
   }
 }

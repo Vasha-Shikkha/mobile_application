@@ -40,6 +40,11 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView>
             widget.subtasks.elementAt(_currentSubtask).options[_selectedOption];
         return selectedAnswer.compareTo(answer) == 0;
       },
+      onReset: () {
+        setState(() {
+          _selectedOption = -1;
+        });
+      },
       onContinue: () {
         if (_currentSubtask + 1 < widget.subtasks.length) {
           setState(() {

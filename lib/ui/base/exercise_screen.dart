@@ -305,7 +305,14 @@ class _ExerciseScreenState extends State<ExerciseScreen>
       ),
       child: Text('Skip'),
       onPressed: () {
-        // TODO: handle skip
+        widget.onContinue();
+        setState(() {
+          _checkCalled = false;
+          if (_currentSubtask + 1 < widget.subtaskCount) {
+            _currentSubtask++;
+            _tabController.animateTo(_currentSubtask);
+          }
+        });
       },
     );
   }

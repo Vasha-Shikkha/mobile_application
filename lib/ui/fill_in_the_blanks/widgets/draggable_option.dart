@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 
 class DraggableOption extends StatefulWidget {
   final String text;
+  final int optionSerial;
   final GlobalKey renderKey;
 
   const DraggableOption(
-      {Key key, @required this.text, @required this.renderKey})
+      {Key key,
+      @required this.text,
+      @required this.optionSerial,
+      @required this.renderKey})
       : super(key: key);
 
   @override
@@ -42,6 +46,7 @@ class _DraggableOptionState extends State<DraggableOption> {
             key: widget.renderKey,
             data: {
               'text': widget.text,
+              'optionSerial': widget.optionSerial,
               'renderKey': widget.renderKey,
             },
             child: Material(
@@ -73,7 +78,7 @@ class _DraggableOptionState extends State<DraggableOption> {
                 ),
               ),
             ),
-            childWhenDragging: _buildEmptyOption(),
+            childWhenDragging: _buildDisabledChip(),
             onDragCompleted: () {
               setState(() {
                 available = false;
@@ -84,29 +89,10 @@ class _DraggableOptionState extends State<DraggableOption> {
   }
 
   DragTarget<Map<String, dynamic>> _buildEmptyOption() {
-    Color textColor = Colors.grey.shade600;
-    Color chipColor = Colors.grey.shade400;
-
     return DragTarget<Map<String, dynamic>>(
       builder: (BuildContext context, List<Map<String, dynamic>> candidateData,
           List rejectedData) {
-        return Material(
-          color: Colors.transparent,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: Chip(
-              label: Text(
-                widget.text,
-                style: TextStyle(
-                  color: textColor,
-                ),
-              ),
-              labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
-              elevation: 10.0,
-              backgroundColor: chipColor,
-            ),
-          ),
-        );
+        return _buildDisabledChip();
       },
       onWillAccept: (Map<String, dynamic> data) {
         return data['text'] == widget.text;
@@ -117,6 +103,28 @@ class _DraggableOptionState extends State<DraggableOption> {
           available = true;
         });
       },
+    );
+  }
+
+  Material _buildDisabledChip() {
+    Color textColor = Colors.grey.shade600;
+    Color chipColor = Colors.grey.shade400;
+    return Material(
+      color: Colors.transparent,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: Chip(
+          label: Text(
+            widget.text,
+            style: TextStyle(
+              color: textColor,
+            ),
+          ),
+          labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
+          elevation: 10.0,
+          backgroundColor: chipColor,
+        ),
+      ),
     );
   }
 }

@@ -196,13 +196,16 @@ class _WordMatchingViewState extends State<WordMatchingView>
     List<String> words =
         widget.subtasks.elementAt(_currentSubtask).right.toList();
     words.shuffle();
-    return words
-        .map<DraggableOption>(
-          (option) => DraggableOption(
-            text: option,
-            renderKey: GlobalKey(),
-          ),
-        )
-        .toList();
+    List<DraggableOption> optionWidgets = [];
+    for (int i = 0; i < words.length; i++) {
+      optionWidgets.add(
+        DraggableOption(
+          text: words.elementAt(i),
+          optionSerial: i,
+          renderKey: GlobalKey(),
+        ),
+      );
+    }
+    return optionWidgets;
   }
 }
