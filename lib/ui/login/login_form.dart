@@ -275,26 +275,26 @@ class _LoginFormState extends State<LoginForm> {
 
     //Dictionary dict = await DictRest().getDictionary(tokenEntry.token);    
 
-    //await dictController.downloadDictionary(tokenEntry.token);
+    await dictController.downloadDictionary(tokenEntry.token);
 
-    // List<String>words=await dictController.getWordList();
+    List<String>words=await dictController.getWordList();
 
 
-    // DictEntry a= await dictController.getDictEntry('aback');
-    // DictEntry b= await dictController.getDictEntry('abandoned');
-    // DictEntry c= await dictController.getDictEntry('abashed');
+    DictEntry a= await dictController.getDictEntry('aback');
+    DictEntry b= await dictController.getDictEntry('abandoned');
+    DictEntry c= await dictController.getDictEntry('abashed');
 
-    // List<DictEntry>flashCards= await dictController.getFlashCards();
+    List<DictEntry>flashCards= await dictController.getFlashCards();
 
-    // for(DictEntry card in flashCards)
-    //   print(card.word);
+    for(DictEntry card in flashCards)
+      print(card.word);
 
-    // DictEntry d= await dictController.getDictEntry('abandoned');
+    DictEntry d= await dictController.getDictEntry('abandoned');
     
-    // flashCards= await dictController.getFlashCards();
+    flashCards= await dictController.getFlashCards();
 
-    // for(DictEntry card in flashCards)
-    //   print(card.word);
+    for(DictEntry card in flashCards)
+      print(card.word);
 
     // print(words.length);
     
