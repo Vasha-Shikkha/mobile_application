@@ -150,6 +150,17 @@ class MainDatabaseHelper {
   String smPartTwo='PartTwo';
   String smExplanation='Explanation';
 
+  //Dict Table
+  String dictTable='Dictionary';
+  String dictWord='Word';
+  String dictMeaning='Meaning';
+  String dictExamples='Examples';
+
+  //FlashCard
+  String flashCardTable='FlashCard';
+  String flashCardId='Id';
+  String timestamp='Timestamp';
+
   void _createDb(Database db, int version) async {
 
     //Token Table
@@ -332,6 +343,29 @@ class MainDatabaseHelper {
         $subtaskId INTEGER,
         FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
       )
+      '''
+    );
+
+    //Dict Table
+    await db.execute(
+      '''
+      CREATE TABLE $dictTable(
+        $dictWord TEXT PRIMARY KEY,
+        $dictMeaning TEXT,
+        $dictExamples TEXT
+      )
+      '''
+    );
+
+    //FlashCard Table
+    await db.execute(
+      '''
+      CREATE TABLE $flashCardTable(
+        $flashCardId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $dictWord TEXT UNIQUE,
+        $timestamp TEXT,
+        FOREIGN KEY($dictWord) REFERENCES $dictTable($dictWord)
+      )  
       '''
     );
   }
