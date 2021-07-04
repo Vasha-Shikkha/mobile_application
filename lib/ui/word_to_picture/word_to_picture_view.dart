@@ -1,4 +1,5 @@
 import 'package:Vasha_Shikkha/data/models/mcq.dart';
+import 'package:Vasha_Shikkha/data/models/wp.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
@@ -22,23 +23,24 @@ class WTP {
 
 class WordToPictureView extends StatefulWidget {
   static const String route = '/word-to-picture';
-  final List<WTP> subtasks = [
-    WTP(
-      wtpId: 1,
-      question: "Select the picture that best matches the word Examination",
-      options: [
-        "assets/img/back_to_school.png",
-        "assets/img/blank_canvas.png",
-        "assets/img/exams.png",
-        "assets/img/true_friends.png",
-      ],
-      answer: "assets/img/exams.png",
-      explanation: "",
-    ),
-  ];
-  // final List<MCQ> subtasks;
 
-  // const PictureToWordView({Key key, @required this.subtasks}) : super(key: key);
+  final List<WP> subtasks;
+  // final List<WTP> subtasks = [
+  //   WTP(
+  //     wtpId: 1,
+  //     question: "Select the picture that best matches the word Examination",
+  //     options: [
+  //       "assets/img/back_to_school.png",
+  //       "assets/img/blank_canvas.png",
+  //       "assets/img/exams.png",
+  //       "assets/img/true_friends.png",
+  //     ],
+  //     answer: "assets/img/exams.png",
+  //     explanation: "",
+  //   ),
+  // ];
+
+  const WordToPictureView({Key key, @required this.subtasks}) : super(key: key);
 
   @override
   _WordToPictureViewState createState() => _WordToPictureViewState();
@@ -66,7 +68,7 @@ class _WordToPictureViewState extends State<WordToPictureView>
         if (_selectedOption == -1) return false;
         String answer = widget.subtasks.elementAt(_currentSubtask).answer;
         String selectedAnswer =
-            widget.subtasks.elementAt(_currentSubtask).options[_selectedOption];
+            widget.subtasks.elementAt(_currentSubtask).images[_selectedOption];
         return selectedAnswer.compareTo(answer) == 0;
       },
       onReset: () {
@@ -128,7 +130,7 @@ class _WordToPictureViewState extends State<WordToPictureView>
   }
 
   GridView _buildOptions() {
-    List<String> options = widget.subtasks.elementAt(_currentSubtask).options;
+    List<String> options = widget.subtasks.elementAt(_currentSubtask).images;
     List<int> indices = [];
     for (int i = 0; i < options.length; i++) {
       indices.add(i);

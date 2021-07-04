@@ -1,4 +1,4 @@
-import 'package:Vasha_Shikkha/data/models/js.dart';
+import 'package:Vasha_Shikkha/data/models/sm.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
@@ -6,35 +6,21 @@ import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/widgets/drag_target_blank.da
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/widgets/draggable_option.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
-class WM {
-  int wmId;
-  String question;
-  List<String> left;
-  List<String> right;
-  String explanation;
-
-  WM({
-    @required this.wmId,
-    @required this.question,
-    @required this.left,
-    @required this.right,
-    @required this.explanation,
-  });
-}
-
 class WordMatchingView extends StatefulWidget {
   static const String route = '/word-matching';
-  final List<WM> subtasks = [
-    WM(
-      wmId: 1,
-      question: "Match the verbs with appropriate adverbs",
-      left: ["speak", "walk", "eat", "sleep", "live"],
-      right: ["softly", "quickly", "slowly", "peacefully", "fully"],
-      explanation: "",
-    ),
-  ];
 
-  // const WordMatchingView({Key key, @required this.subtasks}) : super(key: key);
+  final List<SM> subtasks;
+  // final List<WM> subtasks = [
+  //   WM(
+  //     wmId: 1,
+  //     question: "Match the verbs with appropriate adverbs",
+  //     left: ["speak", "walk", "eat", "sleep", "live"],
+  //     right: ["softly", "quickly", "slowly", "peacefully", "fully"],
+  //     explanation: "",
+  //   ),
+  // ];
+
+  const WordMatchingView({Key key, @required this.subtasks}) : super(key: key);
 
   @override
   _WordMatchingViewState createState() => _WordMatchingViewState();
@@ -45,17 +31,33 @@ class _WordMatchingViewState extends State<WordMatchingView>
   int _currentSubtask;
   Map<int, String> _blankData;
   List<DragTargetBlank> _blanks;
+  List<DraggableOption> _optionWidgets;
 
   @override
   void initState() {
     super.initState();
     _currentSubtask = 0;
     _blankData = {};
+    _optionWidgets = [];
+    _buildOptions();
     _buildBlanks();
   }
 
-  void _updateBlankData(int serial, String text) {
-    _blankData[serial] = text;
+  void _updateBlankData(int blankSerial, int optionSerial, String text) {
+    final currentText = _optionWidgets[optionSerial].text;
+    final renderKey = _optionWidgets[optionSerial].renderKey;
+    _blankData[blankSerial] = text;
+    if (text == null) {
+      setState(() {
+        print("hello $currentText $text");
+        _optionWidgets[optionSerial] = DraggableOption(
+          text: currentText,
+          optionSerial: optionSerial,
+          renderKey: renderKey,
+        );
+        print(_blankData);
+      });
+    }
   }
 
   @override
@@ -66,7 +68,8 @@ class _WordMatchingViewState extends State<WordMatchingView>
       initialSubtask: 0, // TODO: should be last attempted
       onCheck: () {
         bool correct = true;
-        List<String> answers = widget.subtasks.elementAt(_currentSubtask).right;
+        List<String> answers =
+            widget.subtasks.map<String>((e) => e.partTwo).toList();
         for (int i = 0; i < answers.length; i++) {
           if (answers.elementAt(i).compareTo(_blankData[i] ?? '') != 0) {
             correct = false;
@@ -80,6 +83,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
         setState(() {
           _blankData = {};
           _buildBlanks();
+          _buildOptions();
         });
       },
       onContinue: () {
@@ -88,6 +92,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
             _currentSubtask++;
             _blankData = {};
             _buildBlanks();
+            _buildOptions();
           });
         } else {
           showAnimatedDialog(
@@ -120,7 +125,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
               Padding(
                 padding: const EdgeInsets.only(left: 10, bottom: 20),
                 child: Text(
-                  widget.subtasks.elementAt(_currentSubtask).question,
+                  "Take words from the box and match with related words",
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
@@ -132,7 +137,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
                 ),
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  children: _buildOptions(),
+                  children: _optionWidgets,
                 ),
               ),
               SizedBox(
@@ -145,28 +150,18 @@ class _WordMatchingViewState extends State<WordMatchingView>
                     height: 8,
                   );
                 },
-                itemCount:
-                    widget.subtasks.elementAt(_currentSubtask).left.length,
+                itemCount: widget.subtasks.length,
                 itemBuilder: (context, index) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 3,
+                      Expanded(
                         child: Text(
-                          widget.subtasks
-                              .elementAt(_currentSubtask)
-                              .left[index],
-                          textAlign: TextAlign.right,
+                          widget.subtasks.elementAt(index).partOne,
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
-                      // SizedBox(
-                      //   width: 16,
-                      // ),
-                      // Divider(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 3,
+                      Expanded(
                         child: _blanks[index],
                       ),
                     ],
@@ -181,7 +176,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
   }
 
   void _buildBlanks() {
-    List<String> words = widget.subtasks.elementAt(_currentSubtask).right;
+    List<String> words = widget.subtasks.map<String>((e) => e.partTwo).toList();
     _blanks = [];
     for (int i = 0; i < words.length; i++) {
       _blanks.add(DragTargetBlank(
@@ -192,13 +187,12 @@ class _WordMatchingViewState extends State<WordMatchingView>
     }
   }
 
-  List<DraggableOption> _buildOptions() {
-    List<String> words =
-        widget.subtasks.elementAt(_currentSubtask).right.toList();
+  void _buildOptions() {
+    List<String> words = widget.subtasks.map<String>((e) => e.partTwo).toList();
     words.shuffle();
-    List<DraggableOption> optionWidgets = [];
+    _optionWidgets.clear();
     for (int i = 0; i < words.length; i++) {
-      optionWidgets.add(
+      _optionWidgets.add(
         DraggableOption(
           text: words.elementAt(i),
           optionSerial: i,
@@ -206,6 +200,5 @@ class _WordMatchingViewState extends State<WordMatchingView>
         ),
       );
     }
-    return optionWidgets;
   }
 }

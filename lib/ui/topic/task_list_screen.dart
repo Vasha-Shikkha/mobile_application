@@ -15,6 +15,7 @@ import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
 import 'package:Vasha_Shikkha/ui/mcq/multiple_choice_view.dart';
 import 'package:Vasha_Shikkha/ui/picture_to_word/picture_to_word_view.dart';
 import 'package:Vasha_Shikkha/ui/word_matching/word_matching_view.dart';
+import 'package:Vasha_Shikkha/ui/word_to_picture/word_to_picture_view.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/topic/task_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -75,6 +76,14 @@ class _TaskListScreenState extends State<TaskListScreen> {
               'name': 'Picture To Word',
               'subtasks': tl.taskList,
               'route': PictureToWordView.route,
+            });
+            break;
+          case 'Word to Picture':
+            print('wp here');
+            tasks.add({
+              'name': 'Word To Picture',
+              'subtasks': tl.taskList,
+              'route': WordToPictureView.route,
             });
             break;
           case 'Sentence Matching':
