@@ -58,6 +58,8 @@ class _ExerciseScreenState extends State<ExerciseScreen>
         elevation: 0,
         backgroundColor: Colors.white12,
         leading: IconButton(
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
           icon: Icon(
             Icons.cancel,
             color: Theme.of(context).accentColor,

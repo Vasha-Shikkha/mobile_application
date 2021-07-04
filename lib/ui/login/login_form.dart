@@ -44,7 +44,6 @@ import '../../data/rest/dict.dart';
 
 import 'dart:async';
 
-
 class LoginForm extends StatefulWidget {
   final scaffoldKey;
 
@@ -264,46 +263,42 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Future<void> _login() async {
-  
     String _phone = loginPhoneController.text;
     String _password = loginPasswordController.text;
     print(_phone + " pass :" + _password + "\n-----");
 
     Token tokenEntry = await _loginController.login(_phone, _password);
 
-    DictController dictController= new DictController();
+    DictController dictController = new DictController();
 
-    //Dictionary dict = await DictRest().getDictionary(tokenEntry.token);    
+    //Dictionary dict = await DictRest().getDictionary(tokenEntry.token);
 
-    await dictController.downloadDictionary(tokenEntry.token);
+    // await dictController.downloadDictionary(tokenEntry.token);
 
-    List<String>words=await dictController.getWordList();
+    List<String> words = await dictController.getWordList();
 
+    DictEntry a = await dictController.getDictEntry('aback');
+    DictEntry b = await dictController.getDictEntry('abandoned');
+    DictEntry c = await dictController.getDictEntry('abashed');
 
-    DictEntry a= await dictController.getDictEntry('aback');
-    DictEntry b= await dictController.getDictEntry('abandoned');
-    DictEntry c= await dictController.getDictEntry('abashed');
+    List<DictEntry> flashCards = await dictController.getFlashCards();
 
-    List<DictEntry>flashCards= await dictController.getFlashCards();
+    for (DictEntry card in flashCards) print(card.word);
 
-    for(DictEntry card in flashCards)
-      print(card.word);
+    DictEntry d = await dictController.getDictEntry('abandoned');
 
-    DictEntry d= await dictController.getDictEntry('abandoned');
-    
-    flashCards= await dictController.getFlashCards();
+    flashCards = await dictController.getFlashCards();
 
-    for(DictEntry card in flashCards)
-      print(card.word);
+    for (DictEntry card in flashCards) print(card.word);
 
     // print(words.length);
-    
+
     // for(int i=0;i<3;i++)
     //   dict.list[i].debugMessage();
     // for(int i)
 
     // TopicController topicController = new TopicController();
-    
+
     // List<Topic>getTopicList = await topicController.getTopicList(tokenEntry.token, 'grammar', 1);
 
     // TaskController taskController= new TaskController();
@@ -313,11 +308,11 @@ class _LoginFormState extends State<LoginForm> {
     // for(TopicTask element in list[0].taskList)
     // {
     //   if(element.taskName == 'Picture to Word')
-    //   { 
+    //   {
     //     print("We are in touching distance");
     //     PW temp=element;
     //     temp.debugMessage();
-        
+
     //   }
     //   if(element.taskName == 'Sentence Matching')
     //   {

@@ -1,3 +1,4 @@
+import 'package:Vasha_Shikkha/ui/flashcard/flashcard.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/home/home_screen.dart';
 
@@ -18,8 +19,11 @@ class BottomNavbar extends StatelessWidget {
               child: IconButton(
                 iconSize: 30,
                 color: Colors.purple,
-                onPressed: () {},
-                icon: Icon(Icons.menu_book),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(Flashcard.route);
+                },
+                icon: Icon(Icons.library_books_outlined),
+                tooltip: "flash cards",
               ),
             ),
             Align(
