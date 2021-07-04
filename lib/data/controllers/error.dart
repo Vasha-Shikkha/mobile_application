@@ -13,9 +13,9 @@ class ErrorController {
 
     for (int i = 0; i < list.length; i++) {
       //must happen together. Will see if I can use a txaction
-      taskDatabaseHelper.insertTask(list[i].toTask());
-      taskDatabaseHelper.insertSubTask(list[i].toSubTask());
-      errorDatabaseHelper.insertError(list[i].toError());
+      await taskDatabaseHelper.insertTask(list[i].toTask());
+      await taskDatabaseHelper.insertSubTask(list[i].toSubTask());
+      await errorDatabaseHelper.insertError(list[i].toError());
     }
   }
 
@@ -37,7 +37,7 @@ class ErrorController {
         errorList.errorList[0].debugMessage();
       }
 
-      _insertErrorList(errorList);
+      await _insertErrorList(errorList);
     }
 
     List<Error> result = await errorDatabaseHelper.getErrorList(topicId, level,

@@ -8,6 +8,8 @@ const PW_URL="http://10.0.2.2:4000/user/task/picture_to_word";
 const WP_URL="http://10.0.2.2:4000/user/task/word_to_picture";
 const SM_URL="http://10.0.2.2:4000/user/task/sentence_matching";
 
+const DICT_URL=BASE_URL+"/offline/dictionary";
+
 const TASK_URL="https://9q81vs2n0e.execute-api.ap-southeast-1.amazonaws.com/dev/user/task/all";
 
 const IMG_BASE="https://vashashikkha-images.s3-ap-southeast-1.amazonaws.com/";

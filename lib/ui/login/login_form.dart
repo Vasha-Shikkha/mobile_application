@@ -7,6 +7,7 @@ import 'package:Vasha_Shikkha/data/controllers/fb.dart';
 import 'package:Vasha_Shikkha/data/controllers/js.dart';
 import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
 import 'package:Vasha_Shikkha/data/controllers/topic.dart';
+import 'package:Vasha_Shikkha/data/models/dict.dart';
 import 'package:Vasha_Shikkha/data/models/fb.dart';
 import 'package:Vasha_Shikkha/data/models/js.dart';
 import 'package:Vasha_Shikkha/data/models/mcq.dart';
@@ -37,6 +38,9 @@ import '../../data/rest/task.dart';
 
 import '../../data/controllers/topic.dart';
 import '../../data/controllers/task.dart';
+
+import '../../data/controllers/dict.dart';
+import '../../data/rest/dict.dart';
 
 import 'dart:async';
 
@@ -267,30 +271,61 @@ class _LoginFormState extends State<LoginForm> {
 
     Token tokenEntry = await _loginController.login(_phone, _password);
 
-    TopicController topicController = new TopicController();
+    DictController dictController= new DictController();
+
+    //Dictionary dict = await DictRest().getDictionary(tokenEntry.token);    
+
+    await dictController.downloadDictionary(tokenEntry.token);
+
+    List<String>words=await dictController.getWordList();
+
+
+    DictEntry a= await dictController.getDictEntry('aback');
+    DictEntry b= await dictController.getDictEntry('abandoned');
+    DictEntry c= await dictController.getDictEntry('abashed');
+
+    List<DictEntry>flashCards= await dictController.getFlashCards();
+
+    for(DictEntry card in flashCards)
+      print(card.word);
+
+    DictEntry d= await dictController.getDictEntry('abandoned');
     
-    List<Topic>getTopicList = await topicController.getTopicList(tokenEntry.token, 'grammar', 1);
+    flashCards= await dictController.getFlashCards();
 
-    TaskController taskController= new TaskController();
+    for(DictEntry card in flashCards)
+      print(card.word);
 
-    List<TaskList> list = await taskController.getTaskList(tokenEntry.token, 3, 2, 10, 0);
+    // print(words.length);
+    
+    // for(int i=0;i<3;i++)
+    //   dict.list[i].debugMessage();
+    // for(int i)
 
-    for(TopicTask element in list[0].taskList)
-    {
-      if(element.taskName == 'Picture to Word')
-      { 
-        print("We are in touching distance");
-        PW temp=element;
-        temp.debugMessage();
+    // TopicController topicController = new TopicController();
+    
+    // List<Topic>getTopicList = await topicController.getTopicList(tokenEntry.token, 'grammar', 1);
+
+    // TaskController taskController= new TaskController();
+
+    // List<TaskList> list = await taskController.getTaskList(tokenEntry.token, 3, 2, 10, 0);
+
+    // for(TopicTask element in list[0].taskList)
+    // {
+    //   if(element.taskName == 'Picture to Word')
+    //   { 
+    //     print("We are in touching distance");
+    //     PW temp=element;
+    //     temp.debugMessage();
         
-      }
-      if(element.taskName == 'Sentence Matching')
-      {
-        print("We are the champions, my friends");
-        SM temp=element;
-        temp.debugMessage();
-      }
-    }
+    //   }
+    //   if(element.taskName == 'Sentence Matching')
+    //   {
+    //     print("We are the champions, my friends");
+    //     SM temp=element;
+    //     temp.debugMessage();
+    //   }
+    // }
 
     // LoginController loginController = new LoginController();
     // TopicController topicController = new TopicController();
