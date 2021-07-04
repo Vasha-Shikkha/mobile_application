@@ -110,7 +110,7 @@ class _FlashcardState extends State<Flashcard> {
               width: 50,
               child: SpinKitWanderingCubes(
                 size: 20,
-                color: Colors.white,
+                color: Theme.of(context).primaryColorDark,
               ),
             )
           : Padding(

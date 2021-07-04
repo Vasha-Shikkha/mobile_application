@@ -1,3 +1,4 @@
+import 'package:Vasha_Shikkha/ui/base/dictionary_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/correct_dialog.dart';
 import 'package:Vasha_Shikkha/ui/base/incorrect_dialog.dart';
@@ -85,7 +86,10 @@ class _ExerciseScreenState extends State<ExerciseScreen>
               color: Theme.of(context).primaryColorDark,
             ),
             onPressed: () {
-              // TODO: show dictionary search
+              showDialog(
+                context: context,
+                builder: (context) => DictionaryDialog(),
+              );
             },
           ),
           IconButton(
