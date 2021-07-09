@@ -117,13 +117,13 @@ class MCQ extends SubTask{
     
 
     return new MCQ(
-      id: question['id'],
+      // id: question['id'],
       question : question['question'],
       options : mcqOptions,
       answer : question['answer'],
       explanation : question['explanation'],
-      taskId : taskDetail['id'],
-      subtaskId: question['subTask_id'],
+      taskId : taskDetail['task_id'],
+      subtaskId: question['subTaskId'],
       level: taskDetail['level'],
       topicId: taskDetail['topic_id'],
       taskName: taskDetail['name'],
@@ -137,7 +137,8 @@ class MCQ extends SubTask{
   {
     Map<String,dynamic>map= new Map();
     
-    map['mcqId']=mcqId;
+    if(mcqId!=null)
+      map['mcqId']=mcqId;
     map['SubtaskId']=subtaskId;
     map['Options']=concatenateElements(options);
     map['Answer']=answer;
@@ -199,13 +200,9 @@ class MCQ extends SubTask{
     print("SubtaskId: "+subtaskId.toString());
     print("MCQId: "+mcqId.toString());
     print("Question: "+question);
-    print("Options: "+options.toString());
+    print("Options: "+concatenateElements(options));
     print("Answer: "+answer.toString());
-    //print("Explanation: ");
-    //String taskName,
-    //int topicId,
-    //String instruction,
-    //String instructionImage
+    
   }
 }
 

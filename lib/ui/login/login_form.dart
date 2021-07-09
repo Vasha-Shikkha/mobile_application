@@ -271,30 +271,30 @@ class _LoginFormState extends State<LoginForm> {
 
     Token tokenEntry = await _loginController.login(_phone, _password);
 
-    DictController dictController= new DictController();
+    // DictController dictController= new DictController();
 
     //Dictionary dict = await DictRest().getDictionary(tokenEntry.token);    
 
-    await dictController.downloadDictionary(tokenEntry.token);
+    // await dictController.downloadDictionary(tokenEntry.token);
 
-    List<String>words=await dictController.getWordList();
+    // List<String>words=await dictController.getWordList();
 
 
-    DictEntry a= await dictController.getDictEntry('aback');
-    DictEntry b= await dictController.getDictEntry('abandoned');
-    DictEntry c= await dictController.getDictEntry('abashed');
+    // DictEntry a= await dictController.getDictEntry('aback');
+    // DictEntry b= await dictController.getDictEntry('abandoned');
+    // DictEntry c= await dictController.getDictEntry('abashed');
 
-    List<DictEntry>flashCards= await dictController.getFlashCards();
+    // List<DictEntry>flashCards= await dictController.getFlashCards();
 
-    for(DictEntry card in flashCards)
-      print(card.word);
+    // for(DictEntry card in flashCards)
+    //   print(card.word);
 
-    DictEntry d= await dictController.getDictEntry('abandoned');
+    // DictEntry d= await dictController.getDictEntry('abandoned');
     
-    flashCards= await dictController.getFlashCards();
+    // flashCards= await dictController.getFlashCards();
 
-    for(DictEntry card in flashCards)
-      print(card.word);
+    // for(DictEntry card in flashCards)
+    //   print(card.word);
 
     // print(words.length);
     
@@ -302,30 +302,55 @@ class _LoginFormState extends State<LoginForm> {
     //   dict.list[i].debugMessage();
     // for(int i)
 
-    // TopicController topicController = new TopicController();
+    TopicController topicController = new TopicController();
     
-    // List<Topic>getTopicList = await topicController.getTopicList(tokenEntry.token, 'grammar', 1);
+    List<Topic>getTopicList = await topicController.getTopicList(tokenEntry.token, 'grammar', 1);
 
-    // TaskController taskController= new TaskController();
+    TaskController taskController= new TaskController();
 
-    // List<TaskList> list = await taskController.getTaskList(tokenEntry.token, 3, 2, 10, 0);
+    List<TaskList> list = await taskController.getTaskList(tokenEntry.token, 12, 1, 10, 0);
 
-    // for(TopicTask element in list[0].taskList)
-    // {
-    //   if(element.taskName == 'Picture to Word')
-    //   { 
-    //     print("We are in touching distance");
-    //     PW temp=element;
-    //     temp.debugMessage();
+    for(TopicTask element in list[0].taskList)
+    {
+      if(element.taskName == 'Picture to Word')
+      { 
+        print("We are in touching distance");
+        PW temp=element;
+        temp.debugMessage();
         
-    //   }
-    //   if(element.taskName == 'Sentence Matching')
-    //   {
-    //     print("We are the champions, my friends");
-    //     SM temp=element;
-    //     temp.debugMessage();
-    //   }
-    // }
+      }
+      else if(element.taskName == 'Sentence Matching')
+      {
+        print("We are the champions, my friends");
+        SM temp=element;
+        temp.debugMessage();
+      }
+      else if(element.taskName == 'Jumbled Sentence')
+      {
+        print("Hello mister");
+        JS temp=element;
+        temp.debugMessage();
+      }
+      else if(element.taskName == 'Fill in the Blanks')
+      {
+        print("Hibana");
+        FB temp=element;
+        temp.debugMessage();
+      }
+      else if(element.taskName == 'MCQ')
+      {
+        print("Hehehe");
+        MCQ temp=element;
+        temp.debugMessage();
+      }
+      else if(element.taskName == 'Error in Sentence')
+      {
+        print("Hehehe");
+        Error temp=element;
+        temp.debugMessage();
+      }
+      
+    }
 
     // LoginController loginController = new LoginController();
     // TopicController topicController = new TopicController();

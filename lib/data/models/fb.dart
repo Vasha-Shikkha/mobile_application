@@ -130,13 +130,13 @@ class FB extends SubTask{
     
 
     return new FB(
-      id: question['id'],
+      // id: question['id'],
       paragraph : question['paragraph'],
       options : fbOptions,
       answers : fbAnswers,
       explanation : fbExplanations,
-      taskId : taskDetail['id'],
-      subtaskId: question['subTask_id'],
+      taskId : taskDetail['task_id'],
+      subtaskId: question['subTaskId'],
       level: taskDetail['level'],
       topicId: taskDetail['topic_id'],
       taskName: taskDetail['name'],
@@ -150,7 +150,8 @@ class FB extends SubTask{
   {
     Map<String,dynamic>map= new Map();
     
-    map['fbId']=fbId;
+    if(fbId!=null)
+      map['fbId']=fbId;
     map['SubtaskId']=subtaskId;
     map['Options']=concatenateElements(options);
     map['Answers']=concatenateElements(answers);
@@ -214,8 +215,8 @@ class FB extends SubTask{
     print("SubtaskId: "+subtaskId.toString());
     print("FBId: "+fbId.toString());
     print("Paragraph: "+paragraph);
-    print("Options: "+options.toString());
-    print("Answers: "+answers.toString());
+    print("Options: "+concatenateElements(options));
+    print("Answers: "+concatenateElements(answers));
     //print("Explanation: ");
     //String taskName,
     //int topicId,

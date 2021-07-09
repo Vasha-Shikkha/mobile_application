@@ -43,6 +43,26 @@ class TaskList {
         SM sm = new SM.fromJson(taskDetail,subtaskDetails);
         taskList.add(sm);
       }
+      else if(taskName == 'Jumbled Sentence')
+      {
+        JS js = new JS.fromJson(taskDetail,subtaskDetails);
+        taskList.add(js);
+      }
+      else if(taskName == 'Fill in the Blanks')
+      {
+        FB fb = new FB.fromJson(taskDetail,subtaskDetails);
+        taskList.add(fb);
+      }
+      else if(taskName == 'MCQ')
+      {
+        MCQ mcq = new MCQ.fromJson(taskDetail,subtaskDetails);
+        taskList.add(mcq);
+      }
+      else if(taskName == 'Error in Sentence')
+      {
+        Error error = new Error.fromJson(taskDetail,subtaskDetails);
+        taskList.add(error);
+      }
       // pw.downloadImage(pw.image);
       
     }

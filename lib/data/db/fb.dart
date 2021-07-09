@@ -4,6 +4,7 @@ import 'dart:io' as io;
 import 'main.dart';
 import 'package:path/path.dart';
 import '../models/fb.dart';
+import '../models/task.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'task.dart';
@@ -67,6 +68,43 @@ class FBDatabaseHelper{
 
     return results;
 
+  }
+
+  Future<List<FB> >getFBs(int topicId,int level,TopicTask task,{int limit,int offset})async
+  { 
+
+    var database= await _databaseHelper.database; 
+
+    Map<String,dynamic>taskDetail=task.toTask();
+
+    String taskTableId = _taskDatabaseHelper.taskTableId;
+    int taskId=taskDetail[taskTableId];
+    // print("Task :"+taskId.toString());
+
+    String subtaskTable=_taskDatabaseHelper.subtaskTable;
+    String subtaskId=_taskDatabaseHelper.subtaskId;
+
+    List<FB>results=[];
+
+    List<Map<String,dynamic> >questionDetails = await database.query('''
+                                                                      $subtaskTable INNER JOIN $_fbTable ON
+                                                                      $subtaskTable.$subtaskId = $_fbTable.$subtaskId
+                                                                      '''
+                                                                      ,columns: ['$subtaskTable.$subtaskId',_fbId,_paragraph,_options,_answers,_explanations],
+                                                                      where:'$subtaskTable.$taskTableId=?',
+                                                                      whereArgs:[taskId]
+    );
+
+    print("Length :"+questionDetails.length.toString());
+
+    for(Map<String,dynamic>questionDetail in questionDetails)
+    {
+      FB fb = new FB.fromDatabase(taskDetail, questionDetail);
+      // pw.debugMessage();
+      results.add(fb);
+    }
+      // results.add(new PW.fromDatabase(taskDetail, questionDetail));
+    return results;
   }
 
   //insert topics
