@@ -116,37 +116,37 @@ class TaskController {
         print("Chaiya Chaiya");
         List<PW>pwSubtasks=await pwDatabaseHelper.getPWs(topicId, level, taskDetail,limit:limit,offset:offset);
         print("Chaiya Chaiya");
-        result.add(new TaskList(taskList:pwSubtasks));
+        result.add(new TaskList(taskList:pwSubtasks,taskName: taskName));
       }
       else if(taskName == 'Sentence Matching')
       {
         print("Kamen Rider");
         List<SM>smSubtasks=await smDatabaseHelper.getSMs(topicId, level, taskDetail,limit:limit,offset:offset);
-        result.add(new TaskList(taskList:smSubtasks));
+        result.add(new TaskList(taskList:smSubtasks,taskName: taskName));
       }
       else if(taskName == 'Jumbled Sentence')
       {
         print("Fate/Stay Night");
         List<JS>jsSubtasks= await jsDatabaseHelper.getJSs(topicId, level, taskDetail,limit:limit,offset:offset);
-        result.add(new TaskList(taskList:jsSubtasks));
+        result.add(new TaskList(taskList:jsSubtasks,taskName: taskName));
       }
       else if(taskName == 'Fill in the Blanks')
       {
         print("Tales of Berseria");
         List<FB>fbSubtasks= await fbDatabaseHelper.getFBs(topicId, level, taskDetail,limit:limit,offset:offset);
-        result.add(new TaskList(taskList:fbSubtasks));
+        result.add(new TaskList(taskList:fbSubtasks,taskName: taskName));
       }
       else if(taskName == 'MCQ')
       {
         print("Psycho Pass");
         List<MCQ>mcqSubtasks = await mcqDatabaseHelper.getMCQs(topicId, level, taskDetail,limit:limit,offset:offset);
-        result.add(new TaskList(taskList:mcqSubtasks));
+        result.add(new TaskList(taskList:mcqSubtasks,taskName: taskName));
       }
       else if(taskName == 'Error in Sentence')
       {
         print("Eiyuuden");
         List<Error>errorSubtasks = await errorDatabaseHelper.getErrors(topicId, level, taskDetail,limit:limit,offset:offset);
-        result.add(new TaskList(taskList:errorSubtasks));
+        result.add(new TaskList(taskList:errorSubtasks,taskName: taskName));
       }
     
     }

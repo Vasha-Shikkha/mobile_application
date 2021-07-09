@@ -13,14 +13,21 @@ import './wp.dart';
 
 class TaskList {
   List<TopicTask> _taskList;
+  String _taskName;
 
   List<TopicTask> get taskList => this._taskList;
 
   set taskList(List<TopicTask> value) => this._taskList = value;
 
+  get taskName => this._taskName;
+
+  set taskName(String value) => this._taskName = value;
+
   TaskList({
-    List<TopicTask>taskList
-  }):_taskList= taskList;
+    List<TopicTask>taskList,
+    String taskName
+  }):_taskList= taskList,
+     _taskName=taskName;
 
   factory TaskList.fromJson(Map<String,dynamic>json){
     
@@ -68,7 +75,7 @@ class TaskList {
     }
     // //Returns a topic task list;
     // return taskList;
-    return new TaskList(taskList: taskList);
+    return new TaskList(taskList: taskList,taskName: taskName);
   }
 
 

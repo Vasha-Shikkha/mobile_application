@@ -4,7 +4,7 @@ import 'task.dart';
 import 'task.dart';
 //import 'subtask.dart';
 
-class MCQList{
+class MCQList extends TaskList{
   List<MCQ> _mcqList;
   
   List<MCQ> get mcqList => this._mcqList;

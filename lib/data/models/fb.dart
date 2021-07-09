@@ -2,7 +2,7 @@
 import 'task.dart';
 //import 'subtask.dart';
 
-class FBList{
+class FBList extends TaskList{
   List<FB> _fbs;
   
   List<FB> get fbs => this._fbs;

@@ -4,7 +4,7 @@ import 'task.dart';
 import 'task.dart';
 //import 'subtask.dart';
 
-class ErrorList{
+class ErrorList extends TaskList{
   List<Error> _errorList;
   
   List<Error> get errorList => this._errorList;

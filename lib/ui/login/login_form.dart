@@ -269,6 +269,10 @@ class _LoginFormState extends State<LoginForm> {
     String _password = loginPasswordController.text;
     print(_phone + " pass :" + _password + "\n-----");
 
+    String message= await _loginController.register("Blaziken", "01923441121", "1221");
+    print(message);
+
+
     Token tokenEntry = await _loginController.login(_phone, _password);
 
     // DictController dictController= new DictController();
@@ -308,8 +312,15 @@ class _LoginFormState extends State<LoginForm> {
 
     TaskController taskController= new TaskController();
 
-    List<TaskList> list = await taskController.getTaskList(tokenEntry.token, 12, 1, 10, 0);
+    List<TaskList> list = await taskController.getTaskList(tokenEntry.token, 20, 2, 10, 0);
 
+    if(list[0].taskName == 'Sentence Matching')
+    {
+      SMList smList = new SMList(smList: list[0].taskList);
+      Map<String,dynamic>m=smList.getParts(smList.smList);
+      print(m);
+    }
+    
     for(TopicTask element in list[0].taskList)
     {
       if(element.taskName == 'Picture to Word')
@@ -319,12 +330,12 @@ class _LoginFormState extends State<LoginForm> {
         temp.debugMessage();
         
       }
-      else if(element.taskName == 'Sentence Matching')
-      {
-        print("We are the champions, my friends");
-        SM temp=element;
-        temp.debugMessage();
-      }
+      // else if(element.taskName == 'Sentence Matching')
+      // {
+      //   print("We are the champions, my friends");
+      //   SM temp=element;
+      //   temp.debugMessage();
+      // }
       else if(element.taskName == 'Jumbled Sentence')
       {
         print("Hello mister");

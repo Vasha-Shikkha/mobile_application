@@ -9,15 +9,17 @@ class LoginController{
   
   TokenDatabaseHelper tokenDatabaseHelper = new TokenDatabaseHelper();
 
-  Future<void>_insertToken(Token token)
+  Future<void>_insertToken(Token token)async
   {
-    tokenDatabaseHelper.insertToken(token.toDatabase());
+    await tokenDatabaseHelper.insertToken(token.toDatabase());
   }
 
-  Future<void>_deleteToken()
+  Future<void>_deleteToken()async
   {
-    tokenDatabaseHelper.deleteToken();
+    await tokenDatabaseHelper.deleteToken();
   }
+
+
 
   Future<Token>login(String phone,String password)async{
     int count= await tokenDatabaseHelper.getCount();
@@ -27,15 +29,16 @@ class LoginController{
     if(count == 0)//or if token has expired
     {
       token=await loginRest.login(phone, password);
-      _insertToken(token);
+      await _insertToken(token);
     }
 
     token=await tokenDatabaseHelper.getToken();
     return token;
   }
 
-  Future<void>register()async{
-    //Later
+  Future<String>register(String username,String phoneNumber,String password)async{
+    String registerMessage = await loginRest.register(username, phoneNumber, password);
+    return registerMessage;
   }
 
 

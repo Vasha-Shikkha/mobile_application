@@ -1,6 +1,6 @@
 import 'task.dart';
 
-class JSList{
+class JSList extends TaskList{
   List<JS> _jsList;
   
   List<JS> get jsList => this._jsList;
