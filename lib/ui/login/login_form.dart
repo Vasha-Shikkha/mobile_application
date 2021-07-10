@@ -267,15 +267,21 @@ class _LoginFormState extends State<LoginForm> {
     String _password = loginPasswordController.text;
     print(_phone + " pass :" + _password + "\n-----");
 
+    String message =
+        await _loginController.register("Blaziken", "01923441121", "1221");
+    print(message);
+
     Token tokenEntry = await _loginController.login(_phone, _password);
 
     DictController dictController = new DictController();
+    // DictController dictController= new DictController();
 
     //Dictionary dict = await DictRest().getDictionary(tokenEntry.token);
 
     // await dictController.downloadDictionary(tokenEntry.token);
 
     List<String> words = await dictController.getWordList();
+    // List<String>words=await dictController.getWordList();
 
     DictEntry a = await dictController.getDictEntry('aback');
     DictEntry b = await dictController.getDictEntry('abandoned');
@@ -290,6 +296,21 @@ class _LoginFormState extends State<LoginForm> {
     flashCards = await dictController.getFlashCards();
 
     for (DictEntry card in flashCards) print(card.word);
+    // DictEntry a= await dictController.getDictEntry('aback');
+    // DictEntry b= await dictController.getDictEntry('abandoned');
+    // DictEntry c= await dictController.getDictEntry('abashed');
+
+    // List<DictEntry>flashCards= await dictController.getFlashCards();
+
+    // for(DictEntry card in flashCards)
+    //   print(card.word);
+
+    // DictEntry d= await dictController.getDictEntry('abandoned');
+
+    // flashCards= await dictController.getFlashCards();
+
+    // for(DictEntry card in flashCards)
+    //   print(card.word);
 
     // print(words.length);
 
@@ -300,10 +321,15 @@ class _LoginFormState extends State<LoginForm> {
     // TopicController topicController = new TopicController();
 
     // List<Topic>getTopicList = await topicController.getTopicList(tokenEntry.token, 'grammar', 1);
+    TopicController topicController = new TopicController();
 
-    // TaskController taskController= new TaskController();
+    List<Topic> getTopicList =
+        await topicController.getTopicList(tokenEntry.token, 'grammar', 1);
 
-    // List<TaskList> list = await taskController.getTaskList(tokenEntry.token, 3, 2, 10, 0);
+    TaskController taskController = new TaskController();
+
+    List<TaskList> list =
+        await taskController.getTaskList(tokenEntry.token, 20, 2, 10, 0);
 
     // for(TopicTask element in list[0].taskList)
     // {
@@ -321,6 +347,42 @@ class _LoginFormState extends State<LoginForm> {
     //     temp.debugMessage();
     //   }
     // }
+    if (list[0].taskName == 'Sentence Matching') {
+      SMList smList = new SMList(smList: list[0].taskList);
+      Map<String, dynamic> m = smList.getParts(smList.smList);
+      print(m);
+    }
+
+    for (TopicTask element in list[0].taskList) {
+      if (element.taskName == 'Picture to Word') {
+        print("We are in touching distance");
+        PW temp = element;
+        temp.debugMessage();
+      }
+      // else if(element.taskName == 'Sentence Matching')
+      // {
+      //   print("We are the champions, my friends");
+      //   SM temp=element;
+      //   temp.debugMessage();
+      // }
+      else if (element.taskName == 'Jumbled Sentence') {
+        print("Hello mister");
+        JS temp = element;
+        temp.debugMessage();
+      } else if (element.taskName == 'Fill in the Blanks') {
+        print("Hibana");
+        FB temp = element;
+        temp.debugMessage();
+      } else if (element.taskName == 'MCQ') {
+        print("Hehehe");
+        MCQ temp = element;
+        temp.debugMessage();
+      } else if (element.taskName == 'Error in Sentence') {
+        print("Hehehe");
+        Error temp = element;
+        temp.debugMessage();
+      }
+    }
 
     // LoginController loginController = new LoginController();
     // TopicController topicController = new TopicController();

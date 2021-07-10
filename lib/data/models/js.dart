@@ -1,6 +1,6 @@
 import 'task.dart';
 
-class JSList{
+class JSList extends TaskList{
   List<JS> _jsList;
   
   List<JS> get jsList => this._jsList;
@@ -103,11 +103,11 @@ class JS extends SubTask{
       chunkList.add(chunk);
     
     return new JS(
-      id : question['id'],
+      //id : question['id'],
       sentence : question['paragraph'],
       chunks : chunkList,
       explanation : question['explanation'],
-      taskId : taskDetail['id'],
+      taskId : taskDetail['task_id'],
       topicId: taskDetail['topic_id'],
       subtaskId: question['subTask_id'],
       level: taskDetail['level'],
@@ -121,7 +121,8 @@ class JS extends SubTask{
   Map<String,dynamic>toJS()
   { 
     Map<String,dynamic>map= new Map();
-    map['jsId']=id;
+    if(id!=null)
+      map['jsId']=id;
     map['Sentence']=sentence;
     map['Answer']=concatenateChunks(answer);
     map['Explanation']=explanation;
@@ -172,7 +173,8 @@ class JS extends SubTask{
     print("TopicId: "+topicId.toString());
     print("SubtaskId: "+subtaskId.toString());
     print("JSId: "+id.toString());
-    print("Sentence: "+sentence);
+    if(sentence!=null)
+      print("Sentence: "+sentence);
     print("Chunks: "+chunks.toString());
     print("Answers: "+answer.toString());
     

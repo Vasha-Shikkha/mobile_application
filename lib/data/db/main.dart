@@ -124,7 +124,7 @@ class MainDatabaseHelper {
   String errorOptions='Options';
   String errorAnswer='Answer';
   String errorExplanation='Explanation';
-  String isMCQ='isMCQ';
+  
 
   //WP Table
   String wpTable='Word_to_Picture';
@@ -231,7 +231,7 @@ class MainDatabaseHelper {
     await db.execute(
       '''
       CREATE TABLE $fbTable(
-        $fbId INTEGER PRIMARY KEY,
+        $fbId INTEGER PRIMARY KEY AUTOINCREMENT,
         $paragraph TEXT,
         $options TEXT,
         $answers TEXT,
@@ -260,7 +260,7 @@ class MainDatabaseHelper {
     await db.execute(
       '''
       CREATE TABLE $jsTable(
-        $jsId INTEGER PRIMARY KEY,
+        $jsId INTEGER PRIMARY KEY AUTOINCREMENT,
         $subtaskId INTEGER,
         $jsSentence TEXT,
         $jsAnswer TEXT,
@@ -294,7 +294,6 @@ class MainDatabaseHelper {
         $errorOptions TEXT,
         $errorAnswer TEXT,
         $errorExplanation TEXT,
-        $isMCQ INTEGER,
         $subtaskId INTEGER,
         FOREIGN KEY($subtaskId) REFERENCES $subtaskTable($subtaskId)
       )

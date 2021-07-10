@@ -1,12 +1,37 @@
 import 'task.dart';
 
 
-class SMList{
+class SMList extends TaskList{
   List<SM> _smList;
   
   List<SM> get smList => this._smList;
 
   set smList(List<SM> value) => this._smList = value;
+
+  Map<String,dynamic>getParts(List<SM>list)
+  { 
+    List<String>partOne=[];
+    List<String>partTwo=[];
+    List<String>explanations=[];
+
+    for(SM sm in list)
+    {
+      partOne.add(sm.partOne);
+      partTwo.add(sm.partTwo);
+
+      if(sm.explanation == null)
+        explanations.add('');
+      else
+        explanations.add(sm.explanation);
+    }
+
+    Map<String,dynamic>map=new Map();
+    map['PartOne']=partOne;
+    map['PartTwo']=partTwo;
+    map['Explanations']=explanations;
+
+    return map;
+  }
 
   SMList({
     List<SM>smList

@@ -19,14 +19,16 @@ class LoginRest {
     headers["Content-Type"] = t1;
     //headers["Accept"] = t2;
 
-    return _netUtil.post(REG_URL, headers: headers, body: {
+    return _netUtil.post(REG_URL, headers: headers, body: jsonEncode({
       "name": username,
       "phone": phoneNumber,
       "password": password,
-    }).then((dynamic res) {
+    })).then((dynamic res) {
       
-      //There will be checks here
-      return "Registration successful";
+      if(res.containsKey("user"))
+        return "Registration successful";
+      else
+        return res['error'];
     });
   }
 

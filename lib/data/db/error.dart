@@ -4,6 +4,7 @@ import 'dart:io' as io;
 import 'main.dart';
 import 'package:path/path.dart';
 import '../models/error.dart';
+import '../models/task.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'task.dart';
@@ -25,7 +26,7 @@ class ErrorDatabaseHelper{
   String _errorOptions='Options';
   String _errorAnswer='Answer';
   String _errorExplanation='Explanation';
-  String _isMCQ='isMCQ';
+  
   
   Future<List<Error> >getErrorList(int topicId,int level,{int limit,int offset}) async{
     var database= await _databaseHelper.database; 
@@ -51,7 +52,7 @@ class ErrorDatabaseHelper{
                                                                       $subtaskTable INNER JOIN $_errorTable ON
                                                                       $subtaskTable.$subtaskId = $_errorTable.$subtaskId
                                                                       '''
-                                                                      ,columns: ['$subtaskTable.$subtaskId',_errorId,_errorQuestion,_errorAnswer,_errorExplanation,_errorOptions,_isMCQ],
+                                                                      ,columns: ['$subtaskTable.$subtaskId',_errorId,_errorQuestion,_errorAnswer,_errorExplanation,_errorOptions],
                                                                       where:'$subtaskTable.$taskTableId=?',
                                                                       whereArgs:[taskId]
                                                                       );
@@ -72,6 +73,44 @@ class ErrorDatabaseHelper{
     return results;
 
   }
+
+  Future<List<Error> >getErrors(int topicId,int level,TopicTask task,{int limit,int offset})async
+  { 
+
+    var database= await _databaseHelper.database; 
+
+    Map<String,dynamic>taskDetail=task.toTask();
+
+    String taskTableId = _taskDatabaseHelper.taskTableId;
+    int taskId=taskDetail[taskTableId];
+    // print("Task :"+taskId.toString());
+
+    String subtaskTable=_taskDatabaseHelper.subtaskTable;
+    String subtaskId=_taskDatabaseHelper.subtaskId;
+
+    List<Error>results=[];
+
+    List<Map<String,dynamic> >questionDetails = await database.query('''
+                                                                      $subtaskTable INNER JOIN $_errorTable ON
+                                                                      $subtaskTable.$subtaskId = $_errorTable.$subtaskId
+                                                                      '''
+                                                                      ,columns: ['$subtaskTable.$subtaskId',_errorId,_errorQuestion,_errorAnswer,_errorExplanation,_errorOptions],
+                                                                      where:'$subtaskTable.$taskTableId=?',
+                                                                      whereArgs:[taskId]
+    );
+
+    print("Length :"+questionDetails.length.toString());
+
+    for(Map<String,dynamic>questionDetail in questionDetails)
+    {
+      Error error = new Error.fromDatabase(taskDetail, questionDetail);
+      
+      results.add(error);
+    }
+      
+    return results;
+  }
+
 
   //insert topics
   Future<int>insertError(Map<String,dynamic>error) async{

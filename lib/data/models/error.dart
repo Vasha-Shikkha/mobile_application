@@ -4,7 +4,7 @@ import 'task.dart';
 import 'task.dart';
 //import 'subtask.dart';
 
-class ErrorList{
+class ErrorList extends TaskList{
   List<Error> _errorList;
   
   List<Error> get errorList => this._errorList;
@@ -43,7 +43,7 @@ class Error extends SubTask{
   List<String>_options;
   String _answer;
   String _explanation;
-  bool _isMCQ;
+  
 
   int get errorId => this._errorId;
 
@@ -65,9 +65,6 @@ class Error extends SubTask{
 
   set explanation( value) => this._explanation = value;
 
-  get isMCQ => this._isMCQ;
-
-  set isMCQ( value) => this._isMCQ = value;
 
   Error({
     int id,
@@ -82,13 +79,12 @@ class Error extends SubTask{
     List<String> options,
     String answer,
     String explanation,
-    bool isMCQ
   }): _errorId=id,
       _options=options,
       _question=question,
       _answer=answer,
       _explanation=explanation,
-      _isMCQ=isMCQ,
+      
       super(
         taskId: taskId,
         subtaskId: subtaskId,
@@ -125,13 +121,12 @@ class Error extends SubTask{
 
     return new Error(
       id: question['id'],
-      question : question['sentence'],
+      question : question['question'],
       options : errorOptions,
       answer : question['answer'],
       explanation : question['explanation'],
-      isMCQ : question['isMCQ'],
-      taskId : taskDetail['id'],
-      subtaskId: question['subTask_id'],
+      taskId : taskDetail['task_id'],
+      subtaskId: question['subTaskId'],
       level: taskDetail['level'],
       topicId: taskDetail['topic_id'],
       taskName: taskDetail['name'],
@@ -145,15 +140,16 @@ class Error extends SubTask{
   {
     Map<String,dynamic>map= new Map();
     
-    int flag = (isMCQ)? 1 : 0;
+    // int flag = (isMCQ)? 1 : 0;
 
-    map['errorId']=errorId;
+    if(errorId!=null)
+      map['errorId']=errorId;
     map['SubtaskId']=subtaskId;
     map['Options']=concatenateElements(options);
     map['Answer']=answer;
     map['Explanation']=explanation;
     map['Question']=question;
-    map['isMCQ']=flag;
+    
 
     return map;
   }
@@ -182,7 +178,6 @@ class Error extends SubTask{
       options : optionList,
       answer : questions['Answer'],
       explanation : questions['Explanation'],
-      isMCQ: flag,
       taskId : taskDetails['TopicTaskId'],
       subtaskId: questions['SubtaskId'],
       level: taskDetails['Level'],
@@ -218,7 +213,6 @@ class Error extends SubTask{
     print("Question: "+question);
     print("Options: "+options.toString());
     print("Answer: "+answer.toString());
-    print("isMCQ: "+isMCQ.toString());
     //print("Explanation: ");
     //String taskName,
     //int topicId,

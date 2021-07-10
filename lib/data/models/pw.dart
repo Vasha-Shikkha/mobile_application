@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../config.dart';
 
-class PWList{
+class PWList extends TaskList{
   List<PW> _pwList;
   
   List<PW> get pwList => this._pwList;
