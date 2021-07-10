@@ -33,15 +33,23 @@ class _WordMatchingViewState extends State<WordMatchingView>
   Map<int, String> _blankData;
   List<DragTargetBlank> _blanks;
   List<DraggableOption> _optionWidgets;
+  ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     _currentSubtask = 0;
+    _scrollController = ScrollController();
     _blankData = {};
     _optionWidgets = [];
     _buildOptions();
     _buildBlanks();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   void _updateBlankData(int blankSerial, int optionSerial, String text) {
@@ -157,32 +165,50 @@ class _WordMatchingViewState extends State<WordMatchingView>
               SizedBox(
                 height: 20,
               ),
-              ListView.separated(
-                shrinkWrap: true,
-                separatorBuilder: (context, index) {
-                  return SizedBox(
-                    height: 8,
-                  );
-                },
-                itemCount: widget.subtasks.smList.length,
-                itemBuilder: (context, index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          widget.subtasks
-                              .getParts(widget.subtasks.smList)['PartOne']
-                              .toList()[index],
-                          style: TextStyle(fontSize: 16),
-                        ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 2.5,
+                child: Scrollbar(
+                  isAlwaysShown: true,
+                  controller: _scrollController,
+                  child: Material(
+                    type: MaterialType.card,
+                    borderRadius: BorderRadius.circular(8),
+                    elevation: 4,
+                    child: Container(
+                      color: Theme.of(context).accentColor.withOpacity(0.1),
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(8),
+                        controller: _scrollController,
+                        shrinkWrap: true,
+                        separatorBuilder: (context, index) {
+                          return SizedBox(
+                            height: 8,
+                          );
+                        },
+                        itemCount: widget.subtasks.smList.length,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  widget.subtasks
+                                      .getParts(
+                                          widget.subtasks.smList)['PartOne']
+                                      .toList()[index],
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              Expanded(
+                                child: _blanks[index],
+                              ),
+                            ],
+                          );
+                        },
                       ),
-                      Expanded(
-                        child: _blanks[index],
-                      ),
-                    ],
-                  );
-                },
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

@@ -80,13 +80,6 @@ class _PictureToWordViewState extends State<PictureToWordView>
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Text(
-                  "Choose the correct option",
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ),
               Text(widget.subtasks.elementAt(_currentSubtask).question),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 20,

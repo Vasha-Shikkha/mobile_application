@@ -1,13 +1,5 @@
-import 'package:Vasha_Shikkha/data/controllers/error.dart';
-import 'package:Vasha_Shikkha/data/controllers/fb.dart';
-import 'package:Vasha_Shikkha/data/controllers/js.dart';
-import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
 import 'package:Vasha_Shikkha/data/controllers/task.dart';
 import 'package:Vasha_Shikkha/data/db/token.dart';
-import 'package:Vasha_Shikkha/data/models/error.dart';
-import 'package:Vasha_Shikkha/data/models/fb.dart';
-import 'package:Vasha_Shikkha/data/models/js.dart';
-import 'package:Vasha_Shikkha/data/models/mcq.dart';
 import 'package:Vasha_Shikkha/data/models/sm.dart';
 import 'package:Vasha_Shikkha/data/models/task.dart';
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/fill_in_the_blanks_view.dart';
@@ -67,10 +59,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
       List<TaskList> list = await taskController.getTaskList(
           token, widget.topicId, widget.level, 20, 0);
 
+      if (list.isEmpty) return;
+
       if (list[0].taskName == 'Sentence Matching') {
         SMList smList = new SMList(smList: list[0].taskList);
-
-        // Map<String, dynamic> m = smList.getParts(smList.smList);
         print('sm here');
         tasks.add({
           'name': 'Word Matching',
@@ -98,62 +90,42 @@ class _TaskListScreenState extends State<TaskListScreen> {
                 'route': WordToPictureView.route,
               });
               break;
-            case 'Sentence Matching':
-              print('sm here');
+            case 'Jumbled Sentence':
+              print('js here');
               tasks.add({
-                'name': 'Word Matching',
+                'name': 'Jumbled Sentence',
                 'subtasks': tl.taskList,
-                'route': WordMatchingView.route,
+                'route': JumbledSentenceView.route,
+              });
+              break;
+            case 'Fill in the Blanks':
+              print('fb here');
+              tasks.add({
+                'name': 'Fill in the Blanks',
+                'subtasks': tl.taskList,
+                'route': FillInTheBlanksView.route,
+              });
+              break;
+            case 'MCQ':
+              print('mcq here');
+              tasks.add({
+                'name': 'Multiple Choice Question',
+                'subtasks': tl.taskList,
+                'route': MultipleChoiceView.route,
+              });
+              break;
+            case 'Error in Sentence':
+              print('error here');
+              tasks.add({
+                'name': 'Error in Sentence',
+                'subtasks': tl.taskList,
+                'route': FindErrorView.route,
               });
               break;
             default:
           }
         }
       }
-
-      //   List<FB> fbList = await FBController()
-      //       .getFBList(token, widget.topicId, widget.level, 20, 0);
-      //   if (fbList.isNotEmpty) {
-      //     tasks.add({
-      //       'name': 'Fill In The Blanks',
-      //       'subtasks': fbList,
-      //       'route': FillInTheBlanksView.route,
-      //     });
-      //   }
-      //   print('fb done');
-
-      //   List<JS> jsList = await JSController()
-      //       .getJSList(token, widget.topicId, widget.level, 20, 0);
-      //   if (jsList.isNotEmpty) {
-      //     tasks.add({
-      //       'name': 'Jumbled Sentence',
-      //       'subtasks': jsList,
-      //       'route': JumbledSentenceView.route,
-      //     });
-      //   }
-      //   print('js done');
-
-      //   List<MCQ> mcqList = await MCQController()
-      //       .getMCQList(token, widget.topicId, widget.level, 20, 0);
-      //   if (mcqList.isNotEmpty) {
-      //     tasks.add({
-      //       'name': 'Multiple Choice Question',
-      //       'subtasks': mcqList,
-      //       'route': MultipleChoiceView.route,
-      //     });
-      //   }
-      //   print('mcq done');
-
-      //   List<Error> errorList = await ErrorController()
-      //       .getErrorList(token, widget.topicId, widget.level, 20, 0);
-      //   if (errorList.isNotEmpty) {
-      //     tasks.add({
-      //       'name': 'Finding Error',
-      //       'subtasks': errorList,
-      //       'route': FindErrorView.route,
-      //     });
-      //   }
-      //   print('error done');
     } catch (e) {
       print('found error');
       print(e);
@@ -213,11 +185,17 @@ class _TaskListScreenState extends State<TaskListScreen> {
                         itemCount: tasks.length,
                         itemBuilder: (context, index) {
                           final task = tasks[index];
+                          var sm;
+                          var subtasks = task['subtasks'];
+                          if (task['name'] == 'Word Matching') {
+                            sm = task['subtasks'];
+                            subtasks = List<SubTask>.empty();
+                          }
                           return TaskCard(
                             exerciseName: task['name'],
                             route: task['route'],
-                            subtasks: [],
-                            smList: task['subtasks'],
+                            subtasks: subtasks,
+                            smList: sm,
                             serial: index + 1,
                           );
                         },

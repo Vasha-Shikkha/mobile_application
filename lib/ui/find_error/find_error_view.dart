@@ -102,19 +102,22 @@ class _FindErrorViewState extends State<FindErrorView> with ExerciseMixin {
     final matches = regExp.allMatches(_question);
     print(matches);
     List<String> sections = [];
+    if (matches.isEmpty) {
+      sections.add(_question);
+    } else {
+      sections.add(_question.substring(0, matches.first.start));
 
-    sections.add(_question.substring(0, matches.first.start));
-
-    for (int i = 0; i < matches.length; i++) {
-      int start = matches.elementAt(i).start + 3;
-      int end = _question.indexOf("</b>", start);
-      sections.add(_question.substring(start, end));
-      if ((i + 1) < matches.length) {
-        start = end + 4;
-        end = matches.elementAt(i + 1).start;
+      for (int i = 0; i < matches.length; i++) {
+        int start = matches.elementAt(i).start + 3;
+        int end = _question.indexOf("</b>", start);
         sections.add(_question.substring(start, end));
-      } else {
-        sections.add(_question.substring(end + 4));
+        if ((i + 1) < matches.length) {
+          start = end + 4;
+          end = matches.elementAt(i + 1).start;
+          sections.add(_question.substring(start, end));
+        } else {
+          sections.add(_question.substring(end + 4));
+        }
       }
     }
 
@@ -131,6 +134,7 @@ class _FindErrorViewState extends State<FindErrorView> with ExerciseMixin {
         ),
       );
     }
+
     return RichText(
       text: TextSpan(
         style: Theme.of(context).textTheme.subtitle1,

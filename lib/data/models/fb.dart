@@ -2,221 +2,193 @@
 import 'task.dart';
 //import 'subtask.dart';
 
-class FBList extends TaskList{
+class FBList extends TaskList {
   List<FB> _fbs;
-  
+
   List<FB> get fbs => this._fbs;
 
   set fbs(List<FB> value) => this._fbs = value;
 
-  FBList({
-    List<FB>fbs
-  }):_fbs= fbs;
+  FBList({List<FB> fbs}) : _fbs = fbs;
 
-  factory FBList.fromJson(List<dynamic> json){
-    
-    List<FB>fbs = [];
+  factory FBList.fromJson(List<dynamic> json) {
+    List<FB> fbs = [];
 
-    for(dynamic element in json)
-    {
-      Map<String,dynamic>taskDetail=element['taskDetail'];
-      List<dynamic>questions=element['questions'];
+    for (dynamic element in json) {
+      Map<String, dynamic> taskDetail = element['taskDetail'];
+      List<dynamic> questions = element['questions'];
 
-      for(Map<String,dynamic>question in questions)
-      {
-        FB fb=new FB.fromJson(taskDetail,question);
+      for (Map<String, dynamic> question in questions) {
+        FB fb = new FB.fromJson(taskDetail, question);
         fbs.add(fb);
       }
     }
 
     //fbs = json.map((i)=>FB.fromJson((i))).toList();
-    return new FBList(fbs:fbs);
+    return new FBList(fbs: fbs);
   }
-
 }
 
-class FB extends SubTask{
+class FB extends SubTask {
   int _fbId;
   String _paragraph;
-  List<String>_options;
-  List<String>_answers;
-  List<String>_explanation;
-  
+  List<String> _options;
+  List<String> _answers;
+  List<String> _explanation;
+
   int get fbId => this._fbId;
 
   set fbId(int value) => this._fbId = value;
 
   get paragraph => this._paragraph;
 
-  set paragraph( value) => this._paragraph = value;
+  set paragraph(value) => this._paragraph = value;
 
   get options => this._options;
 
-  set options( value) => this._options = value;
+  set options(value) => this._options = value;
 
   get answers => this._answers;
 
-  set answers( value) => this._answers = value;
+  set answers(value) => this._answers = value;
 
   get explanation => this._explanation;
 
-  set explanation( value) => this._explanation = value;
+  set explanation(value) => this._explanation = value;
 
-  FB({
-    int id,
-    int subtaskId,
-    int taskId,
-    int level,
-    int topicId,
-    String taskName,
-    String instruction,
-    String instructionImage,
-    String paragraph,
-    List<String> options,
-    List<String> answers,
-    List<String> explanation
-  }): _fbId=id,
-      _options=options,
-      _paragraph=paragraph,
-      _answers=answers,
-      _explanation=explanation,
-      super(
-        taskId: taskId,
-        subtaskId: subtaskId,
-        level: level,
-        topicId: topicId,
-        taskName: taskName,
-        instruction: instruction,
-        instructionImage: instructionImage
-      );
+  FB(
+      {int id,
+      int subtaskId,
+      int taskId,
+      int level,
+      int topicId,
+      String taskName,
+      String instruction,
+      String instructionImage,
+      String paragraph,
+      List<String> options,
+      List<String> answers,
+      List<String> explanation})
+      : _fbId = id,
+        _options = options,
+        _paragraph = paragraph,
+        _answers = answers,
+        _explanation = explanation,
+        super(
+            taskId: taskId,
+            subtaskId: subtaskId,
+            level: level,
+            topicId: topicId,
+            taskName: taskName,
+            instruction: instruction,
+            instructionImage: instructionImage);
 
-  factory FB.fromJson(Map<String,dynamic> taskDetail,Map<String,dynamic>question)
-  { 
-
+  factory FB.fromJson(
+      Map<String, dynamic> taskDetail, Map<String, dynamic> question) {
     //Map<String,dynamic>taskDetails= json['taskDetail'];
     //List<Map<String,dynamic> >questions =
 
-    List<String>fbOptions=[];
-    List<String>fbAnswers=[];
-    List<String>fbExplanations=[];
-    
+    List<String> fbOptions = [];
+    List<String> fbAnswers = [];
+    List<String> fbExplanations = [];
 
-    if(question['options']!=null)
-    { 
-      print("In options");
-      for(String option in question['options'])
-      { 
+    if (question['options'] != null) {
+      print("In options - fb");
+      for (String option in question['options']) {
         //print(option);
         fbOptions.add(option);
       }
-        
     }
-    
-    if(question['answers']!=null)
-    {
-      for(String answer in question['answers'])
-        fbAnswers.add(answer);
+
+    if (question['answers'] != null) {
+      for (String answer in question['answers']) fbAnswers.add(answer);
     }
-    
-    if(question['explanation']!=null)
-    {
-      for(String explanation in question['explanation'])
+
+    if (question['explanation'] != null) {
+      for (String explanation in question['explanation'])
         fbExplanations.add(explanation);
     }
-    
+
     // fbOptions = question['options'].map((i)=>FBOptions.fromJson((i))).toList();
     // fbAnswers = question['answers'].map((i)=>FBAnswers.fromJson((i))).toList();
     // fbExplanations = question['explanation'].map((i)=>FBExplanations.fromJson((i))).toList();
-    
 
     return new FB(
-      // id: question['id'],
-      paragraph : question['paragraph'],
-      options : fbOptions,
-      answers : fbAnswers,
-      explanation : fbExplanations,
-      taskId : taskDetail['task_id'],
-      subtaskId: question['subTaskId'],
-      level: taskDetail['level'],
-      topicId: taskDetail['topic_id'],
-      taskName: taskDetail['name'],
-      instruction: taskDetail['instruction'],
-      instructionImage: taskDetail['instructionImage']
-
-    );
+        // id: question['id'],
+        paragraph: question['paragraph'],
+        options: fbOptions,
+        answers: fbAnswers,
+        explanation: fbExplanations,
+        taskId: taskDetail['task_id'],
+        subtaskId: question['subTaskId'],
+        level: taskDetail['level'],
+        topicId: taskDetail['topic_id'],
+        taskName: taskDetail['name'],
+        instruction: taskDetail['instruction'],
+        instructionImage: taskDetail['instructionImage']);
   }
 
-  Map<String,dynamic>toFB()
-  {
-    Map<String,dynamic>map= new Map();
-    
-    if(fbId!=null)
-      map['fbId']=fbId;
-    map['SubtaskId']=subtaskId;
-    map['Options']=concatenateElements(options);
-    map['Answers']=concatenateElements(answers);
-    map['Explanations']=concatenateElements(explanation);
-    map['Paragraph']=paragraph;
+  Map<String, dynamic> toFB() {
+    Map<String, dynamic> map = new Map();
+
+    if (fbId != null) map['fbId'] = fbId;
+    map['SubtaskId'] = subtaskId;
+    map['Options'] = concatenateElements(options);
+    map['Answers'] = concatenateElements(answers);
+    map['Explanations'] = concatenateElements(explanation);
+    map['Paragraph'] = paragraph;
 
     return map;
   }
 
-  factory FB.fromDatabase(Map<String,dynamic>taskDetails,Map<String,dynamic>questions)
-  {   
+  factory FB.fromDatabase(
+      Map<String, dynamic> taskDetails, Map<String, dynamic> questions) {
+    List<String> optionList = [];
+    List<String> answerList = [];
+    List<String> explanationList = [];
+    if (questions['Options'] != null)
+      optionList = questions['Options'].split('#');
 
-    List<String>optionList=[];
-    List<String>answerList=[];
-    List<String>explanationList=[];
-    if(questions['Options']!=null)
-      optionList=questions['Options'].split('#');
-    
-    if(questions['Answers']!=null)
-      answerList=questions['Answers'].split('#');
-    
-    if(questions['Explanation']!=null)
-      explanationList=questions['Explanation'].split('#');
+    if (questions['Answers'] != null)
+      answerList = questions['Answers'].split('#');
+
+    if (questions['Explanation'] != null)
+      explanationList = questions['Explanation'].split('#');
 
     return new FB(
-      id: questions['fbId'],
-      paragraph : questions['Paragraph'],
-      options : optionList,
-      answers : answerList,
-      explanation : explanationList,
-      taskId : taskDetails['TopicTaskId'],
-      subtaskId: questions['SubtaskId'],
-      level: taskDetails['Level'],
-      topicId: taskDetails['TopicId'],
-      taskName: taskDetails['TaskType'],
-      instruction: taskDetails['Instruction'],
-      instructionImage: taskDetails['Instruction_Image']
-    );
-
+        id: questions['fbId'],
+        paragraph: questions['Paragraph'],
+        options: optionList,
+        answers: answerList,
+        explanation: explanationList,
+        taskId: taskDetails['TopicTaskId'],
+        subtaskId: questions['SubtaskId'],
+        level: taskDetails['Level'],
+        topicId: taskDetails['TopicId'],
+        taskName: taskDetails['TaskType'],
+        instruction: taskDetails['Instruction'],
+        instructionImage: taskDetails['Instruction_Image']);
   }
-  
-  String concatenateElements(List<String>list)
-  { 
-    if(list.isEmpty)
-      return null;
 
-    String result="";
-    for(String element in list)
-      result=result+element+"#";
-    result=result.substring(0,result.length-1);
+  String concatenateElements(List<String> list) {
+    if (list.isEmpty) return null;
+
+    String result = "";
+    for (String element in list) result = result + element + "#";
+    result = result.substring(0, result.length - 1);
     return result;
-    
   }
 
-  void debugMessage()
-  {
-    print("Task_Id: "+taskId.toString());
-    print("Level: "+level.toString());
-    print("Taskname: "+taskName);
-    print("TopicId: "+topicId.toString());
-    print("SubtaskId: "+subtaskId.toString());
-    print("FBId: "+fbId.toString());
-    print("Paragraph: "+paragraph);
-    print("Options: "+concatenateElements(options));
-    print("Answers: "+concatenateElements(answers));
+  void debugMessage() {
+    print("Task_Id: " + taskId.toString());
+    print("Level: " + level.toString());
+    print("Taskname: " + taskName);
+    print("TopicId: " + topicId.toString());
+    print("SubtaskId: " + subtaskId.toString());
+    print("FBId: " + fbId.toString());
+    print("Paragraph: " + paragraph);
+    print("Options: " + concatenateElements(options));
+    print("Answers: " + concatenateElements(answers));
     //print("Explanation: ");
     //String taskName,
     //int topicId,

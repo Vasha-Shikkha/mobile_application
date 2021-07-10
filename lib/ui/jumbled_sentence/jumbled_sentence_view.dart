@@ -93,13 +93,6 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 10, bottom: 20),
-              //   child: Text(
-              //     "Arrange the words to form a sentence",
-              //     style: Theme.of(context).textTheme.bodyText1,
-              //   ),
-              // ),
               Wrap(
                 alignment: WrapAlignment.center,
                 children: _buildOptions(),

@@ -62,6 +62,7 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
   }
 
   void _buildSentenceWidgets() {
+    // check for dialogue
     String sentence = widget.subtasks.elementAt(_currentSubtask).paragraph;
     int blankCount = 0;
     _sentenceWidgets.clear();
