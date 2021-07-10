@@ -9,7 +9,8 @@ import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 class WordMatchingView extends StatefulWidget {
   static const String route = '/word-matching';
 
-  final List<SM> subtasks;
+  final SMList subtasks;
+  // final List<SM> subtasks;
   // final List<WM> subtasks = [
   //   WM(
   //     wmId: 1,
@@ -60,16 +61,29 @@ class _WordMatchingViewState extends State<WordMatchingView>
     }
   }
 
+  String _buildExplanation() {
+    String explanation = "";
+    List<String> parts = widget.subtasks
+        .getParts(widget.subtasks.smList)['Explanations']
+        .toList();
+    for (int i = 0; i < parts.length; i++) {
+      explanation += (i + 1).toString() + ") ";
+      explanation += parts[i] + "\n";
+    }
+    return explanation;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ExerciseScreen(
-      exerciseName: "Jumbled Sentence",
-      subtaskCount: widget.subtasks.length,
+      exerciseName: "Word Matching",
+      subtaskCount: 1,
       initialSubtask: 0, // TODO: should be last attempted
       onCheck: () {
         bool correct = true;
-        List<String> answers =
-            widget.subtasks.map<String>((e) => e.partTwo).toList();
+        List<String> answers = widget.subtasks
+            .getParts(widget.subtasks.smList)['PartTwo']
+            .toList();
         for (int i = 0; i < answers.length; i++) {
           if (answers.elementAt(i).compareTo(_blankData[i] ?? '') != 0) {
             correct = false;
@@ -87,7 +101,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
         });
       },
       onContinue: () {
-        if (_currentSubtask + 1 < widget.subtasks.length) {
+        if (_currentSubtask + 1 < 1) {
           setState(() {
             _currentSubtask++;
             _blankData = {};
@@ -113,7 +127,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
       },
       onExplain: () => onExplain(
         context,
-        widget.subtasks.elementAt(_currentSubtask).explanation,
+        _buildExplanation(),
       ),
       exercise: SingleChildScrollView(
         child: Padding(
@@ -150,14 +164,16 @@ class _WordMatchingViewState extends State<WordMatchingView>
                     height: 8,
                   );
                 },
-                itemCount: widget.subtasks.length,
+                itemCount: widget.subtasks.smList.length,
                 itemBuilder: (context, index) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(
                         child: Text(
-                          widget.subtasks.elementAt(index).partOne,
+                          widget.subtasks
+                              .getParts(widget.subtasks.smList)['PartOne']
+                              .toList()[index],
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -176,7 +192,8 @@ class _WordMatchingViewState extends State<WordMatchingView>
   }
 
   void _buildBlanks() {
-    List<String> words = widget.subtasks.map<String>((e) => e.partTwo).toList();
+    List<String> words =
+        widget.subtasks.getParts(widget.subtasks.smList)['PartTwo'].toList();
     _blanks = [];
     for (int i = 0; i < words.length; i++) {
       _blanks.add(DragTargetBlank(
@@ -188,7 +205,8 @@ class _WordMatchingViewState extends State<WordMatchingView>
   }
 
   void _buildOptions() {
-    List<String> words = widget.subtasks.map<String>((e) => e.partTwo).toList();
+    List<String> words =
+        widget.subtasks.getParts(widget.subtasks.smList)['PartTwo'].toList();
     words.shuffle();
     _optionWidgets.clear();
     for (int i = 0; i < words.length; i++) {

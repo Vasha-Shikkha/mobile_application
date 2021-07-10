@@ -8,6 +8,7 @@ import 'package:Vasha_Shikkha/data/models/error.dart';
 import 'package:Vasha_Shikkha/data/models/fb.dart';
 import 'package:Vasha_Shikkha/data/models/js.dart';
 import 'package:Vasha_Shikkha/data/models/mcq.dart';
+import 'package:Vasha_Shikkha/data/models/sm.dart';
 import 'package:Vasha_Shikkha/data/models/task.dart';
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/fill_in_the_blanks_view.dart';
 import 'package:Vasha_Shikkha/ui/find_error/find_error_view.dart';
@@ -66,35 +67,47 @@ class _TaskListScreenState extends State<TaskListScreen> {
       List<TaskList> list = await taskController.getTaskList(
           token, widget.topicId, widget.level, 20, 0);
 
-      for (TaskList tl in list) {
-        final tn = tl.taskList[0].taskName;
+      if (list[0].taskName == 'Sentence Matching') {
+        SMList smList = new SMList(smList: list[0].taskList);
 
-        switch (tn) {
-          case 'Picture to Word':
-            print('pw here');
-            tasks.add({
-              'name': 'Picture To Word',
-              'subtasks': tl.taskList,
-              'route': PictureToWordView.route,
-            });
-            break;
-          case 'Word to Picture':
-            print('wp here');
-            tasks.add({
-              'name': 'Word To Picture',
-              'subtasks': tl.taskList,
-              'route': WordToPictureView.route,
-            });
-            break;
-          case 'Sentence Matching':
-            print('sm here');
-            tasks.add({
-              'name': 'Word Matching',
-              'subtasks': tl.taskList,
-              'route': WordMatchingView.route,
-            });
-            break;
-          default:
+        // Map<String, dynamic> m = smList.getParts(smList.smList);
+        print('sm here');
+        tasks.add({
+          'name': 'Word Matching',
+          'subtasks': smList,
+          'route': WordMatchingView.route,
+        });
+      } else {
+        for (TaskList tl in list) {
+          final tn = tl.taskList[0].taskName;
+
+          switch (tn) {
+            case 'Picture to Word':
+              print('pw here');
+              tasks.add({
+                'name': 'Picture To Word',
+                'subtasks': tl.taskList,
+                'route': PictureToWordView.route,
+              });
+              break;
+            case 'Word to Picture':
+              print('wp here');
+              tasks.add({
+                'name': 'Word To Picture',
+                'subtasks': tl.taskList,
+                'route': WordToPictureView.route,
+              });
+              break;
+            case 'Sentence Matching':
+              print('sm here');
+              tasks.add({
+                'name': 'Word Matching',
+                'subtasks': tl.taskList,
+                'route': WordMatchingView.route,
+              });
+              break;
+            default:
+          }
         }
       }
 
@@ -203,7 +216,8 @@ class _TaskListScreenState extends State<TaskListScreen> {
                           return TaskCard(
                             exerciseName: task['name'],
                             route: task['route'],
-                            subtasks: task['subtasks'],
+                            subtasks: [],
+                            smList: task['subtasks'],
                             serial: index + 1,
                           );
                         },

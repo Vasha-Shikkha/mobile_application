@@ -1,3 +1,4 @@
+import 'package:Vasha_Shikkha/data/models/sm.dart';
 import 'package:Vasha_Shikkha/data/models/task.dart';
 import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/fill_in_the_blanks_view.dart';
 import 'package:Vasha_Shikkha/ui/find_error/find_error_view.dart';
@@ -13,6 +14,7 @@ class TaskCard extends StatelessWidget {
   final int serial;
   final String route;
   final List<SubTask> subtasks;
+  final SMList smList;
 
   const TaskCard({
     Key key,
@@ -20,6 +22,7 @@ class TaskCard extends StatelessWidget {
     @required this.route,
     @required this.serial,
     @required this.subtasks,
+    this.smList,
   }) : super(key: key);
 
   Widget _getTaskViewWidget() {
@@ -54,7 +57,7 @@ class TaskCard extends StatelessWidget {
         );
       case WordMatchingView.route:
         return WordMatchingView(
-          subtasks: subtasks,
+          subtasks: smList,
         );
       default:
         return Container();
@@ -105,7 +108,9 @@ class TaskCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${subtasks.length} questions',
+                    route == WordMatchingView.route
+                        ? '1 question'
+                        : '${subtasks.length} questions',
                     style: TextStyle(
                       color: Colors.black,
                     ),
