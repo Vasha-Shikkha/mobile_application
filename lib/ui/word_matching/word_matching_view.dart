@@ -93,7 +93,11 @@ class _WordMatchingViewState extends State<WordMatchingView>
             .getParts(widget.subtasks.smList)['PartTwo']
             .toList();
         for (int i = 0; i < answers.length; i++) {
-          if (answers.elementAt(i).compareTo(_blankData[i] ?? '') != 0) {
+          if (answers
+                  .elementAt(i)
+                  .toLowerCase()
+                  .compareTo(_blankData[i]?.toLowerCase() ?? '') !=
+              0) {
             correct = false;
           }
         }
@@ -144,13 +148,13 @@ class _WordMatchingViewState extends State<WordMatchingView>
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 10, bottom: 20),
-                child: Text(
-                  "Take words from the box and match with related words",
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 10, bottom: 20),
+              //   child: Text(
+              //     "Take words from the box and match with related words",
+              //     style: Theme.of(context).textTheme.bodyText1,
+              //   ),
+              // ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 8),
                 decoration: BoxDecoration(
@@ -177,7 +181,8 @@ class _WordMatchingViewState extends State<WordMatchingView>
                     child: Container(
                       color: Theme.of(context).accentColor.withOpacity(0.1),
                       child: ListView.separated(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 16),
                         controller: _scrollController,
                         shrinkWrap: true,
                         separatorBuilder: (context, index) {

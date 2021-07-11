@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/login/registration_form.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const String route = '/login';
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }

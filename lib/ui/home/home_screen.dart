@@ -4,7 +4,7 @@ import 'package:Vasha_Shikkha/ui/base/bottom_navbar.dart';
 import 'package:Vasha_Shikkha/ui/topic/topic_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  static final String id = 'home_screen';
+  static final String route = '/home';
 
   @override
   Widget build(BuildContext context) {

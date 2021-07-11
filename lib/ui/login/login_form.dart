@@ -1,13 +1,4 @@
-//import 'package:Vasha_Shikkha/data/moor_database.dart';
-//import 'package:Vasha_Shikkha/data/rest/login.dart';
-// import 'package:Vasha_Shikkha/data/controllers/fb.dart';
-// import 'package:Vasha_Shikkha/data/controllers/js.dart';
-// import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
-import 'package:Vasha_Shikkha/data/controllers/fb.dart';
-import 'package:Vasha_Shikkha/data/controllers/js.dart';
-import 'package:Vasha_Shikkha/data/controllers/mcq.dart';
 import 'package:Vasha_Shikkha/data/controllers/topic.dart';
-import 'package:Vasha_Shikkha/data/models/dict.dart';
 import 'package:Vasha_Shikkha/data/models/fb.dart';
 import 'package:Vasha_Shikkha/data/models/js.dart';
 import 'package:Vasha_Shikkha/data/models/mcq.dart';
@@ -25,22 +16,15 @@ import '../../data/controllers/login.dart';
 
 import '../../data/models/error.dart';
 import '../../data/models/sm.dart';
-import '../../data/controllers/error.dart';
 
 import '../../data/models/topic.dart';
 import '../../data/controllers/topic.dart';
-import '../../data/controllers/fb.dart';
-import '../../data/controllers/js.dart';
 import '../../data/models/pw.dart';
 import '../../data/models/task.dart';
 
-import '../../data/rest/task.dart';
-
-import '../../data/controllers/topic.dart';
 import '../../data/controllers/task.dart';
 
 import '../../data/controllers/dict.dart';
-import '../../data/rest/dict.dart';
 
 import 'dart:async';
 
@@ -205,7 +189,7 @@ class _LoginFormState extends State<LoginForm> {
                         Duration(seconds: 1),
                         () {
                           Navigator.of(context)
-                              .pushReplacementNamed(HomeScreen.id);
+                              .pushReplacementNamed(HomeScreen.route);
                         },
                       );
                     } catch (e) {
@@ -267,10 +251,6 @@ class _LoginFormState extends State<LoginForm> {
     String _password = loginPasswordController.text;
     print(_phone + " pass :" + _password + "\n-----");
 
-    String message =
-        await _loginController.register("Blaziken", "01923441121", "1221");
-    print(message);
-
     Token tokenEntry = await _loginController.login(_phone, _password);
 
     DictController dictController = new DictController();
@@ -278,24 +258,24 @@ class _LoginFormState extends State<LoginForm> {
 
     //Dictionary dict = await DictRest().getDictionary(tokenEntry.token);
 
-    // await dictController.downloadDictionary(tokenEntry.token);
+    dictController.downloadDictionary(tokenEntry.token);
 
-    List<String> words = await dictController.getWordList();
+    // List<String> words = await dictController.getWordList();
     // List<String>words=await dictController.getWordList();
 
-    DictEntry a = await dictController.getDictEntry('aback');
-    DictEntry b = await dictController.getDictEntry('abandoned');
-    DictEntry c = await dictController.getDictEntry('abashed');
+    // DictEntry a = await dictController.getDictEntry('aback');
+    // DictEntry b = await dictController.getDictEntry('abandoned');
+    // DictEntry c = await dictController.getDictEntry('abashed');
 
-    List<DictEntry> flashCards = await dictController.getFlashCards();
+    // List<DictEntry> flashCards = await dictController.getFlashCards();
 
-    for (DictEntry card in flashCards) print(card.word);
+    // for (DictEntry card in flashCards) print(card.word);
 
-    DictEntry d = await dictController.getDictEntry('abandoned');
+    // DictEntry d = await dictController.getDictEntry('abandoned');
 
-    flashCards = await dictController.getFlashCards();
+    // flashCards = await dictController.getFlashCards();
 
-    for (DictEntry card in flashCards) print(card.word);
+    // for (DictEntry card in flashCards) print(card.word);
     // DictEntry a= await dictController.getDictEntry('aback');
     // DictEntry b= await dictController.getDictEntry('abandoned');
     // DictEntry c= await dictController.getDictEntry('abashed');
