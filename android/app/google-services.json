@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1044777097683",
+    "project_id": "vasha-shikkha",
+    "storage_bucket": "vasha-shikkha.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044777097683:android:b0d4f443baf89e53e47726",
+        "android_client_info": {
+          "package_name": "com.prism.vasha_shikkha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1044777097683-idtc1mn29hs234aojgjcsjrng7nsocbi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAhE2_6nFa5h3HGtggUByqzbtFIrN9F8k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1044777097683-idtc1mn29hs234aojgjcsjrng7nsocbi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
