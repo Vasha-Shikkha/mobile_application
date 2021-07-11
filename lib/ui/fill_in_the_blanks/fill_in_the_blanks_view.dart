@@ -64,10 +64,13 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
   void _buildSentenceWidgets() {
     // check for dialogue
     String sentence = widget.subtasks.elementAt(_currentSubtask).paragraph;
+
     int blankCount = 0;
     _sentenceWidgets.clear();
     List<String> articles = ["a", "an", "the"];
     List<String> punctuation = [",", ".", ";", "?", "!", ":"];
+
+    sentence = sentence.replaceAll(RegExp(r':'), ' : ');
 
     int startIndex = 0;
     int index = sentence.indexOf("#");
@@ -91,6 +94,21 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
         _sentenceWidgets.add(blank);
         _blankData[blankCount] = null;
         blankCount++;
+      } else if (word.contains("\n")) {
+        int index = word.indexOf('\n');
+        _sentenceWidgets.add(Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text('${word.substring(0, index)}'),
+        ));
+        _sentenceWidgets.add(
+          SizedBox(
+            width: 1000,
+          ),
+        );
+        _sentenceWidgets.add(Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text('${word.substring(index + 1)}'),
+        ));
       } else if (articles.contains(word.toLowerCase()) ||
           punctuation.contains(word)) {
         _sentenceWidgets.add(Padding(
@@ -100,7 +118,6 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
           ),
         ));
       } else {
-        // TODO: show meaning
         _sentenceWidgets.add(Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Text(
@@ -129,7 +146,11 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
         List<String> answers =
             widget.subtasks.elementAt(_currentSubtask).answers;
         for (int i = 0; i < answers.length; i++) {
-          if (answers.elementAt(i).compareTo(_blankData[i] ?? '') != 0) {
+          if (answers
+                  .elementAt(i)
+                  .toLowerCase()
+                  .compareTo(_blankData[i]?.toLowerCase() ?? '') !=
+              0) {
             correct = false;
           }
         }
@@ -216,7 +237,6 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
   }
 
   void _buildOptions() {
-    // TODO: options not reloading
     List<String> options = widget.subtasks.elementAt(_currentSubtask).options;
     options.shuffle();
     _optionWidgets.clear();

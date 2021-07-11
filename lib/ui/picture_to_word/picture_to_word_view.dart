@@ -39,7 +39,8 @@ class _PictureToWordViewState extends State<PictureToWordView>
         String answer = widget.subtasks.elementAt(_currentSubtask).answer;
         String selectedAnswer =
             widget.subtasks.elementAt(_currentSubtask).options[_selectedOption];
-        return selectedAnswer.compareTo(answer) == 0;
+        return selectedAnswer.toLowerCase().compareTo(answer.toLowerCase()) ==
+            0;
       },
       onReset: () {
         setState(() {

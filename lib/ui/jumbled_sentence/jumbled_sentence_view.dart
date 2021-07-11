@@ -21,16 +21,35 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
     with ExerciseMixin {
   int _currentSubtask;
   Map<int, String> _blankData;
+  List<DraggableOption> _optionWidgets;
+  List<DragTargetBlank> _blanks;
 
   @override
   void initState() {
     super.initState();
     _currentSubtask = 0;
     _blankData = {};
+    _optionWidgets = [];
+    _blanks = [];
+    _buildOptions();
+    _buildBlanks();
   }
 
-  void _updateBlankData(int serial, String text) {
-    _blankData[serial] = text;
+  void _updateBlankData(int blankSerial, int optionSerial, String text) {
+    final currentText = _optionWidgets[optionSerial].text;
+    final renderKey = _optionWidgets[optionSerial].renderKey;
+    _blankData[blankSerial] = text;
+    if (text == null) {
+      setState(() {
+        print("hello $currentText $text");
+        _optionWidgets[optionSerial] = DraggableOption(
+          text: currentText,
+          optionSerial: optionSerial,
+          renderKey: renderKey,
+        );
+        print(_blankData);
+      });
+    }
   }
 
   @override
@@ -41,22 +60,26 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
       initialSubtask: 0, // TODO: should be last attempted
       onCheck: () {
         bool correct = true;
-        List<String> answers = widget.subtasks
-            .elementAt(_currentSubtask)
-            .sentence
-            .toString()
-            .split(" ");
+        List<String> answers =
+            widget.subtasks.elementAt(_currentSubtask).answer;
         for (int i = 0; i < answers.length; i++) {
-          if (answers.elementAt(i).compareTo(_blankData[i] ?? '') != 0) {
+          if (answers
+                  .elementAt(i)
+                  .toLowerCase()
+                  .compareTo(_blankData[i]?.toLowerCase() ?? '') !=
+              0) {
             correct = false;
           }
         }
+        print(answers);
         print(_blankData);
         return correct;
       },
       onReset: () {
         setState(() {
           _blankData = {};
+          _buildOptions();
+          _buildBlanks();
         });
       },
       onContinue: () {
@@ -64,6 +87,8 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
           setState(() {
             _currentSubtask++;
             _blankData = {};
+            _buildOptions();
+            _buildBlanks();
           });
         } else {
           showAnimatedDialog(
@@ -95,14 +120,14 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
             children: [
               Wrap(
                 alignment: WrapAlignment.center,
-                children: _buildOptions(),
+                children: _optionWidgets,
               ),
               SizedBox(
                 height: 40,
               ),
               Wrap(
                 alignment: WrapAlignment.center,
-                children: _buildBlanks(),
+                children: _blanks,
               ),
             ],
           ),
@@ -111,34 +136,24 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
     );
   }
 
-  List<DragTargetBlank> _buildBlanks() {
-    List<String> words = widget.subtasks
-        .elementAt(_currentSubtask)
-        .sentence
-        .toString()
-        .split(" ");
-    List<DragTargetBlank> blanks = [];
+  void _buildBlanks() {
+    List<String> words = widget.subtasks.elementAt(_currentSubtask).answer;
+    _blanks.clear();
     for (int i = 0; i < words.length; i++) {
-      blanks.add(DragTargetBlank(
+      _blanks.add(DragTargetBlank(
         serial: i,
         updateBlankData: _updateBlankData,
       ));
       _blankData[i] = null;
     }
-    return blanks;
   }
 
-  List<DraggableOption> _buildOptions() {
-    List<String> words = widget.subtasks
-        .elementAt(_currentSubtask)
-        .sentence
-        .toString()
-        .split(" ");
+  void _buildOptions() {
+    List<String> words = widget.subtasks.elementAt(_currentSubtask).chunks;
     words.shuffle();
-
-    List<DraggableOption> optionWidgets = [];
+    _optionWidgets.clear();
     for (int i = 0; i < words.length; i++) {
-      optionWidgets.add(
+      _optionWidgets.add(
         DraggableOption(
           text: words.elementAt(i),
           optionSerial: i,
@@ -146,6 +161,5 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
         ),
       );
     }
-    return optionWidgets;
   }
 }
