@@ -34,6 +34,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _checkCalled = false;
   int _currentSubtask;
+  List<bool> _status = [];
 
   TabController _tabController;
 
@@ -101,6 +102,50 @@ class _ExerciseScreenState extends State<ExerciseScreen>
             ),
             onPressed: () {
               // TODO: show tutorial
+              showDialog(
+                context: context,
+                builder: (context) => Card(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: MediaQuery.of(context).size.height / 3,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Tutorial',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                highlightColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                icon: Icon(
+                                  Icons.cancel,
+                                  color: Theme.of(context).accentColor,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis lobortis purus. In ac porta libero.\n\nPraesent tortor ipsum, tincidunt ut luctus vel, vehicula sed nunc. Pellentesque ullamcorper facilisis iaculis. Sed vitae faucibus enim, ut pellentesque leo.\n\nPraesent aliquam in odio in efficitur. Suspendisse potenti. In pellentesque, ex in pretium posuere, augue nibh porttitor ex, at ultrices leo ligula molestie sapien. Pellentesque semper sollicitudin risus, non eleifend tellus convallis nec.',
+                          maxLines: 8,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
             },
           ),
         ],
@@ -140,8 +185,9 @@ class _ExerciseScreenState extends State<ExerciseScreen>
           child: Center(
             child: index < _currentSubtask
                 ? Icon(
-                    Icons.check,
+                    _status[index] ? Icons.check : Icons.close,
                     size: 16,
+                    color: Colors.white,
                   )
                 : Text(
                     '${index + 1}',
@@ -231,6 +277,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
 
   Widget _buildCheckResult() {
     if (widget.onCheck()) {
+      _status.add(true);
       return CorrectDialog(
         onContinue: () {
           widget.onContinue();
@@ -244,6 +291,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
         },
       );
     } else {
+      _status.add(false);
       return IncorrectDialog(
         onExplain: widget.onExplain,
         onContinue: () {
@@ -311,6 +359,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
       ),
       child: Text('Skip'),
       onPressed: () {
+        _status.add(false);
         widget.onContinue();
         setState(() {
           _checkCalled = false;

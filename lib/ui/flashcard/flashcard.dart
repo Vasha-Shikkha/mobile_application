@@ -183,7 +183,7 @@ class _FlashcardState extends State<Flashcard> {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 8.0,
-                                  horizontal: 40.0,
+                                  horizontal: 16.0,
                                 ),
                                 child: Row(
                                   children: [

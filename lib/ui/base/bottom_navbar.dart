@@ -39,7 +39,7 @@ class BottomNavbar extends StatelessWidget {
                     iconSize: 32,
                     color: Colors.white,
                     onPressed: () {
-                      Navigator.of(context).pushNamed(HomeScreen.id);
+                      Navigator.of(context).pushNamed(HomeScreen.route);
                     },
                     icon: Icon(Icons.home),
                   ),
