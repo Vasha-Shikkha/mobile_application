@@ -67,8 +67,6 @@ class _TopicScreenState extends State<TopicScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -88,6 +86,15 @@ class _TopicScreenState extends State<TopicScreen>
             ),
           ),
         ),
+        centerTitle: true,
+        title: Text(
+          widget.topicName.toUpperCase(),
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+        ),
       ),
       bottomNavigationBar: BottomNavbar(),
       extendBody: true,
@@ -100,17 +107,7 @@ class _TopicScreenState extends State<TopicScreen>
               'assets/img/reading.png',
               fit: BoxFit.fill,
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.4,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-              child: Text(
-                widget.topicName.toUpperCase(),
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              height: MediaQuery.of(context).size.height * 0.35,
             ),
             Padding(
               padding:

@@ -153,7 +153,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 16, top: 8),
+            padding: const EdgeInsets.only(left: 16, top: 8),
             child: _buildTaskSteps(),
           ),
           widget.exercise,
@@ -203,31 +203,39 @@ class _ExerciseScreenState extends State<ExerciseScreen>
     );
   }
 
-  Padding _buildPersistentBottomSheet(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: _buildResetButton(context),
+  Widget _buildPersistentBottomSheet(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height / 10,
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: Theme.of(context).primaryColorLight),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: _buildResetButton(context),
+              ),
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: _buildSkipButton(context),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: _buildSkipButton(context),
+              ),
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: _buildCheckButton(context),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: _buildCheckButton(context),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

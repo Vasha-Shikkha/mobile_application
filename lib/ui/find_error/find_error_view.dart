@@ -161,13 +161,15 @@ class _FindErrorViewState extends State<FindErrorView> with ExerciseMixin {
             borderRadius: BorderRadius.circular(15),
           ),
           color: index == _selectedOption
-              ? Theme.of(context).accentColor
+              ? Theme.of(context).primaryColorDark
               : Colors.white,
           child: ListTile(
             selected: index == _selectedOption,
             title: Text(
               _options[index],
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                  color:
+                      index == _selectedOption ? Colors.white : Colors.black),
             ),
             onTap: () {
               if (index == _selectedOption) {

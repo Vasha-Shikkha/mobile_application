@@ -54,13 +54,17 @@ class SubtopicCard extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              topicName,
-              maxLines: 3,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(
+                topicName,
+                maxLines: 3,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
             Padding(

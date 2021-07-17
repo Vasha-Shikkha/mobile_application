@@ -87,7 +87,7 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView>
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
-              Text(widget.subtasks.elementAt(_currentSubtask).question),
+              Text(_buildQuestion()),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 20,
               ),
@@ -97,6 +97,11 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView>
         ),
       ),
     );
+  }
+
+  _buildQuestion() {
+    String question = widget.subtasks.elementAt(_currentSubtask).question;
+    return question.replaceAll(RegExp('#'), '_____\t');
   }
 
   ListView _buildOptions() {
@@ -115,13 +120,15 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView>
             borderRadius: BorderRadius.circular(15),
           ),
           color: index == _selectedOption
-              ? Theme.of(context).accentColor
+              ? Theme.of(context).primaryColorDark
               : Colors.white,
           child: ListTile(
             selected: index == _selectedOption,
             title: Text(
               options[index],
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                  color:
+                      index == _selectedOption ? Colors.white : Colors.black),
             ),
             onTap: () {
               if (index == _selectedOption) {

@@ -161,7 +161,7 @@ class _WordToPictureViewState extends State<WordToPictureView>
                   borderRadius: BorderRadius.circular(12),
                 ),
                 color: index == _selectedOption
-                    ? Theme.of(context).accentColor
+                    ? Theme.of(context).primaryColorDark
                     : Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

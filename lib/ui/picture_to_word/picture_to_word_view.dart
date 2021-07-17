@@ -95,13 +95,13 @@ class _PictureToWordViewState extends State<PictureToWordView>
                 ),
                 fit: BoxFit.fill,
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.25,
               ),
               SizedBox(
                 height: 16,
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.35,
                 child: _buildOptions(),
               ),
             ],
@@ -143,13 +143,15 @@ class _PictureToWordViewState extends State<PictureToWordView>
                   borderRadius: BorderRadius.circular(12),
                 ),
                 color: index == _selectedOption
-                    ? Theme.of(context).accentColor
+                    ? Theme.of(context).primaryColorDark
                     : Colors.white,
                 child: Center(
                   child: Text(
                     options[index],
                     style: TextStyle(
-                      color: Colors.black,
+                      color: index == _selectedOption
+                          ? Colors.white
+                          : Colors.black,
                     ),
                   ),
                 ),
