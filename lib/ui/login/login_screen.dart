@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 75.0),
+                  padding: EdgeInsets.only(top: 60.0),
                   child: new Image(
                     width: 250.0,
                     height: 191.0,

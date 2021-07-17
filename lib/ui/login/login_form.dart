@@ -48,6 +48,8 @@ class _LoginFormState extends State<LoginForm> {
   bool _loading = false;
 
   LoginController _loginController;
+  GlobalKey<FormState> _formKey;
+
   final String _dummyPhone = "01730029348";
   final String _dummyPassword = "123";
 
@@ -55,6 +57,7 @@ class _LoginFormState extends State<LoginForm> {
   void initState() {
     super.initState();
     _loginController = LoginController();
+    _formKey = GlobalKey<FormState>();
   }
 
   @override
@@ -75,76 +78,98 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 child: Container(
                   width: 300.0,
-                  height: 190.0,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 20.0, bottom: 10.0, left: 25.0, right: 25.0),
-                        child: TextField(
-                          focusNode: myFocusNodePhoneLogin,
-                          controller: loginPhoneController,
-                          keyboardType: TextInputType.phone,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.black,
-                          ),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              FontAwesomeIcons.phone,
+                  height: 240.0,
+                  child: Form(
+                    key: _formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 20.0, bottom: 10.0, left: 25.0, right: 25.0),
+                          child: TextFormField(
+                            focusNode: myFocusNodePhoneLogin,
+                            controller: loginPhoneController,
+                            keyboardType: TextInputType.phone,
+                            style: TextStyle(
+                              fontSize: 16.0,
                               color: Colors.black,
-                              size: 22.0,
                             ),
-                            hintText: "Phone Number",
-                            hintStyle: TextStyle(fontSize: 17.0),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              icon: Icon(
+                                FontAwesomeIcons.phone,
+                                color: Colors.black,
+                                size: 22.0,
+                              ),
+                              hintText: "Phone Number",
+                              hintStyle: TextStyle(fontSize: 17.0),
+                            ),
+                            validator: (val) {
+                              if (val.isEmpty) return "Required field";
+                              final regex14 =
+                                  RegExp("(?:\\+88)(01[3-9]\\d{8})");
+                              final regex13 = RegExp("(?:\\88)(01[3-9]\\d{8})");
+                              final regex11 = RegExp("(01[3-9]\\d{8})");
+                              if ((regex11.hasMatch(val) && val.length == 11) ||
+                                  (regex13.hasMatch(val) && val.length == 13) ||
+                                  (regex14.hasMatch(val) && val.length == 14)) {
+                                return null;
+                              } else {
+                                return 'Invalid phone number';
+                              }
+                            },
                           ),
                         ),
-                      ),
-                      Container(
-                        width: 250.0,
-                        height: 1.0,
-                        color: Colors.grey[400],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 10.0, bottom: 20.0, left: 25.0, right: 25.0),
-                        child: TextField(
-                          focusNode: myFocusNodePasswordLogin,
-                          controller: loginPasswordController,
-                          obscureText: _obscureTextLogin,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.black,
-                          ),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              FontAwesomeIcons.lock,
-                              size: 22.0,
+                        Container(
+                          width: 250.0,
+                          height: 1.0,
+                          color: Colors.grey[400],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 10.0, bottom: 20.0, left: 25.0, right: 25.0),
+                          child: TextFormField(
+                            focusNode: myFocusNodePasswordLogin,
+                            controller: loginPasswordController,
+                            obscureText: _obscureTextLogin,
+                            style: TextStyle(
+                              fontSize: 16.0,
                               color: Colors.black,
                             ),
-                            hintText: "Password",
-                            hintStyle: TextStyle(fontSize: 17.0),
-                            suffixIcon: GestureDetector(
-                              onTap: _toggleLogin,
-                              child: Icon(
-                                _obscureTextLogin
-                                    ? FontAwesomeIcons.eyeSlash
-                                    : FontAwesomeIcons.eye,
-                                size: 15.0,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              icon: Icon(
+                                FontAwesomeIcons.lock,
+                                size: 22.0,
                                 color: Colors.black,
                               ),
+                              hintText: "Password",
+                              hintStyle: TextStyle(fontSize: 17.0),
+                              suffixIcon: GestureDetector(
+                                onTap: _toggleLogin,
+                                child: Icon(
+                                  _obscureTextLogin
+                                      ? FontAwesomeIcons.eyeSlash
+                                      : FontAwesomeIcons.eye,
+                                  size: 15.0,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
+                            validator: (val) {
+                              if (val.isEmpty) return "Required field";
+                              return null;
+                            },
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 170.0),
+                margin: EdgeInsets.only(top: 220.0),
                 decoration: new BoxDecoration(
                   color: Theme.of(context).primaryColorDark,
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
@@ -179,25 +204,28 @@ class _LoginFormState extends State<LoginForm> {
                           ),
                         ),
                   onPressed: () async {
-                    setState(() {
-                      _loading = true;
-                    });
-                    try {
-                      await _login();
-                      showInSnackBar("Login successful");
-                      await Future.delayed(
-                        Duration(seconds: 1),
-                        () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(HomeScreen.route);
-                        },
-                      );
-                    } catch (e) {
-                      print(e);
-                      showInSnackBar("Incorrect phone number or password");
+                    if (_formKey.currentState.validate()) {
                       setState(() {
-                        _loading = false;
+                        _loading = true;
                       });
+                      try {
+                        await _login();
+                        showInSnackBar("Login successful");
+                        await Future.delayed(
+                          Duration(seconds: 1),
+                          () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(HomeScreen.route);
+                          },
+                        );
+                      } catch (e) {
+                        print(e);
+                        showInSnackBar("Incorrect phone number or password");
+                      } finally {
+                        setState(() {
+                          _loading = false;
+                        });
+                      }
                     }
                   },
                 ),

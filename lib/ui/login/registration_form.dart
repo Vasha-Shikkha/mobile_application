@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:Vasha_Shikkha/data/controllers/login.dart';
+import 'package:Vasha_Shikkha/ui/home/home_screen.dart';
 import 'package:Vasha_Shikkha/ui/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -27,11 +30,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
   bool _loading = false;
 
   LoginController _loginController;
+  GlobalKey<FormState> _formKey;
 
   @override
   void initState() {
     super.initState();
     _loginController = LoginController();
+    _formKey = GlobalKey<FormState>();
   }
 
   @override
@@ -43,106 +48,137 @@ class _RegistrationFormState extends State<RegistrationForm> {
         Card(
           elevation: 2.0,
           color: Colors.white,
-          margin: EdgeInsets.only(top: 20, bottom: 124, left: 20, right: 20),
+          margin: EdgeInsets.only(top: 20, bottom: 100, left: 20, right: 20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                    top: 20.0, bottom: 10.0, left: 25.0, right: 25.0),
-                child: TextField(
-                  focusNode: myFocusNodeNameRegister,
-                  controller: registerNameController,
-                  keyboardType: TextInputType.name,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    icon: Icon(
-                      FontAwesomeIcons.user,
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 20.0, bottom: 10.0, left: 25.0, right: 25.0),
+                  child: TextFormField(
+                    focusNode: myFocusNodeNameRegister,
+                    controller: registerNameController,
+                    keyboardType: TextInputType.name,
+                    style: TextStyle(
+                      fontSize: 16.0,
                       color: Colors.black,
-                      size: 22.0,
                     ),
-                    hintText: "Name",
-                    hintStyle: TextStyle(fontSize: 17.0),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      icon: Icon(
+                        FontAwesomeIcons.user,
+                        color: Colors.black,
+                        size: 22.0,
+                      ),
+                      hintText: "Name",
+                      hintStyle: TextStyle(fontSize: 17.0),
+                    ),
+                    validator: (val) {
+                      if (val.isEmpty) return "Required field";
+                      final regex = RegExp("[0-9@#\$%&]");
+                      if (regex.hasMatch(val)) {
+                        return "Invalid name";
+                      }
+                      return null;
+                    },
                   ),
                 ),
-              ),
-              Container(
-                width: 250.0,
-                height: 1.0,
-                color: Colors.grey[400],
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                    top: 20.0, bottom: 10.0, left: 25.0, right: 25.0),
-                child: TextField(
-                  focusNode: myFocusNodePhoneRegister,
-                  controller: registerPhoneController,
-                  keyboardType: TextInputType.phone,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    icon: Icon(
-                      FontAwesomeIcons.phone,
+                Container(
+                  width: 250.0,
+                  height: 1.0,
+                  color: Colors.grey[400],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 20.0, bottom: 10.0, left: 25.0, right: 25.0),
+                  child: TextFormField(
+                    focusNode: myFocusNodePhoneRegister,
+                    controller: registerPhoneController,
+                    keyboardType: TextInputType.phone,
+                    style: TextStyle(
+                      fontSize: 16.0,
                       color: Colors.black,
-                      size: 22.0,
                     ),
-                    hintText: "Phone Number",
-                    hintStyle: TextStyle(fontSize: 17.0),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      icon: Icon(
+                        FontAwesomeIcons.phone,
+                        color: Colors.black,
+                        size: 22.0,
+                      ),
+                      hintText: "Phone Number",
+                      hintStyle: TextStyle(fontSize: 17.0),
+                    ),
+                    validator: (val) {
+                      if (val.isEmpty) return "Required field";
+                      final regex14 = RegExp("(?:\\+88)(01[3-9]\\d{8})");
+                      final regex13 = RegExp("(?:\\88)(01[3-9]\\d{8})");
+                      final regex11 = RegExp("(01[3-9]\\d{8})");
+                      if ((regex11.hasMatch(val) && val.length == 11) ||
+                          (regex13.hasMatch(val) && val.length == 13) ||
+                          (regex14.hasMatch(val) && val.length == 14)) {
+                        return null;
+                      } else {
+                        return 'Invalid phone number';
+                      }
+                    },
                   ),
                 ),
-              ),
-              Container(
-                width: 250.0,
-                height: 1.0,
-                color: Colors.grey[400],
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                    top: 10.0, bottom: 20.0, left: 25.0, right: 25.0),
-                child: TextField(
-                  focusNode: myFocusNodePasswordRegister,
-                  controller: registerPasswordController,
-                  obscureText: _obscureTextRegister,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    icon: Icon(
-                      FontAwesomeIcons.lock,
-                      size: 22.0,
+                Container(
+                  width: 250.0,
+                  height: 1.0,
+                  color: Colors.grey[400],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 10.0, bottom: 20.0, left: 25.0, right: 25.0),
+                  child: TextFormField(
+                    focusNode: myFocusNodePasswordRegister,
+                    controller: registerPasswordController,
+                    obscureText: _obscureTextRegister,
+                    style: TextStyle(
+                      fontSize: 16.0,
                       color: Colors.black,
                     ),
-                    hintText: "Password",
-                    hintStyle: TextStyle(fontSize: 17.0),
-                    suffixIcon: GestureDetector(
-                      onTap: _toggleLogin,
-                      child: Icon(
-                        _obscureTextRegister
-                            ? FontAwesomeIcons.eyeSlash
-                            : FontAwesomeIcons.eye,
-                        size: 15.0,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      icon: Icon(
+                        FontAwesomeIcons.lock,
+                        size: 22.0,
                         color: Colors.black,
                       ),
+                      hintText: "Password",
+                      hintStyle: TextStyle(fontSize: 17.0),
+                      suffixIcon: GestureDetector(
+                        onTap: _toggleLogin,
+                        child: Icon(
+                          _obscureTextRegister
+                              ? FontAwesomeIcons.eyeSlash
+                              : FontAwesomeIcons.eye,
+                          size: 15.0,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
+                    validator: (val) {
+                      if (val.isEmpty) return "Required field";
+                      return val.length < 8
+                          ? "Password must have at least 8 characters"
+                          : null;
+                    },
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         Positioned(
-          bottom: 100,
+          bottom: 80,
           child: Container(
             decoration: new BoxDecoration(
               color: Theme.of(context).primaryColorDark,
@@ -178,25 +214,32 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       ),
               ),
               onPressed: () async {
-                setState(() {
-                  _loading = true;
-                });
-                try {
-                  await _login();
-                  showInSnackBar("Registration successful");
-                  await Future.delayed(
-                    Duration(seconds: 1),
-                    () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(LoginScreen.route);
-                    },
-                  );
-                } catch (e) {
-                  print(e);
-                  showInSnackBar("Incorrect phone number or password");
+                if (_formKey.currentState.validate()) {
                   setState(() {
-                    _loading = false;
+                    _loading = true;
                   });
+                  try {
+                    final registerMessage = await _register();
+                    showInSnackBar(registerMessage);
+                    if (registerMessage.compareTo("Registration successful") ==
+                        0) {
+                      await _login();
+                      await Future.delayed(
+                        Duration(seconds: 1),
+                        () {
+                          Navigator.of(context)
+                              .pushReplacementNamed(HomeScreen.route);
+                        },
+                      );
+                    }
+                  } catch (e) {
+                    print(e);
+                    showInSnackBar("Error occurred. Please try again.");
+                  } finally {
+                    setState(() {
+                      _loading = false;
+                    });
+                  }
                 }
               },
             ),
@@ -229,13 +272,22 @@ class _RegistrationFormState extends State<RegistrationForm> {
     ));
   }
 
-  Future<void> _login() async {
+  Future<String> _register() async {
     String _name = registerNameController.text;
     String _phone = registerPhoneController.text;
     String _password = registerPasswordController.text;
     print(_phone + " pass :" + _password + "\n-----");
 
     String message = await _loginController.register(_name, _phone, _password);
-    print(message);
+
+    return message;
+  }
+
+  Future<void> _login() {
+    String _phone = registerPhoneController.text;
+    String _password = registerPasswordController.text;
+    print(_phone + " pass :" + _password + "\n-----");
+
+    return _loginController.login(_phone, _password);
   }
 }
