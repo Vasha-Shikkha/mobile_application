@@ -76,34 +76,39 @@ class _FlashcardState extends State<Flashcard> {
           horizontal: 32.0,
           vertical: 8.0,
         ),
-        child: ElevatedButton(
-          child: Text(
-            "Next",
-            style: TextStyle(fontSize: 18),
-          ),
-          onPressed: () {
-            setState(() {
-              if (currentIndex + 1 < flashCards.length) {
-                currentIndex++;
-              } else {
-                currentIndex = 0;
-              }
-            });
-          },
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all(Theme.of(context).primaryColorLight),
-            foregroundColor: MaterialStateProperty.all(Colors.deepPurple),
-            elevation: MaterialStateProperty.all(5.0),
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+        child: (loading || flashCards.isEmpty)
+            ? Container(
+                width: 0,
+                height: 0,
+              )
+            : ElevatedButton(
+                child: Text(
+                  "Next",
+                  style: TextStyle(fontSize: 18),
+                ),
+                onPressed: () {
+                  setState(() {
+                    if (currentIndex + 1 < flashCards.length) {
+                      currentIndex++;
+                    } else {
+                      currentIndex = 0;
+                    }
+                  });
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).primaryColorLight),
+                  foregroundColor: MaterialStateProperty.all(Colors.deepPurple),
+                  elevation: MaterialStateProperty.all(5.0),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  shadowColor: MaterialStateProperty.all(
+                      Theme.of(context).primaryColorDark),
+                ),
               ),
-            ),
-            shadowColor:
-                MaterialStateProperty.all(Theme.of(context).primaryColorDark),
-          ),
-        ),
       ),
       body: loading
           ? SizedBox(
@@ -115,115 +120,71 @@ class _FlashcardState extends State<Flashcard> {
             )
           : Padding(
               padding: const EdgeInsets.all(80.0),
-              child: Stack(
-                alignment: Alignment.center,
-                fit: StackFit.expand,
-                children: [
-                  Transform.rotate(
-                    angle: -pi / 8,
-                    child: Card(
-                      elevation: 10,
-                      color: Colors.white,
-                      shadowColor: Theme.of(context).primaryColorLight,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+              child: flashCards.isEmpty
+                  ? Center(
+                      child: Text(
+                        'Please try a few exercises to learn new words',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
                       ),
-                    ),
-                  ),
-                  Transform.rotate(
-                    angle: -pi / 16,
-                    child: Card(
-                      elevation: 10,
-                      color: Colors.white,
-                      shadowColor: Theme.of(context).primaryColorLight,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                  ),
-                  Card(
-                    elevation: 10,
-                    color: Colors.white,
-                    shadowColor: Theme.of(context).primaryColorLight,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            flashCards[currentIndex].word,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              color: Theme.of(context).primaryColorDark,
+                    )
+                  : Stack(
+                      alignment: Alignment.center,
+                      fit: StackFit.expand,
+                      children: [
+                        Transform.rotate(
+                          angle: -pi / 8,
+                          child: Card(
+                            elevation: 10,
+                            color: Colors.white,
+                            shadowColor: Theme.of(context).primaryColorLight,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                          Divider(
-                            indent: 40,
-                            endIndent: 40,
-                            height: 4,
-                            thickness: 2,
-                            color: Theme.of(context).primaryColorDark,
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          ListView.separated(
-                            shrinkWrap: true,
-                            separatorBuilder: (context, index) {
-                              return SizedBox(
-                                height: 2,
-                              );
-                            },
-                            itemCount: flashCards[currentIndex].meanings.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0,
-                                  horizontal: 16.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 8.0),
-                                      child: CircleAvatar(
-                                        radius: 8,
-                                        child: Text(
-                                          "${index + 1}",
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      flashCards[currentIndex].meanings[index],
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Text(
-                            "Examples",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).primaryColorDark,
+                        ),
+                        Transform.rotate(
+                          angle: -pi / 16,
+                          child: Card(
+                            elevation: 10,
+                            color: Colors.white,
+                            shadowColor: Theme.of(context).primaryColorLight,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                          SizedBox(
-                            height: 8,
+                        ),
+                        Card(
+                          elevation: 10,
+                          color: Colors.white,
+                          shadowColor: Theme.of(context).primaryColorLight,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                          flashCards[currentIndex].examples.isEmpty
-                              ? Text("No example available")
-                              : ListView.separated(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  flashCards[currentIndex].word,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    color: Theme.of(context).primaryColorDark,
+                                  ),
+                                ),
+                                Divider(
+                                  indent: 40,
+                                  endIndent: 40,
+                                  height: 4,
+                                  thickness: 2,
+                                  color: Theme.of(context).primaryColorDark,
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                ListView.separated(
                                   shrinkWrap: true,
                                   separatorBuilder: (context, index) {
                                     return SizedBox(
@@ -231,7 +192,7 @@ class _FlashcardState extends State<Flashcard> {
                                     );
                                   },
                                   itemCount:
-                                      flashCards[currentIndex].examples.length,
+                                      flashCards[currentIndex].meanings.length,
                                   itemBuilder: (context, index) {
                                     return Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -253,7 +214,7 @@ class _FlashcardState extends State<Flashcard> {
                                           ),
                                           Text(
                                             flashCards[currentIndex]
-                                                .examples[index],
+                                                .meanings[index],
                                             textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 16),
                                           ),
@@ -262,12 +223,70 @@ class _FlashcardState extends State<Flashcard> {
                                     );
                                   },
                                 ),
-                        ],
-                      ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Text(
+                                  "Examples",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context).primaryColorDark,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                flashCards[currentIndex].examples.isEmpty
+                                    ? Text("No example available")
+                                    : ListView.separated(
+                                        shrinkWrap: true,
+                                        separatorBuilder: (context, index) {
+                                          return SizedBox(
+                                            height: 2,
+                                          );
+                                        },
+                                        itemCount: flashCards[currentIndex]
+                                            .examples
+                                            .length,
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0,
+                                              horizontal: 16.0,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 8.0),
+                                                  child: CircleAvatar(
+                                                    radius: 8,
+                                                    child: Text(
+                                                      "${index + 1}",
+                                                      style: TextStyle(
+                                                          fontSize: 12),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  flashCards[currentIndex]
+                                                      .examples[index],
+                                                  textAlign: TextAlign.center,
+                                                  style:
+                                                      TextStyle(fontSize: 16),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
             ),
     );
   }

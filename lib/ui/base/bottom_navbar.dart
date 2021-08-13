@@ -1,8 +1,18 @@
 import 'package:Vasha_Shikkha/ui/flashcard/flashcard.dart';
+import 'package:Vasha_Shikkha/ui/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/home/home_screen.dart';
 
 class BottomNavbar extends StatelessWidget {
+  /*
+    returns true if the current route is route, false otherwise
+  */
+  bool _checkIfSameRoute(BuildContext context, String route) {
+    Route currentRoute = ModalRoute.of(context);
+    final currentRouteName = currentRoute?.settings?.name;
+    return (currentRouteName != null && currentRouteName == route);
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
@@ -20,7 +30,9 @@ class BottomNavbar extends StatelessWidget {
                 iconSize: 30,
                 color: Colors.purple,
                 onPressed: () {
-                  Navigator.of(context).pushNamed(Flashcard.route);
+                  if (!_checkIfSameRoute(context, Flashcard.route)) {
+                    Navigator.of(context).pushNamed(Flashcard.route);
+                  }
                 },
                 icon: Icon(Icons.library_books_outlined),
                 tooltip: "flash cards",
@@ -38,8 +50,12 @@ class BottomNavbar extends StatelessWidget {
                   child: IconButton(
                     iconSize: 32,
                     color: Colors.white,
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                     onPressed: () {
-                      Navigator.of(context).pushNamed(HomeScreen.route);
+                      if (!_checkIfSameRoute(context, HomeScreen.route)) {
+                        Navigator.of(context).pushNamed(HomeScreen.route);
+                      }
                     },
                     icon: Icon(Icons.home),
                   ),
@@ -51,7 +67,11 @@ class BottomNavbar extends StatelessWidget {
               child: IconButton(
                 iconSize: 30,
                 color: Colors.purple,
-                onPressed: () {},
+                onPressed: () {
+                  if (!_checkIfSameRoute(context, ProfileScreen.route)) {
+                    Navigator.of(context).pushNamed(ProfileScreen.route);
+                  }
+                },
                 icon: Icon(Icons.person_outline),
               ),
             ),

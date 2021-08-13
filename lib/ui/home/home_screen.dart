@@ -10,28 +10,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         toolbarHeight: MediaQuery.of(context).size.height * 0.1,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Text(
-            'VASHA SHIKKHA',
-            style: TextStyle(
-              color: Colors.purple,
-              fontSize: 24,
-            ),
+        title: Text(
+          'VASHA SHIKKHA',
+          style: TextStyle(
+            color: Colors.purple,
+            fontSize: 24,
           ),
         ),
-        actions: [
-          IconButton(
-            padding: EdgeInsets.only(right: 8.0),
-            iconSize: 32,
-            color: Colors.purple,
-            onPressed: () {},
-            icon: Icon(Icons.account_circle_outlined),
-          ),
-        ],
       ),
       bottomNavigationBar: BottomNavbar(),
       body: Padding(
