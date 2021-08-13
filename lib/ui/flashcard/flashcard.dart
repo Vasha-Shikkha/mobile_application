@@ -4,6 +4,7 @@ import 'package:Vasha_Shikkha/data/controllers/dict.dart';
 import 'package:Vasha_Shikkha/data/models/dict.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Flashcard extends StatefulWidget {
   static const String route = '/flashcard';
@@ -111,11 +112,57 @@ class _FlashcardState extends State<Flashcard> {
               ),
       ),
       body: loading
-          ? SizedBox(
-              width: 50,
-              child: SpinKitWanderingCubes(
-                size: 20,
-                color: Theme.of(context).primaryColorDark,
+          ? Center(
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.grey[100],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      height: 30.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.0),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.4,
+                      height: 20.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.8,
+                      height: 10.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.8,
+                      height: 10.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
           : Padding(

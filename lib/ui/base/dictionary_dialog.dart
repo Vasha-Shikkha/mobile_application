@@ -1,7 +1,7 @@
 import 'package:Vasha_Shikkha/data/controllers/dict.dart';
 import 'package:Vasha_Shikkha/data/models/dict.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DictionaryDialog extends StatefulWidget {
   @override
@@ -10,7 +10,7 @@ class DictionaryDialog extends StatefulWidget {
 
 class _DictionaryDialogState extends State<DictionaryDialog> {
   DictController dictController;
-  bool loading, searchLoading;
+  bool loading;
   List<String> words;
   String searchWord;
   DictEntry searchResult;
@@ -32,18 +32,10 @@ class _DictionaryDialogState extends State<DictionaryDialog> {
   }
 
   Future<void> fetchSearchResult() async {
-    setState(() {
-      searchLoading = true;
-    });
     try {
       searchResult = await dictController.getDictEntry(searchWord);
-      print(searchResult.meanings[0]);
     } catch (error) {
       print(error);
-    } finally {
-      setState(() {
-        searchLoading = false;
-      });
     }
   }
 
@@ -52,7 +44,6 @@ class _DictionaryDialogState extends State<DictionaryDialog> {
     super.initState();
     dictController = DictController();
     loading = false;
-    searchLoading = false;
     fetchWordsFromDictionary();
   }
 
@@ -66,18 +57,63 @@ class _DictionaryDialogState extends State<DictionaryDialog> {
         vertical: MediaQuery.of(context).size.height / 5,
         horizontal: 40,
       ),
-      child: loading
-          ? SizedBox(
-              width: 50,
-              child: SpinKitWanderingCubes(
-                size: 20,
-                color: Theme.of(context).primaryColorDark,
-              ),
-            )
-          : Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-              child: Column(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+        child: loading
+            ? Shimmer.fromColors(
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.grey[100],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      height: 30.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.0),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.4,
+                      height: 20.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.8,
+                      height: 10.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.8,
+                      height: 10.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,7 +243,7 @@ class _DictionaryDialogState extends State<DictionaryDialog> {
                         ),
                 ],
               ),
-            ),
+      ),
     );
   }
 }

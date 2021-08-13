@@ -12,6 +12,7 @@ import 'package:Vasha_Shikkha/ui/word_to_picture/word_to_picture_view.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/topic/task_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TaskListScreen extends StatefulWidget {
   final int level;
@@ -177,8 +178,67 @@ class _TaskListScreenState extends State<TaskListScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: _loading
-                    ? SpinKitThreeBounce(
-                        color: Theme.of(context).accentColor,
+                    ? Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemBuilder: (_, __) => Padding(
+                            padding: const EdgeInsets.only(bottom: 16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 8.0),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      const Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 4.0),
+                                      ),
+                                      Container(
+                                        width: double.infinity,
+                                        height: 16.0,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 4.0),
+                                      ),
+                                      Container(
+                                        width: double.infinity,
+                                        height: 12.0,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          itemCount: 5,
+                        ),
                       )
                     : ListView.builder(
                         shrinkWrap: true,

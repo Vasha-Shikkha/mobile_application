@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/bottom_navbar.dart';
 import 'package:Vasha_Shikkha/ui/topic/subtopic_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TopicScreen extends StatefulWidget {
   final String topicName;
@@ -55,7 +56,7 @@ class _TopicScreenState extends State<TopicScreen>
     topics = await _topicController.getTopicList(
         t.token, widget.topicName, _selectedLevel);
     Future.delayed(
-      Duration(seconds: 2),
+      Duration(seconds: 1),
       () {
         setState(() {
           _loading = false;
@@ -154,10 +155,30 @@ class _TopicScreenState extends State<TopicScreen>
               ),
             ),
             _loading
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: SpinKitThreeBounce(
-                      color: Theme.of(context).accentColor,
+                ? Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.grey[100],
+                    child: GridView.count(
+                      childAspectRatio: 0.75,
+                      padding: EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        bottom: 160,
+                      ),
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      children: List.generate(
+                        9,
+                        (index) => Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
                     ),
                   )
                 : _buildSubtopicGrid(_selectedLevel),
