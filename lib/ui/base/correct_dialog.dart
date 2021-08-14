@@ -1,9 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
-class CorrectDialog extends StatelessWidget {
+class CorrectDialog extends StatefulWidget {
   final Function onContinue;
 
   const CorrectDialog({Key key, @required this.onContinue}) : super(key: key);
+
+  @override
+  _CorrectDialogState createState() => _CorrectDialogState();
+}
+
+class _CorrectDialogState extends State<CorrectDialog> {
+  AudioPlayer audioPlayer;
+
+  Future<void> playSound() async {
+    await audioPlayer.setAsset('assets/sounds/right_answer.mp3');
+    audioPlayer.setSpeed(1.2);
+    audioPlayer.play();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    audioPlayer = AudioPlayer();
+    playSound();
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +114,7 @@ class CorrectDialog extends StatelessWidget {
             MaterialStateProperty.all(Theme.of(context).primaryColorDark),
       ),
       child: Text('Continue'),
-      onPressed: onContinue,
+      onPressed: widget.onContinue,
     );
   }
 }

@@ -270,63 +270,80 @@ class _FlashcardState extends State<Flashcard> {
                                     );
                                   },
                                 ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Text(
-                                  "Examples",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Theme.of(context).primaryColorDark,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
                                 flashCards[currentIndex].examples.isEmpty
-                                    ? Text("No example available")
-                                    : ListView.separated(
-                                        shrinkWrap: true,
-                                        separatorBuilder: (context, index) {
-                                          return SizedBox(
-                                            height: 2,
-                                          );
-                                        },
-                                        itemCount: flashCards[currentIndex]
-                                            .examples
-                                            .length,
-                                        itemBuilder: (context, index) {
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                              horizontal: 16.0,
+                                    ? Container()
+                                    : Column(
+                                        children: [
+                                          SizedBox(
+                                            height: 16,
+                                          ),
+                                          Text(
+                                            "Examples",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Theme.of(context)
+                                                  .primaryColorDark,
                                             ),
-                                            child: Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 8.0),
-                                                  child: CircleAvatar(
-                                                    radius: 8,
-                                                    child: Text(
-                                                      "${index + 1}",
-                                                      style: TextStyle(
-                                                          fontSize: 12),
-                                                    ),
-                                                  ),
+                                          ),
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          flashCards[currentIndex]
+                                                  .examples
+                                                  .isEmpty
+                                              ? Text("No example available")
+                                              : ListView.separated(
+                                                  shrinkWrap: true,
+                                                  separatorBuilder:
+                                                      (context, index) {
+                                                    return SizedBox(
+                                                      height: 2,
+                                                    );
+                                                  },
+                                                  itemCount:
+                                                      flashCards[currentIndex]
+                                                          .examples
+                                                          .length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                        vertical: 8.0,
+                                                        horizontal: 16.0,
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 8.0),
+                                                            child: CircleAvatar(
+                                                              radius: 8,
+                                                              child: Text(
+                                                                "${index + 1}",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        12),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            flashCards[
+                                                                    currentIndex]
+                                                                .examples[index],
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize: 16),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
-                                                Text(
-                                                  flashCards[currentIndex]
-                                                      .examples[index],
-                                                  textAlign: TextAlign.center,
-                                                  style:
-                                                      TextStyle(fontSize: 16),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
+                                        ],
                                       ),
                               ],
                             ),

@@ -1,12 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
-class IncorrectDialog extends StatelessWidget {
+class IncorrectDialog extends StatefulWidget {
   final Function onContinue;
   final Function onExplain;
 
   const IncorrectDialog(
       {Key key, @required this.onContinue, @required this.onExplain})
       : super(key: key);
+
+  @override
+  _IncorrectDialogState createState() => _IncorrectDialogState();
+}
+
+class _IncorrectDialogState extends State<IncorrectDialog> {
+  AudioPlayer audioPlayer;
+
+  Future<void> playSound() async {
+    await audioPlayer.setAsset('assets/sounds/wrong_answer.mp3');
+    audioPlayer.setSpeed(1.2);
+    audioPlayer.play();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    audioPlayer = AudioPlayer();
+    playSound();
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +126,7 @@ class IncorrectDialog extends StatelessWidget {
         'Show Explanation',
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
-      onPressed: onExplain,
+      onPressed: widget.onExplain,
     );
   }
 
@@ -121,7 +148,7 @@ class IncorrectDialog extends StatelessWidget {
             MaterialStateProperty.all(Theme.of(context).primaryColorDark),
       ),
       child: Text('Continue'),
-      onPressed: onContinue,
+      onPressed: widget.onContinue,
     );
   }
 }
