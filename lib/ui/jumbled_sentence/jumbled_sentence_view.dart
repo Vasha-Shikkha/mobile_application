@@ -2,8 +2,8 @@ import 'package:Vasha_Shikkha/data/models/js.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
-import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/widgets/drag_target_blank.dart';
-import 'package:Vasha_Shikkha/ui/fill_in_the_blanks/widgets/draggable_option.dart';
+import 'package:Vasha_Shikkha/ui/drag/drag_target_blank.dart';
+import 'package:Vasha_Shikkha/ui/drag/draggable_option.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 class JumbledSentenceView extends StatefulWidget {

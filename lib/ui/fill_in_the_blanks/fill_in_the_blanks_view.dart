@@ -1,10 +1,9 @@
 import 'package:Vasha_Shikkha/data/models/fb.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
-import 'package:Vasha_Shikkha/ui/base/task_complete.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
-import 'widgets/drag_target_blank.dart';
-import 'widgets/draggable_option.dart';
+import '../drag/drag_target_blank.dart';
+import '../drag/draggable_option.dart';
 import 'package:flutter/material.dart';
 
 class FillInTheBlanksView extends StatefulWidget {
