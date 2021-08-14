@@ -2,11 +2,12 @@ import 'package:Vasha_Shikkha/ui/base/dictionary_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/correct_dialog.dart';
 import 'package:Vasha_Shikkha/ui/base/incorrect_dialog.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 class ExerciseScreen extends StatefulWidget {
   final String exerciseName;
   final int subtaskCount;
-  final int initialSubtask;
+  final String instruction;
   final Widget exercise;
   final Function onCheck;
   final Function onReset;
@@ -17,11 +18,11 @@ class ExerciseScreen extends StatefulWidget {
     Key key,
     @required this.exerciseName,
     @required this.exercise,
+    this.instruction,
     @required this.onCheck,
     @required this.onReset,
     @required this.onContinue,
     @required this.subtaskCount,
-    @required this.initialSubtask,
     @required this.onExplain,
   }) : super(key: key);
 
@@ -32,7 +33,9 @@ class ExerciseScreen extends StatefulWidget {
 class _ExerciseScreenState extends State<ExerciseScreen>
     with SingleTickerProviderStateMixin {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool _checkCalled = false;
+  bool _checkCalled = false,
+      _showInstruction = false,
+      _instructionAvailable = false;
   int _currentSubtask;
   List<bool> _status = [];
 
@@ -41,8 +44,18 @@ class _ExerciseScreenState extends State<ExerciseScreen>
   @override
   void initState() {
     super.initState();
-    _currentSubtask = widget.initialSubtask;
-    _tabController = TabController(length: widget.subtaskCount, vsync: this);
+    _currentSubtask = 0;
+    if (widget.instruction != null && widget.instruction.isNotEmpty) {
+      _instructionAvailable = true;
+    }
+    if (_instructionAvailable) {
+      _showInstruction = true;
+      _currentSubtask = -1;
+      _tabController =
+          TabController(length: widget.subtaskCount + 1, vsync: this);
+    } else {
+      _tabController = TabController(length: widget.subtaskCount, vsync: this);
+    }
   }
 
   @override
@@ -93,61 +106,61 @@ class _ExerciseScreenState extends State<ExerciseScreen>
               );
             },
           ),
-          IconButton(
-            padding: EdgeInsets.zero,
-            splashRadius: 18,
-            icon: Icon(
-              Icons.description_rounded,
-              color: Theme.of(context).primaryColorDark,
-            ),
-            onPressed: () {
-              // TODO: show tutorial
-              showDialog(
-                context: context,
-                builder: (context) => Card(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: MediaQuery.of(context).size.height / 3,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Tutorial',
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: IconButton(
-                                highlightColor: Colors.transparent,
-                                splashColor: Colors.transparent,
-                                icon: Icon(
-                                  Icons.cancel,
-                                  color: Theme.of(context).accentColor,
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis lobortis purus. In ac porta libero.\n\nPraesent tortor ipsum, tincidunt ut luctus vel, vehicula sed nunc. Pellentesque ullamcorper facilisis iaculis. Sed vitae faucibus enim, ut pellentesque leo.\n\nPraesent aliquam in odio in efficitur. Suspendisse potenti. In pellentesque, ex in pretium posuere, augue nibh porttitor ex, at ultrices leo ligula molestie sapien. Pellentesque semper sollicitudin risus, non eleifend tellus convallis nec.',
-                          maxLines: 8,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+          // IconButton(
+          //   padding: EdgeInsets.zero,
+          //   splashRadius: 18,
+          //   icon: Icon(
+          //     Icons.description_rounded,
+          //     color: Theme.of(context).primaryColorDark,
+          //   ),
+          //   onPressed: () {
+          //     // TODO: show tutorial
+          //     showDialog(
+          //       context: context,
+          //       builder: (context) => Card(
+          //         margin: EdgeInsets.symmetric(
+          //           horizontal: 16,
+          //           vertical: MediaQuery.of(context).size.height / 3,
+          //         ),
+          //         child: Padding(
+          //           padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          //           child: Column(
+          //             children: [
+          //               Row(
+          //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                 children: [
+          //                   Text(
+          //                     'Tutorial',
+          //                     style: Theme.of(context).textTheme.headline6,
+          //                   ),
+          //                   Align(
+          //                     alignment: Alignment.centerRight,
+          //                     child: IconButton(
+          //                       highlightColor: Colors.transparent,
+          //                       splashColor: Colors.transparent,
+          //                       icon: Icon(
+          //                         Icons.cancel,
+          //                         color: Theme.of(context).accentColor,
+          //                       ),
+          //                       onPressed: () {
+          //                         Navigator.of(context).pop();
+          //                       },
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //               Text(
+          //                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis lobortis purus. In ac porta libero.\n\nPraesent tortor ipsum, tincidunt ut luctus vel, vehicula sed nunc. Pellentesque ullamcorper facilisis iaculis. Sed vitae faucibus enim, ut pellentesque leo.\n\nPraesent aliquam in odio in efficitur. Suspendisse potenti. In pellentesque, ex in pretium posuere, augue nibh porttitor ex, at ultrices leo ligula molestie sapien. Pellentesque semper sollicitudin risus, non eleifend tellus convallis nec.',
+          //                 maxLines: 8,
+          //                 overflow: TextOverflow.ellipsis,
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // ),
         ],
       ),
       body: Column(
@@ -156,12 +169,48 @@ class _ExerciseScreenState extends State<ExerciseScreen>
             padding: const EdgeInsets.only(left: 16, top: 8),
             child: _buildTaskSteps(),
           ),
-          widget.exercise,
+          _showInstruction
+              ? Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: HtmlWidget(widget.instruction),
+                )
+              : widget.exercise,
         ],
       ),
-      bottomSheet: _checkCalled
-          ? _buildCheckResult()
-          : _buildPersistentBottomSheet(context),
+      bottomSheet: _showInstruction
+          ? Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_currentSubtask == -1) {
+                    _currentSubtask = 0;
+                  }
+                  setState(() {
+                    _showInstruction = false;
+                  });
+                  _tabController.animateTo(_currentSubtask + 1);
+                },
+                child: Text('Continue'),
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.deepPurple.shade100),
+                  foregroundColor:
+                      MaterialStateProperty.all(Colors.deepPurple.shade900),
+                  elevation: MaterialStateProperty.all(5.0),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  shadowColor: MaterialStateProperty.all(
+                      Theme.of(context).primaryColorDark),
+                ),
+              ),
+            )
+          : (_checkCalled
+              ? _buildCheckResult()
+              : _buildPersistentBottomSheet(context)),
     );
   }
 
@@ -171,36 +220,72 @@ class _ExerciseScreenState extends State<ExerciseScreen>
       labelPadding: EdgeInsets.zero,
       controller: _tabController,
       indicatorColor: Colors.transparent,
-      onTap: (index) {},
+      onTap: (index) {
+        if (index == 0 && _instructionAvailable) {
+          _tabController.animateTo(0);
+          setState(() {
+            _showInstruction = true;
+          });
+        }
+      },
       tabs: List.generate(
-        widget.subtaskCount,
+        _instructionAvailable ? (widget.subtaskCount + 1) : widget.subtaskCount,
         (index) => Container(
           width: 20,
           height: 20,
           margin: EdgeInsets.all(4),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: index <= _currentSubtask ? Colors.purple : Colors.grey,
+            color: _getStepColor(index),
           ),
           child: Center(
-            child: index < _currentSubtask
-                ? Icon(
-                    _status[index] ? Icons.check : Icons.close,
-                    size: 16,
-                    color: Colors.white,
-                  )
-                : Text(
-                    '${index + 1}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
-                  ),
+            child: _getStepContent(index),
           ),
         ),
       ).toList(),
     );
+  }
+
+  StatelessWidget _getStepContent(int index) {
+    int i;
+    if (_instructionAvailable) {
+      if (index == 0) {
+        return Icon(
+          Icons.lightbulb_outline,
+          size: 16,
+          color: Colors.white,
+        );
+      }
+      i = index - 1;
+    } else {
+      i = index;
+    }
+
+    return (i < _currentSubtask)
+        ? Icon(
+            (_status[i] ? Icons.check : Icons.close),
+            size: 16,
+            color: Colors.white,
+          )
+        : Text(
+            '${i + 1}',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.white,
+            ),
+          );
+  }
+
+  MaterialColor _getStepColor(int index) {
+    if (_instructionAvailable) {
+      if (index == 0)
+        return Colors.purple;
+      else
+        return (index - 1 <= _currentSubtask) ? Colors.purple : Colors.grey;
+    } else {
+      return (index <= _currentSubtask) ? Colors.purple : Colors.grey;
+    }
   }
 
   Widget _buildPersistentBottomSheet(BuildContext context) {
@@ -240,25 +325,6 @@ class _ExerciseScreenState extends State<ExerciseScreen>
     );
   }
 
-  SliderTheme _buildSlider(BuildContext context) {
-    return SliderTheme(
-      data: SliderThemeData(
-        thumbShape: SliderComponentShape.noThumb,
-        trackHeight: 10,
-      ),
-      child: Slider.adaptive(
-        value: 0.4,
-        activeColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
-        inactiveColor: Theme.of(context).primaryColorLight.withOpacity(0.5),
-        // divisions: 10,
-        // label: '4',
-        onChanged: (val) {
-          // TODO: handle slider update
-        },
-      ),
-    );
-  }
-
   ElevatedButton _buildCheckButton(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
@@ -293,7 +359,9 @@ class _ExerciseScreenState extends State<ExerciseScreen>
             _checkCalled = false;
             if (_currentSubtask + 1 < widget.subtaskCount) {
               _currentSubtask++;
-              _tabController.animateTo(_currentSubtask);
+              _tabController.animateTo(_instructionAvailable
+                  ? (_currentSubtask + 1)
+                  : _currentSubtask);
             }
           });
         },
@@ -308,7 +376,9 @@ class _ExerciseScreenState extends State<ExerciseScreen>
             _checkCalled = false;
             if (_currentSubtask + 1 < widget.subtaskCount) {
               _currentSubtask++;
-              _tabController.animateTo(_currentSubtask);
+              _tabController.animateTo(_instructionAvailable
+                  ? (_currentSubtask + 1)
+                  : _currentSubtask);
             }
           });
         },
@@ -373,7 +443,9 @@ class _ExerciseScreenState extends State<ExerciseScreen>
           _checkCalled = false;
           if (_currentSubtask + 1 < widget.subtaskCount) {
             _currentSubtask++;
-            _tabController.animateTo(_currentSubtask);
+            _tabController.animateTo(_instructionAvailable
+                ? (_currentSubtask + 1)
+                : _currentSubtask);
           }
         });
       },

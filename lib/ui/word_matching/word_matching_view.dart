@@ -86,6 +86,8 @@ class _WordMatchingViewState extends State<WordMatchingView>
     return ExerciseScreen(
       exerciseName: "Word Matching",
       subtaskCount: 1,
+      // TODO: fetch instruction
+      // instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
       onCheck: () {
         bool correct = true;
         List<String> answers = widget.subtasks

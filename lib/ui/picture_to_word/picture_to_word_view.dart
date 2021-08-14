@@ -33,6 +33,7 @@ class _PictureToWordViewState extends State<PictureToWordView>
     return ExerciseScreen(
       exerciseName: "Picture To Word",
       subtaskCount: widget.subtasks.length,
+      instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
       onCheck: () {
         if (_selectedOption == -1) return false;
         String answer = widget.subtasks.elementAt(_currentSubtask).answer;
