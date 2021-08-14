@@ -32,7 +32,7 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView>
     return ExerciseScreen(
       exerciseName: "Multiple Choice Question",
       subtaskCount: widget.subtasks.length,
-      initialSubtask: 0, // TODO: should be last attempted
+      instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
       onCheck: () {
         if (_selectedOption == -1) return false;
         String answer = widget.subtasks.elementAt(_currentSubtask).answer;

@@ -57,7 +57,6 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
     return ExerciseScreen(
       exerciseName: "Jumbled Sentence",
       subtaskCount: widget.subtasks.length,
-      initialSubtask: 0, // TODO: should be last attempted
       onCheck: () {
         bool correct = true;
         List<String> answers =

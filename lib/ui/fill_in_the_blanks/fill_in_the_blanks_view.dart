@@ -133,7 +133,6 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
     return ExerciseScreen(
       exerciseName: "Fill in the blanks",
       subtaskCount: widget.subtasks.length,
-      initialSubtask: 0, // TODO: should be last attempted
       onReset: () {
         setState(() {
           _blankData = {};

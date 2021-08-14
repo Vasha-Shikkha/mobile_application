@@ -86,7 +86,6 @@ class _WordMatchingViewState extends State<WordMatchingView>
     return ExerciseScreen(
       exerciseName: "Word Matching",
       subtaskCount: 1,
-      initialSubtask: 0, // TODO: should be last attempted
       onCheck: () {
         bool correct = true;
         List<String> answers = widget.subtasks
