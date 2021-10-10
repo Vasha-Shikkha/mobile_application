@@ -9,6 +9,7 @@ class ExerciseScreen extends StatefulWidget {
   final int subtaskCount;
   final String instruction;
   final Widget exercise;
+  final Function onShowAnswer;
   final Function onCheck;
   final Function onReset;
   final Function onContinue;
@@ -19,6 +20,7 @@ class ExerciseScreen extends StatefulWidget {
     @required this.exerciseName,
     @required this.exercise,
     this.instruction,
+    @required this.onShowAnswer,
     @required this.onCheck,
     @required this.onReset,
     @required this.onContinue,
@@ -342,6 +344,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
       ),
       child: Text('Check'),
       onPressed: () {
+        widget.onShowAnswer();
         setState(() {
           _checkCalled = true;
         });

@@ -1,5 +1,6 @@
 import 'package:Vasha_Shikkha/data/models/mcq.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
+import 'package:Vasha_Shikkha/ui/mixins/choice_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
@@ -16,15 +17,16 @@ class MultipleChoiceView extends StatefulWidget {
 }
 
 class _MultipleChoiceViewState extends State<MultipleChoiceView>
-    with ExerciseMixin {
+    with ExerciseMixin, ChoiceMixin {
   int _currentSubtask;
-  int _selectedOption;
+  // int _selectedOption, _correctOption;
+  // bool _showCorrect;
 
   @override
   void initState() {
     super.initState();
     _currentSubtask = 0;
-    _selectedOption = -1;
+    initOptions();
   }
 
   @override
@@ -33,24 +35,15 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView>
       exerciseName: "Multiple Choice Question",
       subtaskCount: widget.subtasks.length,
       instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
-      onCheck: () {
-        if (_selectedOption == -1) return false;
-        String answer = widget.subtasks.elementAt(_currentSubtask).answer;
-        String selectedAnswer =
-            widget.subtasks.elementAt(_currentSubtask).options[_selectedOption];
-        return selectedAnswer.toLowerCase().compareTo(answer.toLowerCase()) ==
-            0;
-      },
-      onReset: () {
-        setState(() {
-          _selectedOption = -1;
-        });
-      },
+      onShowAnswer: onShowAnswer,
+      onCheck: () => onCheck(widget.subtasks.elementAt(_currentSubtask).answer,
+          widget.subtasks.elementAt(_currentSubtask).options[selectedOption]),
+      onReset: onReset,
       onContinue: () {
         if (_currentSubtask + 1 < widget.subtasks.length) {
           setState(() {
             _currentSubtask++;
-            _selectedOption = -1;
+            onContinue();
           });
         } else {
           showAnimatedDialog(
@@ -106,6 +99,8 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView>
 
   ListView _buildOptions() {
     List<String> options = widget.subtasks.elementAt(_currentSubtask).options;
+    correctOption =
+        options.indexOf(widget.subtasks.elementAt(_currentSubtask).answer);
     return ListView.separated(
       shrinkWrap: true,
       itemCount: options.length,
@@ -115,29 +110,26 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView>
       clipBehavior: Clip.antiAlias,
       itemBuilder: (context, index) {
         return Card(
-          elevation: index == _selectedOption ? 20 : 5,
+          elevation: index == selectedOption ? 20 : 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          color: index == _selectedOption
-              ? Theme.of(context).primaryColorDark
-              : Colors.white,
+          color: getOptionColor(index, context),
           child: ListTile(
-            selected: index == _selectedOption,
+            selected: index == selectedOption,
             title: Text(
               options[index],
               style: TextStyle(
-                  color:
-                      index == _selectedOption ? Colors.white : Colors.black),
+                  color: index == selectedOption ? Colors.white : Colors.black),
             ),
             onTap: () {
-              if (index == _selectedOption) {
+              if (index == selectedOption) {
                 setState(() {
-                  _selectedOption = -1;
+                  selectedOption = -1;
                 });
               } else {
                 setState(() {
-                  _selectedOption = index;
+                  selectedOption = index;
                 });
               }
             },

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:Vasha_Shikkha/ui/base/progress_slider.dart';
 import 'package:Vasha_Shikkha/ui/topic/tutorial_screen.dart';
 
 class SubtopicCard extends StatelessWidget {
@@ -7,13 +6,13 @@ class SubtopicCard extends StatelessWidget {
   final int topicId;
   final String topicName;
   final String imageAssetName;
-  final double progress;
+  // final double progress;
 
   const SubtopicCard({
     Key key,
     @required this.topicName,
     @required this.imageAssetName,
-    this.progress = 0,
+    // this.progress = 0,
     @required this.level,
     @required this.topicId,
   }) : super(key: key);
@@ -38,7 +37,7 @@ class SubtopicCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
@@ -55,7 +54,7 @@ class SubtopicCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 topicName,
                 maxLines: 3,
@@ -67,12 +66,13 @@ class SubtopicCard extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
-              child: ProgressSlider(
-                value: progress,
-              ),
-            ),
+            // TODO: add progress bar if tracked (in future)
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+            //   child: ProgressSlider(
+            //     value: progress,
+            //   ),
+            // ),
           ],
         ),
       ),

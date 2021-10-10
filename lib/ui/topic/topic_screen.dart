@@ -209,7 +209,6 @@ class _TopicScreenState extends State<TopicScreen>
               topicName: topic.topicName,
               imageAssetName:
                   dummyImages.elementAt(Random().nextInt(dummyImages.length)),
-              progress: Random().nextInt(100).toDouble(),
             ),
           )
           .toList(),

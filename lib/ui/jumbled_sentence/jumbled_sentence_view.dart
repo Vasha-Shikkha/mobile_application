@@ -58,6 +58,7 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
       exerciseName: "Jumbled Sentence",
       subtaskCount: widget.subtasks.length,
       instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
+      onShowAnswer: () {},
       onCheck: () {
         bool correct = true;
         List<String> answers =

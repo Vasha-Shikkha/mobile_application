@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:Vasha_Shikkha/data/models/pw.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
+import 'package:Vasha_Shikkha/ui/mixins/choice_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
@@ -17,15 +18,15 @@ class PictureToWordView extends StatefulWidget {
 }
 
 class _PictureToWordViewState extends State<PictureToWordView>
-    with ExerciseMixin {
+    with ExerciseMixin, ChoiceMixin {
   int _currentSubtask;
-  int _selectedOption;
+  // int _selectedOption;
 
   @override
   void initState() {
     super.initState();
     _currentSubtask = 0;
-    _selectedOption = -1;
+    initOptions();
   }
 
   @override
@@ -34,24 +35,15 @@ class _PictureToWordViewState extends State<PictureToWordView>
       exerciseName: "Picture To Word",
       subtaskCount: widget.subtasks.length,
       instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
-      onCheck: () {
-        if (_selectedOption == -1) return false;
-        String answer = widget.subtasks.elementAt(_currentSubtask).answer;
-        String selectedAnswer =
-            widget.subtasks.elementAt(_currentSubtask).options[_selectedOption];
-        return selectedAnswer.toLowerCase().compareTo(answer.toLowerCase()) ==
-            0;
-      },
-      onReset: () {
-        setState(() {
-          _selectedOption = -1;
-        });
-      },
+      onShowAnswer: onShowAnswer,
+      onCheck: () => onCheck(widget.subtasks.elementAt(_currentSubtask).answer,
+          widget.subtasks.elementAt(_currentSubtask).options[selectedOption]),
+      onReset: onReset,
       onContinue: () {
         if (_currentSubtask + 1 < widget.subtasks.length) {
           setState(() {
             _currentSubtask++;
-            _selectedOption = -1;
+            onContinue();
           });
         } else {
           showAnimatedDialog(
@@ -113,6 +105,9 @@ class _PictureToWordViewState extends State<PictureToWordView>
 
   GridView _buildOptions() {
     List<String> options = widget.subtasks.elementAt(_currentSubtask).options;
+    correctOption =
+        options.indexOf(widget.subtasks.elementAt(_currentSubtask).answer);
+
     List<int> indices = [];
     for (int i = 0; i < options.length; i++) {
       indices.add(i);
@@ -120,38 +115,40 @@ class _PictureToWordViewState extends State<PictureToWordView>
     return GridView.count(
       mainAxisSpacing: 8,
       crossAxisSpacing: 8,
-      childAspectRatio: 4,
+      childAspectRatio: 3,
       crossAxisCount: 2,
       shrinkWrap: true,
       children: indices
           .map(
             (index) => InkWell(
               onTap: () {
-                if (index == _selectedOption) {
+                if (index == selectedOption) {
                   setState(() {
-                    _selectedOption = -1;
+                    selectedOption = -1;
                   });
                 } else {
                   setState(() {
-                    _selectedOption = index;
+                    selectedOption = index;
                   });
                 }
               },
               child: Card(
-                elevation: index == _selectedOption ? 20 : 5,
+                elevation: index == selectedOption ? 20 : 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                color: index == _selectedOption
-                    ? Theme.of(context).primaryColorDark
-                    : Colors.white,
+                color: getOptionColor(index, context),
                 child: Center(
-                  child: Text(
-                    options[index],
-                    style: TextStyle(
-                      color: index == _selectedOption
-                          ? Colors.white
-                          : Colors.black,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      options[index],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: index == selectedOption
+                            ? Colors.white
+                            : Colors.black,
+                      ),
                     ),
                   ),
                 ),
