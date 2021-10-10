@@ -345,9 +345,12 @@ class _ExerciseScreenState extends State<ExerciseScreen>
       child: Text('Check'),
       onPressed: () {
         widget.onShowAnswer();
-        setState(() {
-          _checkCalled = true;
-        });
+        Future.delayed(
+          Duration(milliseconds: 500),
+          () => setState(() {
+            _checkCalled = true;
+          }),
+        );
       },
     );
   }

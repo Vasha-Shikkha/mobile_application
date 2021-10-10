@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -34,8 +36,12 @@ class _CorrectDialogState extends State<CorrectDialog> {
 
   @override
   Widget build(BuildContext context) {
+    int imageChoice = Random().nextInt(2);
+    String imageName =
+        imageChoice == 0 ? "correct_answer_boy.png" : "correct_answer_girl.png";
+
     return Container(
-      height: MediaQuery.of(context).size.height / 5,
+      height: MediaQuery.of(context).size.height / 2,
       child: BottomSheet(
         backgroundColor: Theme.of(context).primaryColorLight,
         elevation: 20,
@@ -83,6 +89,12 @@ class _CorrectDialogState extends State<CorrectDialog> {
                       ],
                     ),
                   ],
+                ),
+                Image.asset(
+                  "assets/img/exercise/$imageName",
+                  fit: BoxFit.fill,
+                  width: MediaQuery.of(context).size.height / 3.5,
+                  height: MediaQuery.of(context).size.height / 3.5,
                 ),
                 Align(
                   alignment: Alignment.centerRight,
