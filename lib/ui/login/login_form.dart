@@ -171,11 +171,11 @@ class _LoginFormState extends State<LoginForm> {
               Container(
                 margin: EdgeInsets.only(top: 220.0),
                 decoration: new BoxDecoration(
-                  color: Theme.of(context).primaryColorDark,
+                  color: Theme.of(context).primaryColorLight,
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: Theme.of(context).primaryColorDark,
+                      color: Theme.of(context).primaryColorLight,
                       offset: Offset(1.0, 6.0),
                       blurRadius: 20.0,
                     ),
@@ -185,7 +185,7 @@ class _LoginFormState extends State<LoginForm> {
                   minWidth: MediaQuery.of(context).size.width / 2,
                   height: 30,
                   highlightColor: Colors.transparent,
-                  splashColor: CustomColors.loginGradientEnd,
+                  splashColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5.0))),
                   child: _loading

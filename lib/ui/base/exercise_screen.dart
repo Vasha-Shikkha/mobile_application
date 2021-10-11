@@ -90,7 +90,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: Colors.deepPurple,
+            color: Theme.of(context).primaryColorDark,
           ),
         ),
         actions: [
@@ -196,9 +196,9 @@ class _ExerciseScreenState extends State<ExerciseScreen>
                 child: Text('Continue'),
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(Colors.deepPurple.shade100),
-                  foregroundColor:
-                      MaterialStateProperty.all(Colors.deepPurple.shade900),
+                      MaterialStateProperty.all(Theme.of(context).accentColor),
+                  foregroundColor: MaterialStateProperty.all(
+                      Theme.of(context).primaryColorLight),
                   elevation: MaterialStateProperty.all(5.0),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
@@ -282,11 +282,15 @@ class _ExerciseScreenState extends State<ExerciseScreen>
   MaterialColor _getStepColor(int index) {
     if (_instructionAvailable) {
       if (index == 0)
-        return Colors.purple;
+        return Theme.of(context).primaryColorLight;
       else
-        return (index - 1 <= _currentSubtask) ? Colors.purple : Colors.grey;
+        return (index - 1 <= _currentSubtask)
+            ? Theme.of(context).primaryColorLight
+            : Colors.grey;
     } else {
-      return (index <= _currentSubtask) ? Colors.purple : Colors.grey;
+      return (index <= _currentSubtask)
+          ? Theme.of(context).primaryColorLight
+          : Colors.grey;
     }
   }
 

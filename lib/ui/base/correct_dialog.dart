@@ -43,7 +43,7 @@ class _CorrectDialogState extends State<CorrectDialog> {
     return Container(
       height: MediaQuery.of(context).size.height / 2,
       child: BottomSheet(
-        backgroundColor: Theme.of(context).primaryColorLight,
+        backgroundColor: Theme.of(context).disabledColor,
         elevation: 20,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -65,7 +65,7 @@ class _CorrectDialogState extends State<CorrectDialog> {
                       backgroundColor: Colors.white,
                       child: CircleAvatar(
                         radius: 18,
-                        backgroundColor: Colors.deepPurple,
+                        backgroundColor: Theme.of(context).primaryColorDark,
                         child: Icon(
                           Icons.check_rounded,
                           size: 30,
@@ -82,7 +82,7 @@ class _CorrectDialogState extends State<CorrectDialog> {
                         Text(
                           "Correct!",
                           style: Theme.of(context).textTheme.headline6.copyWith(
-                                color: Colors.deepPurple,
+                                color: Theme.of(context).primaryColorDark,
                                 fontWeight: FontWeight.bold,
                               ),
                         ),
@@ -114,7 +114,8 @@ class _CorrectDialogState extends State<CorrectDialog> {
         padding: MaterialStateProperty.all(
           EdgeInsets.symmetric(horizontal: 30),
         ),
-        backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
+        backgroundColor:
+            MaterialStateProperty.all(Theme.of(context).primaryColorDark),
         foregroundColor: MaterialStateProperty.all(Colors.white),
         elevation: MaterialStateProperty.all(5.0),
         shape: MaterialStateProperty.all(

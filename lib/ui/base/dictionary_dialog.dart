@@ -139,7 +139,7 @@ class _DictionaryDialogState extends State<DictionaryDialog> {
                     padding: const EdgeInsets.symmetric(vertical: 24.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColorLight,
+                        color: Theme.of(context).disabledColor,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(8),
                           topRight: Radius.circular(8),
@@ -148,16 +148,20 @@ class _DictionaryDialogState extends State<DictionaryDialog> {
                       child: Theme(
                         data: ThemeData(
                           textSelectionTheme: TextSelectionThemeData(
-                              cursorColor: Colors.purple),
+                            cursorColor: Theme.of(context).primaryColorDark,
+                          ),
                           inputDecorationTheme: InputDecorationTheme(
                             contentPadding:
                                 EdgeInsets.symmetric(horizontal: 16),
                             border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.purple),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).primaryColorDark),
                             ),
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Colors.deepPurple, width: 2),
+                                color: Theme.of(context).primaryColorDark,
+                                width: 2,
+                              ),
                             ),
                           ),
                         ),

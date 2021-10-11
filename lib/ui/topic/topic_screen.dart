@@ -132,7 +132,8 @@ class _TopicScreenState extends State<TopicScreen>
                       .map(
                         (level) => level == _selectedLevel
                             ? Chip(
-                                backgroundColor: Colors.purple,
+                                backgroundColor:
+                                    Theme.of(context).primaryColorLight,
                                 labelStyle: TextStyle(color: Colors.white),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
@@ -145,7 +146,7 @@ class _TopicScreenState extends State<TopicScreen>
                             : Text(
                                 'L$level',
                                 style: TextStyle(
-                                  color: Colors.purple,
+                                  color: Theme.of(context).primaryColorLight,
                                   fontSize: 16,
                                 ),
                               ),

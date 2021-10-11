@@ -97,10 +97,9 @@ class _FlashcardState extends State<Flashcard> {
                   });
                 },
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.deepPurple.shade100),
-                  foregroundColor:
-                      MaterialStateProperty.all(Colors.deepPurple.shade900),
+                  backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).primaryColorLight),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
                   elevation: MaterialStateProperty.all(5.0),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(

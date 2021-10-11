@@ -28,7 +28,7 @@ class BottomNavbar extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: IconButton(
                 iconSize: 30,
-                color: Colors.purple,
+                color: Theme.of(context).primaryColorLight,
                 onPressed: () {
                   if (!_checkIfSameRoute(context, Flashcard.route)) {
                     Navigator.of(context).pushNamed(Flashcard.route);
@@ -45,7 +45,7 @@ class BottomNavbar extends StatelessWidget {
                 color: Colors.transparent,
                 elevation: 8,
                 child: CircleAvatar(
-                  backgroundColor: Colors.purple,
+                  backgroundColor: Theme.of(context).primaryColorLight,
                   radius: 24,
                   child: IconButton(
                     iconSize: 32,
@@ -66,7 +66,7 @@ class BottomNavbar extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: IconButton(
                 iconSize: 30,
-                color: Colors.purple,
+                color: Theme.of(context).primaryColorLight,
                 onPressed: () {
                   if (!_checkIfSameRoute(context, ProfileScreen.route)) {
                     Navigator.of(context).pushNamed(ProfileScreen.route);

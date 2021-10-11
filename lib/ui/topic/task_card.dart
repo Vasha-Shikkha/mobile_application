@@ -73,7 +73,7 @@ class TaskCard extends StatelessWidget {
         );
       },
       child: Card(
-        color: Colors.grey.shade200,
+        color: Theme.of(context).disabledColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
@@ -83,9 +83,9 @@ class TaskCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 16.0),
+                padding: const EdgeInsets.only(right: 24.0),
                 child: CircleAvatar(
-                  backgroundColor: Theme.of(context).primaryColorDark,
+                  backgroundColor: Theme.of(context).primaryColorLight,
                   child: Text(
                     serial.toString(),
                     style: TextStyle(
@@ -114,6 +114,55 @@ class TaskCard extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.black,
                     ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      TextButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.note_alt),
+                        label: Text("Notes"),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          foregroundColor: MaterialStateProperty.all(
+                              Theme.of(context).primaryColorLight),
+                          elevation: MaterialStateProperty.all(8.0),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      TextButton.icon(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => _getTaskViewWidget()),
+                          );
+                        },
+                        icon: Icon(Icons.quiz_outlined),
+                        label: Text("Exercise"),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              Theme.of(context).primaryColorLight),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          elevation: MaterialStateProperty.all(8.0),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -249,11 +249,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
             bottom: 80,
             child: Container(
               decoration: new BoxDecoration(
-                color: Theme.of(context).primaryColorDark,
+                color: Theme.of(context).primaryColorLight,
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                    color: Theme.of(context).primaryColorDark,
+                    color: Theme.of(context).primaryColorLight,
                     offset: Offset(1.0, 6.0),
                     blurRadius: 20.0,
                   ),
@@ -337,7 +337,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
           fontSize: 16.0,
         ),
       ),
-      backgroundColor: Colors.blue,
+      backgroundColor: Theme.of(context).primaryColorDark,
       duration: Duration(seconds: 3),
     ));
   }

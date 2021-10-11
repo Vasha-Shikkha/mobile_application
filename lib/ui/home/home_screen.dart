@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
         title: Text(
           'VASHA SHIKKHA',
           style: TextStyle(
-            color: Colors.purple,
+            color: Theme.of(context).primaryColorLight,
             fontSize: 24,
           ),
         ),
@@ -92,7 +92,7 @@ class TopicCard extends StatelessWidget {
         );
       },
       child: Card(
-        color: Colors.purple.shade100,
+        color: Theme.of(context).primaryColorDark,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),

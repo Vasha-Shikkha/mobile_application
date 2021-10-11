@@ -46,7 +46,7 @@ class _IncorrectDialogState extends State<IncorrectDialog> {
     return Container(
       height: MediaQuery.of(context).size.height / 2,
       child: BottomSheet(
-        backgroundColor: Colors.red.shade200,
+        backgroundColor: Theme.of(context).accentColor,
         elevation: 20,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -68,7 +68,7 @@ class _IncorrectDialogState extends State<IncorrectDialog> {
                       backgroundColor: Colors.white,
                       child: CircleAvatar(
                         radius: 18,
-                        backgroundColor: Colors.redAccent.shade400,
+                        backgroundColor: Theme.of(context).errorColor,
                         child: Icon(
                           Icons.close_rounded,
                           size: 24,
@@ -85,7 +85,7 @@ class _IncorrectDialogState extends State<IncorrectDialog> {
                         Text(
                           "Incorrect!",
                           style: Theme.of(context).textTheme.headline6.copyWith(
-                                color: Colors.redAccent.shade400,
+                                color: Theme.of(context).errorColor,
                                 fontWeight: FontWeight.bold,
                               ),
                         ),
@@ -124,7 +124,8 @@ class _IncorrectDialogState extends State<IncorrectDialog> {
           EdgeInsets.symmetric(horizontal: 10),
         ),
         backgroundColor: MaterialStateProperty.all(Colors.white),
-        foregroundColor: MaterialStateProperty.all(Colors.redAccent.shade400),
+        foregroundColor:
+            MaterialStateProperty.all(Theme.of(context).errorColor),
         elevation: MaterialStateProperty.all(5.0),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
@@ -148,7 +149,8 @@ class _IncorrectDialogState extends State<IncorrectDialog> {
         padding: MaterialStateProperty.all(
           EdgeInsets.symmetric(horizontal: 10),
         ),
-        backgroundColor: MaterialStateProperty.all(Colors.redAccent.shade400),
+        backgroundColor:
+            MaterialStateProperty.all(Theme.of(context).errorColor),
         foregroundColor: MaterialStateProperty.all(Colors.white),
         elevation: MaterialStateProperty.all(5.0),
         shape: MaterialStateProperty.all(
