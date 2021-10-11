@@ -35,7 +35,7 @@ class _FindErrorViewState extends State<FindErrorView>
       instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
       onShowAnswer: onShowAnswer,
       onCheck: () => onCheck(widget.subtasks.elementAt(_currentSubtask).answer,
-          widget.subtasks.elementAt(_currentSubtask).options[selectedOption]),
+          widget.subtasks.elementAt(_currentSubtask).options),
       onReset: onReset,
       onContinue: () {
         if (_currentSubtask + 1 < widget.subtasks.length) {

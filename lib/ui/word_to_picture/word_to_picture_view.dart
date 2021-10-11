@@ -66,7 +66,7 @@ class _WordToPictureViewState extends State<WordToPictureView>
       instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
       onShowAnswer: onShowAnswer,
       onCheck: () => onCheck(widget.subtasks.elementAt(_currentSubtask).answer,
-          widget.subtasks.elementAt(_currentSubtask).images[selectedOption]),
+          widget.subtasks.elementAt(_currentSubtask).images),
       onReset: onReset,
       onContinue: () {
         if (_currentSubtask + 1 < widget.subtasks.length) {

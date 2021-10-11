@@ -16,10 +16,13 @@ mixin ChoiceMixin<T extends StatefulWidget> on State<T> {
     });
   }
 
-  bool onCheck(String answer, String selectedAnswer) {
+  bool onCheck(String answer, List<String> options) {
     if (selectedOption == -1) return false;
 
-    return selectedAnswer.toLowerCase().compareTo(answer.toLowerCase()) == 0;
+    return options[selectedOption]
+            .toLowerCase()
+            .compareTo(answer.toLowerCase()) ==
+        0;
   }
 
   void onReset() {
@@ -45,7 +48,7 @@ mixin ChoiceMixin<T extends StatefulWidget> on State<T> {
         return Colors.white;
     }
     return index == selectedOption
-        ? Theme.of(context).primaryColorDark
+        ? Theme.of(context).primaryColorLight
         : Colors.white;
   }
 }
