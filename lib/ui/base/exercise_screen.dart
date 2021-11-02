@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/correct_dialog.dart';
 import 'package:Vasha_Shikkha/ui/base/incorrect_dialog.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:markdown/markdown.dart' as md;
 
 class ExerciseScreen extends StatefulWidget {
   final String exerciseName;
@@ -35,9 +36,8 @@ class ExerciseScreen extends StatefulWidget {
 class _ExerciseScreenState extends State<ExerciseScreen>
     with SingleTickerProviderStateMixin {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool _checkCalled = false,
-      _showInstruction = false,
-      _instructionAvailable = false;
+  ScrollController _scrollController;
+  bool _checkCalled = false, _showNotes = false, _notesAvailable = false;
   int _currentSubtask;
   List<bool> _status = [];
 
@@ -47,11 +47,13 @@ class _ExerciseScreenState extends State<ExerciseScreen>
   void initState() {
     super.initState();
     _currentSubtask = 0;
+
     if (widget.instruction != null && widget.instruction.isNotEmpty) {
-      _instructionAvailable = true;
+      _notesAvailable = true;
     }
-    if (_instructionAvailable) {
-      _showInstruction = true;
+    if (_notesAvailable) {
+      _showNotes = true;
+      _scrollController = ScrollController();
       _currentSubtask = -1;
       _tabController =
           TabController(length: widget.subtaskCount + 1, vsync: this);
@@ -171,15 +173,39 @@ class _ExerciseScreenState extends State<ExerciseScreen>
             padding: const EdgeInsets.only(left: 16, top: 8),
             child: _buildTaskSteps(),
           ),
-          _showInstruction
-              ? Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: HtmlWidget(widget.instruction),
+          _showNotes
+              ? Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                        left: 20, right: 20, top: 20, bottom: 100),
+                    child: HtmlWidget(
+                      md.markdownToHtml(
+                        widget.instruction,
+                        extensionSet: md.ExtensionSet.gitHubWeb,
+                      ),
+                      customStylesBuilder: (element) {
+                        if (element.localName == 'table') {
+                          return {
+                            'border': '1px solid grey',
+                            'border-collapse': 'collapse',
+                          };
+                        }
+                        if (element.localName == 'th' ||
+                            element.localName == 'td') {
+                          return {
+                            'border': '1px solid grey',
+                            'padding': '10px',
+                          };
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
                 )
               : widget.exercise,
         ],
       ),
-      bottomSheet: _showInstruction
+      bottomSheet: _showNotes
           ? Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -189,7 +215,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
                     _currentSubtask = 0;
                   }
                   setState(() {
-                    _showInstruction = false;
+                    _showNotes = false;
                   });
                   _tabController.animateTo(_currentSubtask + 1);
                 },
@@ -223,15 +249,15 @@ class _ExerciseScreenState extends State<ExerciseScreen>
       controller: _tabController,
       indicatorColor: Colors.transparent,
       onTap: (index) {
-        if (index == 0 && _instructionAvailable) {
+        if (index == 0 && _notesAvailable) {
           _tabController.animateTo(0);
           setState(() {
-            _showInstruction = true;
+            _showNotes = true;
           });
         }
       },
       tabs: List.generate(
-        _instructionAvailable ? (widget.subtaskCount + 1) : widget.subtaskCount,
+        _notesAvailable ? (widget.subtaskCount + 1) : widget.subtaskCount,
         (index) => Container(
           width: 20,
           height: 20,
@@ -250,7 +276,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
 
   StatelessWidget _getStepContent(int index) {
     int i;
-    if (_instructionAvailable) {
+    if (_notesAvailable) {
       if (index == 0) {
         return Icon(
           Icons.lightbulb_outline,
@@ -280,7 +306,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
   }
 
   MaterialColor _getStepColor(int index) {
-    if (_instructionAvailable) {
+    if (_notesAvailable) {
       if (index == 0)
         return Theme.of(context).primaryColorLight;
       else
@@ -369,9 +395,8 @@ class _ExerciseScreenState extends State<ExerciseScreen>
             _checkCalled = false;
             if (_currentSubtask + 1 < widget.subtaskCount) {
               _currentSubtask++;
-              _tabController.animateTo(_instructionAvailable
-                  ? (_currentSubtask + 1)
-                  : _currentSubtask);
+              _tabController.animateTo(
+                  _notesAvailable ? (_currentSubtask + 1) : _currentSubtask);
             }
           });
         },
@@ -386,9 +411,8 @@ class _ExerciseScreenState extends State<ExerciseScreen>
             _checkCalled = false;
             if (_currentSubtask + 1 < widget.subtaskCount) {
               _currentSubtask++;
-              _tabController.animateTo(_instructionAvailable
-                  ? (_currentSubtask + 1)
-                  : _currentSubtask);
+              _tabController.animateTo(
+                  _notesAvailable ? (_currentSubtask + 1) : _currentSubtask);
             }
           });
         },
@@ -453,9 +477,8 @@ class _ExerciseScreenState extends State<ExerciseScreen>
           _checkCalled = false;
           if (_currentSubtask + 1 < widget.subtaskCount) {
             _currentSubtask++;
-            _tabController.animateTo(_instructionAvailable
-                ? (_currentSubtask + 1)
-                : _currentSubtask);
+            _tabController.animateTo(
+                _notesAvailable ? (_currentSubtask + 1) : _currentSubtask);
           }
         });
       },

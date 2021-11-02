@@ -252,6 +252,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                             subtasks = List<SubTask>.empty();
                           }
                           return TaskCard(
+                            subtopicName: widget.subtopicName,
                             exerciseName: task['name'],
                             route: task['route'],
                             subtasks: subtasks,

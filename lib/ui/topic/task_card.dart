@@ -5,11 +5,13 @@ import 'package:Vasha_Shikkha/ui/find_error/find_error_view.dart';
 import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
 import 'package:Vasha_Shikkha/ui/mcq/multiple_choice_view.dart';
 import 'package:Vasha_Shikkha/ui/picture_to_word/picture_to_word_view.dart';
+import 'package:Vasha_Shikkha/ui/topic/notes_screen.dart';
 import 'package:Vasha_Shikkha/ui/word_matching/word_matching_view.dart';
 import 'package:Vasha_Shikkha/ui/word_to_picture/word_to_picture_view.dart';
 import 'package:flutter/material.dart';
 
 class TaskCard extends StatelessWidget {
+  final String subtopicName;
   final String exerciseName;
   final int serial;
   final String route;
@@ -18,6 +20,7 @@ class TaskCard extends StatelessWidget {
 
   const TaskCard({
     Key key,
+    @required this.subtopicName,
     @required this.exerciseName,
     @required this.route,
     @required this.serial,
@@ -64,8 +67,16 @@ class TaskCard extends StatelessWidget {
     }
   }
 
+  String _getNotes() {
+    if (route.compareTo(WordMatchingView.route) == 0) {
+      return smList.smList.elementAt(0).instruction;
+    }
+    return subtasks.elementAt(0).instruction;
+  }
+
   @override
   Widget build(BuildContext context) {
+    String notes = _getNotes();
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
@@ -120,26 +131,40 @@ class TaskCard extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      TextButton.icon(
-                        onPressed: () {},
-                        icon: Icon(Icons.note_alt),
-                        label: Text("Notes"),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                          foregroundColor: MaterialStateProperty.all(
-                              Theme.of(context).primaryColorLight),
-                          elevation: MaterialStateProperty.all(8.0),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                      notes.isEmpty
+                          ? Container()
+                          : TextButton.icon(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => NotesScreen(
+                                      subtopicName: subtopicName,
+                                      exercise: _getTaskViewWidget(),
+                                      notes: notes,
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: Icon(Icons.note_alt),
+                              label: Text("Notes"),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.white),
+                                foregroundColor: MaterialStateProperty.all(
+                                    Theme.of(context).primaryColorLight),
+                                elevation: MaterialStateProperty.all(8.0),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
+                      notes.isEmpty
+                          ? Container()
+                          : SizedBox(
+                              width: 10,
+                            ),
                       TextButton.icon(
                         onPressed: () {
                           Navigator.of(context).push(

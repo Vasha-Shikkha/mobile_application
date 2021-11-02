@@ -1,5 +1,5 @@
+import 'package:Vasha_Shikkha/ui/topic/task_list_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:Vasha_Shikkha/ui/topic/tutorial_screen.dart';
 
 class SubtopicCard extends StatelessWidget {
   final int level;
@@ -23,7 +23,7 @@ class SubtopicCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => TutorialScreen(
+            builder: (context) => TaskListScreen(
               subtopicName: topicName,
               level: level,
               topicId: topicId,
