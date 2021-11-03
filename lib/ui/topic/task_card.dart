@@ -131,7 +131,7 @@ class TaskCard extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      notes.isEmpty
+                      (notes == null || notes.isEmpty)
                           ? Container()
                           : TextButton.icon(
                               onPressed: () {
@@ -160,7 +160,7 @@ class TaskCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                      notes.isEmpty
+                      (notes == null || notes.isEmpty)
                           ? Container()
                           : SizedBox(
                               width: 10,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
-class NotesScreen extends StatelessWidget {
+class NotesScreen extends StatefulWidget {
   final String subtopicName;
   final Widget exercise;
   final String notes;
@@ -15,8 +15,26 @@ class NotesScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _NotesScreenState createState() => _NotesScreenState();
+}
+
+class _NotesScreenState extends State<NotesScreen> {
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final _scrollController = ScrollController();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -61,7 +79,7 @@ class NotesScreen extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => exercise,
+                  builder: (context) => widget.exercise,
                 ),
               );
             },
@@ -81,7 +99,7 @@ class NotesScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Text(
-              subtopicName,
+              widget.subtopicName,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -97,7 +115,7 @@ class NotesScreen extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20, bottom: 200),
                 child: HtmlWidget(
                   md.markdownToHtml(
-                    notes,
+                    widget.notes,
                     extensionSet: md.ExtensionSet.gitHubWeb,
                   ),
                   customStylesBuilder: (element) {

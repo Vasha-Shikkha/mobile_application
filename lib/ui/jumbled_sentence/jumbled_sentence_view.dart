@@ -1,5 +1,5 @@
 import 'package:Vasha_Shikkha/data/models/js.dart';
-import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
+import 'package:Vasha_Shikkha/ui/mixins/exercise_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:Vasha_Shikkha/ui/drag/drag_target_blank.dart';
@@ -74,6 +74,7 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
         }
         print(answers);
         print(_blankData);
+        if (correct) correctAnswerCount++;
         return correct;
       },
       onReset: () {
@@ -92,20 +93,7 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
             _buildBlanks();
           });
         } else {
-          showAnimatedDialog(
-            context: context,
-            animationType: DialogTransitionType.fadeScale,
-            builder: (context) => ClassicGeneralDialogWidget(
-              titleText: 'Task Complete!',
-              contentText: 'You have attempted all the questions in this task.',
-              onNegativeClick: null,
-              positiveText: 'OK',
-              onPositiveClick: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-            ),
-          );
+          onComplete(context, widget.subtasks.length);
         }
       },
       onExplain: () => onExplain(

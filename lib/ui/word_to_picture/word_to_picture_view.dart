@@ -1,5 +1,5 @@
 import 'package:Vasha_Shikkha/data/models/wp.dart';
-import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
+import 'package:Vasha_Shikkha/ui/mixins/exercise_mixin.dart';
 import 'package:Vasha_Shikkha/ui/mixins/choice_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
@@ -65,8 +65,12 @@ class _WordToPictureViewState extends State<WordToPictureView>
       subtaskCount: widget.subtasks.length,
       instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
       onShowAnswer: onShowAnswer,
-      onCheck: () => onCheck(widget.subtasks.elementAt(_currentSubtask).answer,
-          widget.subtasks.elementAt(_currentSubtask).images),
+      onCheck: () {
+        bool res = onCheck(widget.subtasks.elementAt(_currentSubtask).answer,
+            widget.subtasks.elementAt(_currentSubtask).images);
+        if (res) correctAnswerCount++;
+        return res;
+      },
       onReset: onReset,
       onContinue: () {
         if (_currentSubtask + 1 < widget.subtasks.length) {
@@ -75,20 +79,7 @@ class _WordToPictureViewState extends State<WordToPictureView>
             onContinue();
           });
         } else {
-          showAnimatedDialog(
-            context: context,
-            animationType: DialogTransitionType.fadeScale,
-            builder: (context) => ClassicGeneralDialogWidget(
-              titleText: 'Task Complete!',
-              contentText: 'You have attempted all the questions in this task.',
-              onNegativeClick: null,
-              positiveText: 'OK',
-              onPositiveClick: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-            ),
-          );
+          onComplete(context, widget.subtasks.length);
         }
       },
       onExplain: () => onExplain(

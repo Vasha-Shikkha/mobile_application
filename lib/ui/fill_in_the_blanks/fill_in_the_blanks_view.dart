@@ -1,5 +1,5 @@
 import 'package:Vasha_Shikkha/data/models/fb.dart';
-import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
+import 'package:Vasha_Shikkha/ui/mixins/exercise_mixin.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import '../drag/drag_target_blank.dart';
@@ -155,6 +155,7 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
           }
         }
         print(_blankData);
+        if (correct) correctAnswerCount++;
         return correct;
       },
       onContinue: () {
@@ -166,20 +167,7 @@ class _FillInTheBlanksViewState extends State<FillInTheBlanksView>
             _buildSentenceWidgets();
           });
         } else {
-          showAnimatedDialog(
-            context: context,
-            animationType: DialogTransitionType.fadeScale,
-            builder: (context) => ClassicGeneralDialogWidget(
-              titleText: 'Task Complete!',
-              contentText: 'You have attempted all the questions in this task.',
-              onNegativeClick: null,
-              positiveText: 'OK',
-              onPositiveClick: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-            ),
-          );
+          onComplete(context, widget.subtasks.length);
         }
       },
       onExplain: () => onExplain(

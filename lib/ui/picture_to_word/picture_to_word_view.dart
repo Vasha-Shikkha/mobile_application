@@ -1,10 +1,9 @@
 import 'dart:io';
 import 'package:Vasha_Shikkha/data/models/pw.dart';
-import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
+import 'package:Vasha_Shikkha/ui/mixins/exercise_mixin.dart';
 import 'package:Vasha_Shikkha/ui/mixins/choice_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
-import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 class PictureToWordView extends StatefulWidget {
   static const String route = '/picture-to-word';
@@ -36,8 +35,12 @@ class _PictureToWordViewState extends State<PictureToWordView>
       subtaskCount: widget.subtasks.length,
       instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
       onShowAnswer: onShowAnswer,
-      onCheck: () => onCheck(widget.subtasks.elementAt(_currentSubtask).answer,
-          widget.subtasks.elementAt(_currentSubtask).options),
+      onCheck: () {
+        bool res = onCheck(widget.subtasks.elementAt(_currentSubtask).answer,
+            widget.subtasks.elementAt(_currentSubtask).options);
+        if (res) correctAnswerCount++;
+        return res;
+      },
       onReset: onReset,
       onContinue: () {
         if (_currentSubtask + 1 < widget.subtasks.length) {
@@ -46,20 +49,7 @@ class _PictureToWordViewState extends State<PictureToWordView>
             onContinue();
           });
         } else {
-          showAnimatedDialog(
-            context: context,
-            animationType: DialogTransitionType.fadeScale,
-            builder: (context) => ClassicGeneralDialogWidget(
-              titleText: 'Task Complete!',
-              contentText: 'You have attempted all the questions in this task.',
-              onNegativeClick: null,
-              positiveText: 'OK',
-              onPositiveClick: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-            ),
-          );
+          onComplete(context, widget.subtasks.length);
         }
       },
       onExplain: () => onExplain(

@@ -1,5 +1,5 @@
 import 'package:Vasha_Shikkha/data/models/sm.dart';
-import 'package:Vasha_Shikkha/ui/base/exercise_mixin.dart';
+import 'package:Vasha_Shikkha/ui/mixins/exercise_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:Vasha_Shikkha/ui/drag/drag_target_blank.dart';
@@ -33,13 +33,14 @@ class _WordMatchingViewState extends State<WordMatchingView>
   Map<int, String> _blankData;
   List<DragTargetBlank> _blanks;
   List<DraggableOption> _optionWidgets;
-  ScrollController _scrollController;
+  ScrollController _optionScrollController, _blankScrollController;
 
   @override
   void initState() {
     super.initState();
     _currentSubtask = 0;
-    _scrollController = ScrollController();
+    _optionScrollController = ScrollController();
+    _blankScrollController = ScrollController();
     _blankData = {};
     _optionWidgets = [];
     _buildOptions();
@@ -48,7 +49,8 @@ class _WordMatchingViewState extends State<WordMatchingView>
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _optionScrollController.dispose();
+    _blankScrollController.dispose();
     super.dispose();
   }
 
@@ -101,6 +103,8 @@ class _WordMatchingViewState extends State<WordMatchingView>
                   .compareTo(_blankData[i]?.toLowerCase() ?? '') !=
               0) {
             correct = false;
+          } else {
+            correctAnswerCount++;
           }
         }
         print(answers);
@@ -123,20 +127,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
             _buildOptions();
           });
         } else {
-          showAnimatedDialog(
-            context: context,
-            animationType: DialogTransitionType.fadeScale,
-            builder: (context) => ClassicGeneralDialogWidget(
-              titleText: 'Task Complete!',
-              contentText: 'You have attempted all the questions in this task.',
-              onNegativeClick: null,
-              positiveText: 'OK',
-              onPositiveClick: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-            ),
-          );
+          onComplete(context, widget.subtasks.smList.length);
         }
       },
       onExplain: () => onExplain(
@@ -175,7 +166,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
                 height: MediaQuery.of(context).size.height / 2.5,
                 child: Scrollbar(
                   isAlwaysShown: true,
-                  controller: _scrollController,
+                  controller: _blankScrollController,
                   child: Material(
                     type: MaterialType.card,
                     borderRadius: BorderRadius.circular(8),
@@ -184,12 +175,12 @@ class _WordMatchingViewState extends State<WordMatchingView>
                       color: Theme.of(context).accentColor.withOpacity(0.1),
                       child: ListView.separated(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 16),
-                        controller: _scrollController,
+                            horizontal: 10, vertical: 20),
+                        controller: _blankScrollController,
                         shrinkWrap: true,
                         separatorBuilder: (context, index) {
                           return SizedBox(
-                            height: 8,
+                            height: 10,
                           );
                         },
                         itemCount: widget.subtasks.smList.length,
