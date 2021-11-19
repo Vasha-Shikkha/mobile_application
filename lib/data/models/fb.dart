@@ -65,6 +65,7 @@ class FB extends SubTask {
       String taskName,
       String instruction,
       String instructionImage,
+      String exerciseInstructions,
       String paragraph,
       List<String> options,
       List<String> answers,
@@ -81,7 +82,8 @@ class FB extends SubTask {
             topicId: topicId,
             taskName: taskName,
             instruction: instruction,
-            instructionImage: instructionImage);
+            instructionImage: instructionImage,
+            exerciseInstructions: exerciseInstructions);
 
   factory FB.fromJson(
       Map<String, dynamic> taskDetail, Map<String, dynamic> question) {
@@ -125,7 +127,8 @@ class FB extends SubTask {
         topicId: taskDetail['topic_id'],
         taskName: taskDetail['name'],
         instruction: taskDetail['instruction'],
-        instructionImage: taskDetail['instructionImage']);
+        instructionImage: taskDetail['instructionImage'],
+        exerciseInstructions: taskDetail['exerciseInstructions']);
   }
 
   Map<String, dynamic> toFB() {
@@ -167,7 +170,8 @@ class FB extends SubTask {
         topicId: taskDetails['TopicId'],
         taskName: taskDetails['TaskType'],
         instruction: taskDetails['Instruction'],
-        instructionImage: taskDetails['Instruction_Image']);
+        instructionImage: taskDetails['Instruction_Image'],
+        exerciseInstructions: taskDetails['ExerciseInstructions']);
   }
 
   String concatenateElements(List<String> list) {
