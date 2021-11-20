@@ -67,6 +67,7 @@ class Error extends SubTask {
     String taskName,
     String instruction,
     String instructionImage,
+    String exerciseInstructions,
     String question,
     List<String> options,
     String answer,
@@ -83,7 +84,8 @@ class Error extends SubTask {
             topicId: topicId,
             taskName: taskName,
             instruction: instruction,
-            instructionImage: instructionImage);
+            instructionImage: instructionImage,
+            exerciseInstructions: exerciseInstructions);
 
   factory Error.fromJson(
       Map<String, dynamic> taskDetail, Map<String, dynamic> question) {
@@ -116,7 +118,8 @@ class Error extends SubTask {
         topicId: taskDetail['topic_id'],
         taskName: taskDetail['name'],
         instruction: taskDetail['instruction'],
-        instructionImage: taskDetail['instructionImage']);
+        instructionImage: taskDetail['instructionImage'],
+        exerciseInstructions: taskDetail['exerciseInstructions']);
   }
 
   Map<String, dynamic> toError() {
@@ -161,7 +164,8 @@ class Error extends SubTask {
         topicId: taskDetails['TopicId'],
         taskName: taskDetails['TaskType'],
         instruction: taskDetails['Instruction'],
-        instructionImage: taskDetails['Instruction_Image']);
+        instructionImage: taskDetails['Instruction_Image'],
+        exerciseInstructions: taskDetails['ExerciseInstructions']);
   }
 
   String concatenateElements(List<String> list) {
