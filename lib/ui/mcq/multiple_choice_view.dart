@@ -33,7 +33,8 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView>
     return ExerciseScreen(
       exerciseName: "Multiple Choice Question",
       subtaskCount: widget.subtasks.length,
-      instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
+      instruction:
+          widget.subtasks.elementAt(_currentSubtask).exerciseInstructions,
       onShowAnswer: onShowAnswer,
       onCheck: () {
         bool res = onCheck(widget.subtasks.elementAt(_currentSubtask).answer,

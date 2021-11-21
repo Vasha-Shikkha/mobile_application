@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:Vasha_Shikkha/ui/drag/drag_target_blank.dart';
 import 'package:Vasha_Shikkha/ui/drag/draggable_option.dart';
-import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 class JumbledSentenceView extends StatefulWidget {
   static const String route = '/jumbled-sentence';
@@ -57,7 +56,8 @@ class _JumbledSentenceViewState extends State<JumbledSentenceView>
     return ExerciseScreen(
       exerciseName: "Jumbled Sentence",
       subtaskCount: widget.subtasks.length,
-      instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
+      instruction:
+          widget.subtasks.elementAt(_currentSubtask).exerciseInstructions,
       onShowAnswer: () {},
       onCheck: () {
         bool correct = true;

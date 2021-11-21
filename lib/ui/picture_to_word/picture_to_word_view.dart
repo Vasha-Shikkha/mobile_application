@@ -33,7 +33,8 @@ class _PictureToWordViewState extends State<PictureToWordView>
     return ExerciseScreen(
       exerciseName: "Picture To Word",
       subtaskCount: widget.subtasks.length,
-      instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
+      instruction:
+          widget.subtasks.elementAt(_currentSubtask).exerciseInstructions,
       onShowAnswer: onShowAnswer,
       onCheck: () {
         bool res = onCheck(widget.subtasks.elementAt(_currentSubtask).answer,

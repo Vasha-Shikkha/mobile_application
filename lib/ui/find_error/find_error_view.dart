@@ -3,7 +3,6 @@ import 'package:Vasha_Shikkha/ui/mixins/exercise_mixin.dart';
 import 'package:Vasha_Shikkha/ui/mixins/choice_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
-import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 class FindErrorView extends StatefulWidget {
   static const String route = '/find-error';
@@ -32,7 +31,8 @@ class _FindErrorViewState extends State<FindErrorView>
     return ExerciseScreen(
       exerciseName: "Finding Error",
       subtaskCount: widget.subtasks.length,
-      instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
+      instruction:
+          widget.subtasks.elementAt(_currentSubtask).exerciseInstructions,
       onShowAnswer: onShowAnswer,
       onCheck: () {
         bool res = onCheck(widget.subtasks.elementAt(_currentSubtask).answer,

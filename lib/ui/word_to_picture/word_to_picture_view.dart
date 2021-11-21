@@ -3,7 +3,6 @@ import 'package:Vasha_Shikkha/ui/mixins/exercise_mixin.dart';
 import 'package:Vasha_Shikkha/ui/mixins/choice_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
-import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 class WTP {
   int wtpId;
@@ -63,7 +62,8 @@ class _WordToPictureViewState extends State<WordToPictureView>
     return ExerciseScreen(
       exerciseName: "Word To Picture",
       subtaskCount: widget.subtasks.length,
-      instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
+      instruction:
+          widget.subtasks.elementAt(_currentSubtask).exerciseInstructions,
       onShowAnswer: onShowAnswer,
       onCheck: () {
         bool res = onCheck(widget.subtasks.elementAt(_currentSubtask).answer,

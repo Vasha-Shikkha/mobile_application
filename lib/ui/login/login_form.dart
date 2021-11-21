@@ -4,8 +4,6 @@ import 'package:Vasha_Shikkha/data/models/js.dart';
 import 'package:Vasha_Shikkha/data/models/mcq.dart';
 import 'package:Vasha_Shikkha/data/models/token.dart';
 import 'package:Vasha_Shikkha/data/models/topic.dart';
-
-import 'package:Vasha_Shikkha/style/colors.dart';
 import 'package:Vasha_Shikkha/ui/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

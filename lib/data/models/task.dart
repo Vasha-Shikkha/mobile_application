@@ -187,12 +187,14 @@ class TopicTask {
 
   factory TopicTask.fromDatabase(Map<String, dynamic> json) {
     return new TopicTask(
-        taskId: json['TopicTaskId'],
-        topicId: json['TopicId'],
-        level: json['Level'],
-        taskName: json['TaskType'],
-        instruction: json['Instruction'],
-        instructionImage: json['Instruction_Image']);
+      taskId: json['TopicTaskId'],
+      topicId: json['TopicId'],
+      level: json['Level'],
+      taskName: json['TaskType'],
+      instruction: json['Instruction'],
+      instructionImage: json['Instruction_Image'],
+      exerciseInstructions: json['ExerciseInstructions'],
+    );
   }
 
   void debugTaskMessage() {

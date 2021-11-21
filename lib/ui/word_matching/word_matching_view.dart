@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:Vasha_Shikkha/ui/drag/drag_target_blank.dart';
 import 'package:Vasha_Shikkha/ui/drag/draggable_option.dart';
-import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 class WordMatchingView extends StatefulWidget {
   static const String route = '/word-matching';
@@ -88,8 +87,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
     return ExerciseScreen(
       exerciseName: "Word Matching",
       subtaskCount: 1,
-      // TODO: fetch instruction
-      // instruction: widget.subtasks.elementAt(_currentSubtask).instruction,
+      instruction: widget.subtasks.smList.first.exerciseInstructions,
       onShowAnswer: () {},
       onCheck: () {
         bool correct = true;

@@ -36,8 +36,10 @@ class ExerciseScreen extends StatefulWidget {
 class _ExerciseScreenState extends State<ExerciseScreen>
     with SingleTickerProviderStateMixin {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  ScrollController _scrollController;
-  bool _checkCalled = false, _showNotes = false, _notesAvailable = false;
+
+  bool _checkCalled = false,
+      _showInstructions = false,
+      _instructionsAvailable = false;
   int _currentSubtask;
   List<bool> _status = [];
 
@@ -49,11 +51,10 @@ class _ExerciseScreenState extends State<ExerciseScreen>
     _currentSubtask = 0;
 
     if (widget.instruction != null && widget.instruction.isNotEmpty) {
-      _notesAvailable = true;
+      _instructionsAvailable = true;
     }
-    if (_notesAvailable) {
-      _showNotes = true;
-      _scrollController = ScrollController();
+    if (_instructionsAvailable) {
+      _showInstructions = true;
       _currentSubtask = -1;
       _tabController =
           TabController(length: widget.subtaskCount + 1, vsync: this);
@@ -173,7 +174,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
             padding: const EdgeInsets.only(left: 16, top: 8),
             child: _buildTaskSteps(),
           ),
-          _showNotes
+          _showInstructions
               ? Expanded(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(
@@ -205,7 +206,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
               : widget.exercise,
         ],
       ),
-      bottomSheet: _showNotes
+      bottomSheet: _showInstructions
           ? Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -215,7 +216,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
                     _currentSubtask = 0;
                   }
                   setState(() {
-                    _showNotes = false;
+                    _showInstructions = false;
                   });
                   _tabController.animateTo(_currentSubtask + 1);
                 },
@@ -249,15 +250,17 @@ class _ExerciseScreenState extends State<ExerciseScreen>
       controller: _tabController,
       indicatorColor: Colors.transparent,
       onTap: (index) {
-        if (index == 0 && _notesAvailable) {
+        if (index == 0 && _instructionsAvailable) {
           _tabController.animateTo(0);
           setState(() {
-            _showNotes = true;
+            _showInstructions = true;
           });
         }
       },
       tabs: List.generate(
-        _notesAvailable ? (widget.subtaskCount + 1) : widget.subtaskCount,
+        _instructionsAvailable
+            ? (widget.subtaskCount + 1)
+            : widget.subtaskCount,
         (index) => Container(
           width: 20,
           height: 20,
@@ -276,7 +279,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
 
   StatelessWidget _getStepContent(int index) {
     int i;
-    if (_notesAvailable) {
+    if (_instructionsAvailable) {
       if (index == 0) {
         return Icon(
           Icons.lightbulb_outline,
@@ -306,7 +309,7 @@ class _ExerciseScreenState extends State<ExerciseScreen>
   }
 
   MaterialColor _getStepColor(int index) {
-    if (_notesAvailable) {
+    if (_instructionsAvailable) {
       if (index == 0)
         return Theme.of(context).primaryColorLight;
       else
@@ -395,8 +398,9 @@ class _ExerciseScreenState extends State<ExerciseScreen>
             _checkCalled = false;
             if (_currentSubtask + 1 < widget.subtaskCount) {
               _currentSubtask++;
-              _tabController.animateTo(
-                  _notesAvailable ? (_currentSubtask + 1) : _currentSubtask);
+              _tabController.animateTo(_instructionsAvailable
+                  ? (_currentSubtask + 1)
+                  : _currentSubtask);
             }
           });
         },
@@ -411,8 +415,9 @@ class _ExerciseScreenState extends State<ExerciseScreen>
             _checkCalled = false;
             if (_currentSubtask + 1 < widget.subtaskCount) {
               _currentSubtask++;
-              _tabController.animateTo(
-                  _notesAvailable ? (_currentSubtask + 1) : _currentSubtask);
+              _tabController.animateTo(_instructionsAvailable
+                  ? (_currentSubtask + 1)
+                  : _currentSubtask);
             }
           });
         },
@@ -477,8 +482,9 @@ class _ExerciseScreenState extends State<ExerciseScreen>
           _checkCalled = false;
           if (_currentSubtask + 1 < widget.subtaskCount) {
             _currentSubtask++;
-            _tabController.animateTo(
-                _notesAvailable ? (_currentSubtask + 1) : _currentSubtask);
+            _tabController.animateTo(_instructionsAvailable
+                ? (_currentSubtask + 1)
+                : _currentSubtask);
           }
         });
       },
