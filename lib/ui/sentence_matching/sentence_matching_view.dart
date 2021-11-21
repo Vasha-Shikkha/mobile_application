@@ -5,28 +5,19 @@ import 'package:Vasha_Shikkha/ui/base/exercise_screen.dart';
 import 'package:Vasha_Shikkha/ui/drag/drag_target_blank.dart';
 import 'package:Vasha_Shikkha/ui/drag/draggable_option.dart';
 
-class WordMatchingView extends StatefulWidget {
-  static const String route = '/word-matching';
+class SentenceMatchingView extends StatefulWidget {
+  static const String route = '/sentence-matching';
 
   final SMList subtasks;
-  // final List<SM> subtasks;
-  // final List<WM> subtasks = [
-  //   WM(
-  //     wmId: 1,
-  //     question: "Match the verbs with appropriate adverbs",
-  //     left: ["speak", "walk", "eat", "sleep", "live"],
-  //     right: ["softly", "quickly", "slowly", "peacefully", "fully"],
-  //     explanation: "",
-  //   ),
-  // ];
 
-  const WordMatchingView({Key key, @required this.subtasks}) : super(key: key);
+  const SentenceMatchingView({Key key, @required this.subtasks})
+      : super(key: key);
 
   @override
-  _WordMatchingViewState createState() => _WordMatchingViewState();
+  _SentenceMatchingViewState createState() => _SentenceMatchingViewState();
 }
 
-class _WordMatchingViewState extends State<WordMatchingView>
+class _SentenceMatchingViewState extends State<SentenceMatchingView>
     with ExerciseMixin {
   int _currentSubtask;
   Map<int, String> _blankData;
@@ -34,12 +25,15 @@ class _WordMatchingViewState extends State<WordMatchingView>
   List<DraggableOption> _optionWidgets;
   ScrollController _optionScrollController, _blankScrollController;
 
+  List<List<SM>> _lists;
+
   @override
   void initState() {
     super.initState();
     _currentSubtask = 0;
     _optionScrollController = ScrollController();
     _blankScrollController = ScrollController();
+    _divideList();
     _blankData = {};
     _optionWidgets = [];
     _buildOptions();
@@ -73,7 +67,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
   String _buildExplanation() {
     String explanation = "";
     List<String> parts = widget.subtasks
-        .getParts(widget.subtasks.smList)['Explanations']
+        .getParts(_lists[_currentSubtask])['Explanations']
         .toList();
     for (int i = 0; i < parts.length; i++) {
       explanation += (i + 1).toString() + ") ";
@@ -82,17 +76,31 @@ class _WordMatchingViewState extends State<WordMatchingView>
     return explanation;
   }
 
+  _divideList() {
+    _lists = [];
+    int division = (widget.subtasks.smList.length / 3).ceil();
+
+    if (division == 1) {
+      _lists.add(widget.subtasks.smList);
+    } else {
+      for (int i = 0; i < division - 1; i++) {
+        _lists.add(widget.subtasks.smList.sublist(3 * i, 3 * (i + 1)));
+      }
+      _lists.add(widget.subtasks.smList.sublist(3 * (division - 1)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ExerciseScreen(
-      exerciseName: "Word Matching",
-      subtaskCount: 1,
+      exerciseName: "Sentence Matching",
+      subtaskCount: _lists.length,
       instruction: widget.subtasks.smList.first.exerciseInstructions,
       onShowAnswer: () {},
       onCheck: () {
         bool correct = true;
         List<String> answers = widget.subtasks
-            .getParts(widget.subtasks.smList)['PartTwo']
+            .getParts(_lists[_currentSubtask])['PartTwo']
             .toList();
         for (int i = 0; i < answers.length; i++) {
           if (answers
@@ -101,10 +109,10 @@ class _WordMatchingViewState extends State<WordMatchingView>
                   .compareTo(_blankData[i]?.toLowerCase() ?? '') !=
               0) {
             correct = false;
-          } else {
-            correctAnswerCount++;
+            break;
           }
         }
+        if (correct) correctAnswerCount++;
         print(answers);
         print(_blankData);
         return correct;
@@ -117,7 +125,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
         });
       },
       onContinue: () {
-        if (_currentSubtask + 1 < 1) {
+        if (_currentSubtask + 1 < _lists.length) {
           setState(() {
             _currentSubtask++;
             _blankData = {};
@@ -125,7 +133,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
             _buildOptions();
           });
         } else {
-          onComplete(context, widget.subtasks.smList.length);
+          onComplete(context, _lists.length);
         }
       },
       onExplain: () => onExplain(
@@ -181,7 +189,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
                             height: 10,
                           );
                         },
-                        itemCount: widget.subtasks.smList.length,
+                        itemCount: _lists[_currentSubtask].length,
                         itemBuilder: (context, index) {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -190,7 +198,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
                                 child: Text(
                                   widget.subtasks
                                       .getParts(
-                                          widget.subtasks.smList)['PartOne']
+                                          _lists[_currentSubtask])['PartOne']
                                       .toList()[index],
                                   style: TextStyle(fontSize: 16),
                                 ),
@@ -215,7 +223,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
 
   void _buildBlanks() {
     List<String> words =
-        widget.subtasks.getParts(widget.subtasks.smList)['PartTwo'].toList();
+        widget.subtasks.getParts(_lists[_currentSubtask])['PartTwo'].toList();
     _blanks = [];
     for (int i = 0; i < words.length; i++) {
       _blanks.add(DragTargetBlank(
@@ -228,7 +236,7 @@ class _WordMatchingViewState extends State<WordMatchingView>
 
   void _buildOptions() {
     List<String> words =
-        widget.subtasks.getParts(widget.subtasks.smList)['PartTwo'].toList();
+        widget.subtasks.getParts(_lists[_currentSubtask])['PartTwo'].toList();
     words.shuffle();
     _optionWidgets.clear();
     for (int i = 0; i < words.length; i++) {

@@ -5,8 +5,8 @@ import 'package:Vasha_Shikkha/ui/find_error/find_error_view.dart';
 import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
 import 'package:Vasha_Shikkha/ui/mcq/multiple_choice_view.dart';
 import 'package:Vasha_Shikkha/ui/picture_to_word/picture_to_word_view.dart';
+import 'package:Vasha_Shikkha/ui/sentence_matching/sentence_matching_view.dart';
 import 'package:Vasha_Shikkha/ui/topic/notes_screen.dart';
-import 'package:Vasha_Shikkha/ui/word_matching/word_matching_view.dart';
 import 'package:Vasha_Shikkha/ui/word_to_picture/word_to_picture_view.dart';
 import 'package:flutter/material.dart';
 
@@ -58,8 +58,8 @@ class TaskCard extends StatelessWidget {
         return WordToPictureView(
           subtasks: subtasks,
         );
-      case WordMatchingView.route:
-        return WordMatchingView(
+      case SentenceMatchingView.route:
+        return SentenceMatchingView(
           subtasks: smList,
         );
       default:
@@ -68,7 +68,7 @@ class TaskCard extends StatelessWidget {
   }
 
   String _getNotes() {
-    if (route.compareTo(WordMatchingView.route) == 0) {
+    if (route.compareTo(SentenceMatchingView.route) == 0) {
       return smList.smList.elementAt(0).instruction;
     }
     return subtasks.elementAt(0).instruction;
@@ -119,9 +119,7 @@ class TaskCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    route == WordMatchingView.route
-                        ? '1 question'
-                        : '${subtasks.length} questions',
+                    _buildQuestionCountString(),
                     style: TextStyle(
                       color: Colors.black,
                     ),
@@ -196,5 +194,15 @@ class TaskCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _buildQuestionCountString() {
+    int count;
+    if (route == SentenceMatchingView.route) {
+      count = (smList.smList.length / 3).ceil();
+    } else {
+      count = subtasks.length;
+    }
+    return count == 1 ? '1 question' : '$count questions';
   }
 }

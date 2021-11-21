@@ -24,20 +24,6 @@ class WordToPictureView extends StatefulWidget {
   static const String route = '/word-to-picture';
 
   final List<WP> subtasks;
-  // final List<WTP> subtasks = [
-  //   WTP(
-  //     wtpId: 1,
-  //     question: "Select the picture that best matches the word Examination",
-  //     options: [
-  //       "assets/img/back_to_school.png",
-  //       "assets/img/blank_canvas.png",
-  //       "assets/img/exams.png",
-  //       "assets/img/true_friends.png",
-  //     ],
-  //     answer: "assets/img/exams.png",
-  //     explanation: "",
-  //   ),
-  // ];
 
   const WordToPictureView({Key key, @required this.subtasks}) : super(key: key);
 

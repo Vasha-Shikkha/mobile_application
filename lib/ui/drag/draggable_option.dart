@@ -54,11 +54,13 @@ class _DraggableOptionState extends State<DraggableOption> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 child: GestureDetector(
-                  onLongPress: () {
-                    print('long press ${widget.text}');
-                  },
                   child: Chip(
-                    label: Text(widget.text),
+                    label: Text(
+                      widget.text,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                    ),
                     labelPadding: EdgeInsets.symmetric(horizontal: 10.0),
                     elevation: 10.0,
                     backgroundColor: Colors.white,
@@ -116,6 +118,9 @@ class _DraggableOptionState extends State<DraggableOption> {
         child: Chip(
           label: Text(
             widget.text,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: textColor,
             ),

@@ -7,11 +7,10 @@ import 'package:Vasha_Shikkha/ui/find_error/find_error_view.dart';
 import 'package:Vasha_Shikkha/ui/jumbled_sentence/jumbled_sentence_view.dart';
 import 'package:Vasha_Shikkha/ui/mcq/multiple_choice_view.dart';
 import 'package:Vasha_Shikkha/ui/picture_to_word/picture_to_word_view.dart';
-import 'package:Vasha_Shikkha/ui/word_matching/word_matching_view.dart';
+import 'package:Vasha_Shikkha/ui/sentence_matching/sentence_matching_view.dart';
 import 'package:Vasha_Shikkha/ui/word_to_picture/word_to_picture_view.dart';
 import 'package:flutter/material.dart';
 import 'package:Vasha_Shikkha/ui/topic/task_card.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TaskListScreen extends StatefulWidget {
@@ -66,9 +65,9 @@ class _TaskListScreenState extends State<TaskListScreen> {
         SMList smList = new SMList(smList: list[0].taskList);
         print('sm here');
         tasks.add({
-          'name': 'Word Matching',
+          'name': 'Sentence Matching',
           'subtasks': smList,
-          'route': WordMatchingView.route,
+          'route': SentenceMatchingView.route,
         });
       } else {
         for (TaskList tl in list) {
@@ -247,7 +246,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                           final task = tasks[index];
                           var sm;
                           var subtasks = task['subtasks'];
-                          if (task['name'] == 'Word Matching') {
+                          if (task['name'] == 'Sentence Matching') {
                             sm = task['subtasks'];
                             subtasks = List<SubTask>.empty();
                           }
